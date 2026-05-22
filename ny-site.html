@@ -3560,11 +3560,24 @@ body.gm-menu-open { overflow: hidden; }
 
 /* Mobile */
 @media (max-width: 768px) {
-  /* Секція — менша висота, фото займає нижню частину */
+  /* Секція — висота по контенту, фото absolute не розтягує */
   .s07-section {
-    min-height: 100svh;
+    min-height: 0;
+    height: auto;
+    padding-bottom: 0;
     align-items: flex-start;
     padding-top: 0;
+    overflow: hidden;
+  }
+
+  /* Щоб фото (absolute) розтягувало секцію — додаємо invisible placeholder */
+  .s07-section::after {
+    content: '';
+    display: block;
+    height: 78vw;
+    width: 1px;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   /* Ховаємо ліве фото (людина з телефоном) */
