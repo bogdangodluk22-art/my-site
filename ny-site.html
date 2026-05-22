@@ -3567,22 +3567,17 @@ body.gm-menu-open { overflow: hidden; }
     padding-top: 0;
   }
 
-  /* Ховаємо ліве фото (людина з телефоном) */
+  /* Ховаємо ліве фото */
   .s07-photo-left { display: none; }
 
-  /* Праве фото (ти спиною) — праворуч, вище */
+  /* Праве фото — фіксована висота px, не залежить від секції */
   .s07-photo-right {
-    height: 78%;
+    height: 500px;
     max-height: none;
     right: -6%;
-    bottom: auto;
-    top: 18%;
-    transform: translateX(110%);
+    bottom: 0;
+    top: auto;
     object-position: top right;
-  }
-  /* Після анімації — залишаємось праворуч */
-  .s07-section.s07-vis .s07-photo-right {
-    transform: translateX(0);
   }
 
   /* Текст — поверх фото, з відступом зверху */
@@ -3599,7 +3594,7 @@ body.gm-menu-open { overflow: hidden; }
   }
 
   .s07-slide-heading { font-size: clamp(28px, 8vw, 42px); }
-  .s07-slide-body    { font-size: 14px; }
+  .s07-slide-body    { font-size: 14px; max-width: 55%; margin: 0 auto; }
   .s07-arrow         { width: 40px; height: 40px; }
   .s07-nav           { margin-top: 20px; gap: 14px; }
 
@@ -4039,8 +4034,9 @@ body.gm-menu-open { overflow: hidden; }
   const s07 = document.querySelector('.js-s07-section');
   const photoL = document.querySelector('.s07-photo-left');
   const photoR = document.querySelector('.s07-photo-right');
+  const isMobile = () => window.innerWidth <= 768;
 
-  if (s07 && photoL && photoR) {
+  if (s07 && photoR) {
     let raf07 = null;
     let labelShown = false;
     let currentL = 110, currentR = 110; // lerp targets
@@ -4071,7 +4067,7 @@ body.gm-menu-open { overflow: hidden; }
       currentL = lerp(currentL, targetOffset, 0.08);
       currentR = lerp(currentR, targetOffset, 0.08);
 
-      photoL.style.transform = `translateX(-${currentL.toFixed(2)}%)`;
+      if (photoL && !isMobile()) photoL.style.transform = `translateX(-${currentL.toFixed(2)}%)`;
       photoR.style.transform = `translateX(${currentR.toFixed(2)}%)`;
 
       // label reveal
