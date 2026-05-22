@@ -3594,7 +3594,7 @@ body.gm-menu-open { overflow: hidden; }
   }
 
   .s07-slide-heading { font-size: clamp(28px, 8vw, 42px); }
-  .s07-slide-body    { font-size: 14px; }
+  .s07-slide-body    { font-size: 14px; max-width: 55%; margin: 0 auto; }
   .s07-arrow         { width: 40px; height: 40px; }
   .s07-nav           { margin-top: 20px; gap: 14px; }
 
@@ -4069,19 +4069,6 @@ body.gm-menu-open { overflow: hidden; }
 
       if (photoL && !isMobile()) photoL.style.transform = `translateX(-${currentL.toFixed(2)}%)`;
       photoR.style.transform = `translateX(${currentR.toFixed(2)}%)`;
-
-      // label reveal
-      if (proximity > 0.15 && !labelShown) { s07.classList.add('s07-vis'); labelShown = true; }
-      if (proximity < 0.03 && labelShown)  { s07.classList.remove('s07-vis'); labelShown = false; }
-
-      // keep animating while not settled
-      if (Math.abs(currentL - targetOffset) > 0.05) {
-        raf07 = requestAnimationFrame(animate);
-      } else {
-        animating = false;
-        raf07 = null;
-      }
-    }
 
       // label reveal
       if (proximity > 0.15 && !labelShown) { s07.classList.add('s07-vis'); labelShown = true; }
