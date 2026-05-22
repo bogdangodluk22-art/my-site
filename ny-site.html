@@ -1644,6 +1644,9 @@ body.gm-menu-open { overflow: hidden; }
   display: block;
 }
 
+/* Фони проектів — тільки для мобільного */
+.s02b-proj-bg { display: none; }
+
 /* Вертикальний підпис */
 .s02b-vname {
   position: absolute;
@@ -1658,96 +1661,101 @@ body.gm-menu-open { overflow: hidden; }
 }
 
 @media (max-width: 860px) {
-  /* Секція — вертикальний флоу, без фіксованої висоти */
-  .s02b {
-    height: auto;
-    overflow: visible;
-  }
+  /* ── Секція: вертикальний флоу ── */
+  .s02b { height: auto; overflow: visible; }
 
-  /* Grid ховаємо — на мобільному керуємо через flex */
-  .s02b-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    padding: 0;
-    height: auto;
-  }
-
-  /* Всі клітинки — ширина 100% за замовчуванням */
-  .s02b-cell {
-    border-radius: 0;
-    width: 100%;
-  }
-
-  /* 1. Фото Богдана — на самому верху, велике */
-  .s02b-photo-wrap {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    transform: none;
-    width: 100%;
-    height: 85vw;
-    max-height: 420px;
-    opacity: 1 !important;
-    order: -1; /* перед grid */
-  }
-  .s02b-photo-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-  }
-
-  /* Вертикальний підпис — ховаємо на мобільному */
+  .s02b-grid { display: flex; flex-direction: column; gap: 0; padding: 0; height: auto; }
+  .s02b-cell { border-radius: 0; width: 100%; }
   .s02b-vname { display: none; }
 
-  /* 2. Блок з фактами — після фото */
+  /* ══ 1. ФАКТИ — самий верх ══ */
   .s02b-tr {
-    order: 1;
+    order: 0;
     margin-left: 0;
-    padding: 32px 24px;
+    padding: 32px 24px 28px;
     background: #F2EFE9;
   }
   .s02b-sec-label { margin-bottom: 20px; }
   .s02b-facts { gap: 16px; }
   .s02b-fact-val { font-size: 15px; }
 
-  /* 3. Цитата */
+  /* ══ 2. ФОТО-БЛОК з проектами на фоні ══ */
+  .s02b-photo-wrap {
+    order: 1;
+    position: relative;
+    left: auto; bottom: auto;
+    transform: none;
+    width: 100%;
+    height: 110vw;
+    max-height: 520px;
+    opacity: 1 !important;
+    overflow: hidden;
+    background: #E6E0D7;
+  }
+
+  /* Фото проектів як абсолютні кути всередині photo-wrap */
+  .s02b-photo-wrap .s02b-proj-bg {
+    display: block;
+    position: absolute;
+    width: 52%;
+    height: 52%;
+    overflow: hidden;
+    opacity: 0.55;
+  }
+  .s02b-photo-wrap .s02b-proj-bg img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* AutoSmart — лівий верхній */
+  .s02b-photo-wrap .s02b-proj-bg.proj-tl {
+    top: 0; left: 0;
+    border-bottom-right-radius: 8px;
+  }
+  /* ARCA — правий нижній */
+  .s02b-photo-wrap .s02b-proj-bg.proj-br {
+    bottom: 0; right: 0;
+    border-top-left-radius: 8px;
+  }
+
+  /* Фото Богдана — поверх, по центру знизу */
+  .s02b-photo-wrap > img {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 105%;
+    width: auto;
+    object-fit: contain;
+    object-position: bottom center;
+    z-index: 2;
+  }
+
+  /* ══ 3. ЦИТАТА — знизу ══ */
   .s02b-bl {
     order: 2;
-    padding: 28px 24px;
+    padding: 28px 24px 36px;
     background: #EAE5DC;
   }
   .s02b-quote { font-size: 17px; line-height: 1.6; }
 
-  /* 4. Два фото проектів — поряд в рядок */
-  .s02b-tl,
-  .s02b-br {
-    width: 50%;
-    height: 44vw;
-    display: inline-block;
-    vertical-align: top;
-  }
-
-  /* Wrapper для двох фото проектів */
-  .s02b-projects-row {
-    display: flex;
-    flex-direction: row;
-    order: 3;
-    height: 44vw;
-  }
-  .s02b-projects-row .s02b-cell {
-    width: 50%;
-    height: 100%;
-    flex-shrink: 0;
-  }
+  /* Окремий рядок проектів — ховаємо (замінені на proj-bg) */
+  .s02b-projects-row { display: none; }
 }
 </style>
 
 <section class="s02b">
 
-  <!-- Фото — на мобільному зверху, на десктопі абсолютне по центру -->
+  <!-- Фото — на мобільному після фактів, на десктопі абсолютне по центру -->
   <div class="s02b-photo-wrap js-s02b-photo">
+    <!-- Фони проектів (видимі тільки на мобільному через CSS) -->
+    <div class="s02b-proj-bg proj-tl">
+      <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/AutoSmart-preview.png" alt=""/>
+    </div>
+    <div class="s02b-proj-bg proj-br">
+      <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/ARCA-preview.png" alt=""/>
+    </div>
+    <!-- Фото Богдана -->
     <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/Bohdan-BG.png" alt="Богдан Годлюк"/>
   </div>
   <span class="s02b-vname" data-i18n="about.vname">Богдан Годлюк · AI Architect</span>
