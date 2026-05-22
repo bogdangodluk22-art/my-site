@@ -3583,56 +3583,50 @@ body.gm-menu-open { overflow: hidden; }
   /* Текст — поверх фото, з відступом зверху */
   .s07-slider {
     max-width: 100%;
-    width: 100%;
-    padding: 72px 0 32px;
+    padding: 72px 24px 0;
     z-index: 6;
     position: relative;
-    text-align: left;
   }
 
-  /* Слайд — лівий стовпець, 58% ширини */
+  /* Текст у стовпчик зліва, фото справа */
   .s07-slide {
     text-align: left;
-    padding: 0 24px;
-    max-width: 62%;
+    max-width: 60%;
+    padding: 0;
   }
-
-  .s07-slide-tag { text-align: left; }
+  .s07-slide-tag     { text-align: left; }
   .s07-slide-heading { text-align: left; }
-  .s07-slide-body { text-align: left; }
-  .s07-slide-rule { margin: 24px 0 0; }
+  .s07-slide-body    { text-align: left; }
+  .s07-slide-rule    { margin-left: 0; }
+  .s07-nav           { justify-content: flex-start; }
+  .s07-slide-cta     { align-self: flex-start; }
 
-  .s07-scene-label { top: 20px; }
-
-  .s07-slide-heading { font-size: clamp(26px, 7.5vw, 40px); }
-  .s07-slide-body    { font-size: 13px; line-height: 1.7; }
-
-  /* Nav — вліво */
-  .s07-nav {
-    margin-top: 20px;
-    gap: 14px;
-    justify-content: flex-start;
-    padding-left: 24px;
+  /* Зменшуємо відступ між scene-label і слайдером */
+  .s07-scene-label {
+    top: 20px;
   }
-  .s07-arrow { width: 40px; height: 40px; }
 
-  /* CTA — вліво, компактна */
+  .s07-slide-heading { font-size: clamp(28px, 8vw, 42px); }
+  .s07-slide-body    { font-size: 14px; }
+  .s07-arrow         { width: 40px; height: 40px; }
+  .s07-nav           { margin-top: 20px; gap: 14px; }
+
+  /* Кнопка CTA — компактна, не обрізається */
   .s07-slide-cta {
-    padding: 13px 20px;
+    padding: 13px 24px;
     font-size: 10px;
     letter-spacing: .14em;
     white-space: normal;
-    text-align: left;
+    text-align: center;
     line-height: 1.5;
-    max-width: 200px;
+    max-width: 240px;
     gap: 8px;
-    display: inline-flex;
   }
 }
 
 @media (max-width: 480px) {
-  .s07-slide { max-width: 65%; padding: 0 20px; }
-  .s07-slider { padding: 68px 0 28px; }
+  .s07-photo-right { height: 65%; }
+  .s07-slider      { max-width: 100%; padding: 68px 20px 0; }
 }
 
 /* ══════════════════════════════════════
@@ -4088,6 +4082,19 @@ body.gm-menu-open { overflow: hidden; }
 
       if (photoL && !isMobile()) photoL.style.transform = `translateX(-${currentL.toFixed(2)}%)`;
       photoR.style.transform = `translateX(${currentR.toFixed(2)}%)`;
+
+      // label reveal
+      if (proximity > 0.15 && !labelShown) { s07.classList.add('s07-vis'); labelShown = true; }
+      if (proximity < 0.03 && labelShown)  { s07.classList.remove('s07-vis'); labelShown = false; }
+
+      // keep animating while not settled
+      if (Math.abs(currentL - targetOffset) > 0.05) {
+        raf07 = requestAnimationFrame(animate);
+      } else {
+        animating = false;
+        raf07 = null;
+      }
+    }
 
       // label reveal
       if (proximity > 0.15 && !labelShown) { s07.classList.add('s07-vis'); labelShown = true; }
