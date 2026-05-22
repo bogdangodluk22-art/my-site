@@ -4102,19 +4102,6 @@ body.gm-menu-open { overflow: hidden; }
       }
     }
 
-      // label reveal
-      if (proximity > 0.15 && !labelShown) { s07.classList.add('s07-vis'); labelShown = true; }
-      if (proximity < 0.03 && labelShown)  { s07.classList.remove('s07-vis'); labelShown = false; }
-
-      // keep animating while not settled
-      if (Math.abs(currentL - targetOffset) > 0.05) {
-        raf07 = requestAnimationFrame(animate);
-      } else {
-        animating = false;
-        raf07 = null;
-      }
-    }
-
     window.addEventListener('scroll', () => {
       if (!animating) {
         animating = true;
