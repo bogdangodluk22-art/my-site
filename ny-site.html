@@ -615,9 +615,10 @@ body {
     right: 20px;
     gap: 7px;
   }
-  .hero-nav a { font-size: 10px; letter-spacing: 0.13em; }
+  .hero-nav a { font-size: 11px; letter-spacing: 0.13em; }
   .hero-nav-desktop { display: none; }
   .hero-logo { height: clamp(80px, 16vw, 120px); }
+  .hero-nav { top: 40px; }
 
   /* Ховаємо Badge і Roles */
   .hero-badge  { display: none; }
@@ -5806,6 +5807,17 @@ function render() {
 @media (max-width: 900px) {
   .ct-layout { grid-template-columns: 1fr; gap: 48px; }
   .ct-inner { padding: 0 24px; }
+  .ct-photo-wrap {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .ct-photo-wrap img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    border-radius: 18px;
+  }
 }
 </style>
 
