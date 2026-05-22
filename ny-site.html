@@ -6033,7 +6033,7 @@ async function handleCtForm(e) {
 <div class="ft-hero">
   <div class="ft-stage-outer">
   <div class="ft-stage js-ft-stage">
-    <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/footer-photo.jpg" alt="Богдан Годлюк — Built with AI" loading="lazy" />
+    <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/footer-photo.jpg" alt="Богдан Годлюк — Built with AI" />
     <div class="ft-overlay">
       <div class="ft-nav-row">
         <div>
@@ -6076,22 +6076,19 @@ async function handleCtForm(e) {
 (function(){
   var stage = document.querySelector('.js-ft-stage');
   if (!stage) return;
-  var done = false;
-  function check(){
-    if (done) return;
-    var r = stage.getBoundingClientRect();
-    var stageCenterY = r.top + r.height / 2;
-    var screenCenter = window.innerHeight / 2;
-    if (stageCenterY < screenCenter) {
-      done = true;
-      stage.classList.add('expanded');
-      var hero = stage.closest('.ft-hero');
-      if (hero) hero.classList.add('expanded');
-      window.removeEventListener('scroll', check);
-    }
-  }
-  // НЕ викликаємо check() одразу — тільки при скролі
-  window.addEventListener('scroll', check, { passive: true });
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+        stage.classList.add('expanded');
+        var hero = stage.closest('.ft-hero');
+        if (hero) hero.classList.add('expanded');
+        observer.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  observer.observe(stage);
 })();
 </script>
 
