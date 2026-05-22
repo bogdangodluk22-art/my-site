@@ -608,7 +608,19 @@ body {
   .corner-br  { bottom: 28px; right: 28px; }
 }
 @media (max-width: 480px) {
-  .hero-nav { display: none; }
+  /* Показуємо навігацію з 4 пунктами */
+  .hero-nav {
+    display: flex;
+    top: 28px;
+    right: 20px;
+    gap: 7px;
+  }
+  .hero-nav a { font-size: 9px; letter-spacing: 0.14em; }
+  .hero-nav-desktop { display: none; }
+
+  /* Ховаємо Badge і Roles */
+  .hero-badge  { display: none; }
+  .hero-tagline { display: none; }
 }
 </style>
 </head>
@@ -1285,11 +1297,12 @@ body.gm-menu-open { overflow: hidden; }
   <!-- NAV (top right) -->
   <nav class="hero-nav fade-in d2">
     <a href="#about" data-i18n="nav.about">Про мене</a>
-    <a href="#niche" data-i18n="nav.niche">Ніша</a>
     <a href="#projects" data-i18n="nav.projects">Проекти</a>
     <a href="#journey" data-i18n="nav.journey">Мій шлях</a>
-    <a href="#faq">FAQ</a>
     <a href="#contact" data-i18n="nav.contact">Контакт</a>
+    <!-- десктоп додаткові пункти -->
+    <a href="#niche" class="hero-nav-desktop" data-i18n="nav.niche">Ніша</a>
+    <a href="#faq" class="hero-nav-desktop">FAQ</a>
   </nav>
 
   <!-- ROLES (bottom left) -->
