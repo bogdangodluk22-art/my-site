@@ -6023,43 +6023,24 @@ async function handleCtForm(e) {
   .ft-hero { padding: 40px 0 0; }
   .ft-hero.expanded { padding: 0; }
 
-  /* Вертикальний формат як Hero */
   .ft-stage {
     width: 92%;
     border-radius: 20px;
-    aspect-ratio: 9 / 14;
+    aspect-ratio: unset;
+    min-height: 85svh;
   }
   .ft-stage.expanded {
     width: 100%;
     border-radius: 0;
-    aspect-ratio: 9 / 16;
+    min-height: 100svh;
   }
-
-  /* Фото — вертикально, фокус на обличчі */
-  .ft-stage img {
-    object-position: center 10%;
-  }
-
-  /* Overlay — вертикальний розподіл */
-  .ft-overlay {
-    padding: 0 24px 40px;
-    justify-content: flex-end;
-  }
-
-  .ft-nav-row {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    margin-bottom: 24px;
-  }
+  .ft-stage img { object-position: center 10%; }
+  .ft-overlay { padding: 0 24px 40px; justify-content: flex-end; }
+  .ft-nav-row { grid-template-columns: 1fr; gap: 24px; margin-bottom: 24px; }
   .ft-right-col { text-align: left; }
   .ft-links-r { align-items: flex-start; }
   .ft-center-col { text-align: left; }
-  .ft-bottom {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    text-align: left;
-  }
+  .ft-bottom { display: flex; flex-direction: column; gap: 6px; text-align: left; }
 }
 </style>
 
