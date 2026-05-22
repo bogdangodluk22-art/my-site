@@ -1644,9 +1644,6 @@ body.gm-menu-open { overflow: hidden; }
   display: block;
 }
 
-/* Фони проектів — тільки для мобільного */
-.s02b-proj-bg { display: none; }
-
 /* Вертикальний підпис */
 .s02b-vname {
   position: absolute;
@@ -1660,15 +1657,24 @@ body.gm-menu-open { overflow: hidden; }
   white-space: nowrap; z-index: 11;
 }
 
+/* Фони проектів всередині photo-wrap — десктоп: приховані */
+.s02b-proj-bg { display: none; }
+
 @media (max-width: 860px) {
-  /* ── Секція: вертикальний флоу ── */
-  .s02b { height: auto; overflow: visible; }
+  .s02b {
+    height: auto;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+  }
 
-  .s02b-grid { display: flex; flex-direction: column; gap: 0; padding: 0; height: auto; }
+  /* Grid → flex-колонка, order:0 (факти) і order:2 (цитата) всередині */
+  .s02b-grid {
+    display: contents; /* діти виходять назовні в flex s02b */
+  }
   .s02b-cell { border-radius: 0; width: 100%; }
-  .s02b-vname { display: none; }
 
-  /* ══ 1. ФАКТИ — самий верх ══ */
+  /* ══ 1. ФАКТИ — самий верх (order 0) ══ */
   .s02b-tr {
     order: 0;
     margin-left: 0;
@@ -1679,59 +1685,62 @@ body.gm-menu-open { overflow: hidden; }
   .s02b-facts { gap: 16px; }
   .s02b-fact-val { font-size: 15px; }
 
-  /* ══ 2. ФОТО-БЛОК з проектами на фоні ══ */
+  /* ══ 2. ФОТО-БЛОК — по середині (order 1) ══ */
   .s02b-photo-wrap {
     order: 1;
     position: relative;
-    left: auto; bottom: auto;
-    transform: none;
+    left: auto; bottom: auto; transform: none;
     width: 100%;
-    height: 110vw;
-    max-height: 520px;
+    height: 115vw;
+    max-height: 540px;
     opacity: 1 !important;
     overflow: hidden;
     background: #E6E0D7;
+    display: flex;
+    flex-direction: column;
   }
 
-  /* Фото проектів як абсолютні кути всередині photo-wrap */
-  .s02b-photo-wrap .s02b-proj-bg {
+  /* Дві горизонтальні смуги — AutoSmart зверху, ARCA знизу */
+  .s02b-proj-bg {
     display: block;
     position: absolute;
-    width: 52%;
-    height: 52%;
+    left: 0; right: 0;
+    width: 100%;
+    height: 50%;
     overflow: hidden;
-    opacity: 0.55;
+    opacity: 0.78;
   }
-  .s02b-photo-wrap .s02b-proj-bg img {
+  .s02b-proj-bg img {
     width: 100%; height: 100%;
     object-fit: cover;
+    object-position: center top;
     display: block;
   }
-  /* AutoSmart — лівий верхній */
-  .s02b-photo-wrap .s02b-proj-bg.proj-tl {
-    top: 0; left: 0;
-    border-bottom-right-radius: 8px;
-  }
-  /* ARCA — правий нижній */
-  .s02b-photo-wrap .s02b-proj-bg.proj-br {
-    bottom: 0; right: 0;
-    border-top-left-radius: 8px;
+  .s02b-proj-bg.proj-tl { top: 0; }
+  .s02b-proj-bg.proj-br { bottom: 0; }
+  /* Тонкий роздільник між смугами */
+  .s02b-proj-bg.proj-br::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: rgba(230,224,215,0.4);
+    z-index: 1;
   }
 
-  /* Фото Богдана — поверх, по центру знизу */
+  /* Фото Богдана — поверх смуг, по центру знизу */
   .s02b-photo-wrap > img {
     position: absolute;
-    bottom: 0;
-    left: 50%;
+    bottom: 0; left: 50%;
     transform: translateX(-50%);
-    height: 105%;
+    height: 108%;
     width: auto;
     object-fit: contain;
     object-position: bottom center;
     z-index: 2;
   }
 
-  /* ══ 3. ЦИТАТА — знизу ══ */
+  /* ══ 3. ЦИТАТА — знизу (order 2) ══ */
   .s02b-bl {
     order: 2;
     padding: 28px 24px 36px;
@@ -1739,30 +1748,16 @@ body.gm-menu-open { overflow: hidden; }
   }
   .s02b-quote { font-size: 17px; line-height: 1.6; }
 
-  /* Окремий рядок проектів — ховаємо (замінені на proj-bg) */
+  /* Окремий рядок проектів — ховаємо */
   .s02b-projects-row { display: none; }
 }
 </style>
 
 <section class="s02b">
 
-  <!-- Фото — на мобільному після фактів, на десктопі абсолютне по центру -->
-  <div class="s02b-photo-wrap js-s02b-photo">
-    <!-- Фони проектів (видимі тільки на мобільному через CSS) -->
-    <div class="s02b-proj-bg proj-tl">
-      <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/AutoSmart-preview.png" alt=""/>
-    </div>
-    <div class="s02b-proj-bg proj-br">
-      <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/ARCA-preview.png" alt=""/>
-    </div>
-    <!-- Фото Богдана -->
-    <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/Bohdan-BG.png" alt="Богдан Годлюк"/>
-  </div>
-  <span class="s02b-vname" data-i18n="about.vname">Богдан Годлюк · AI Architect</span>
-
   <div class="s02b-grid">
 
-    <!-- ↗ Верхній правий: факти -->
+    <!-- ↗ Факти (на мобільному — order:0, першим) -->
     <div class="s02b-cell s02b-tr js-s02b-cell">
       <p class="s02b-sec-label" data-i18n="about.sec.label">02 · Про мене</p>
       <div class="s02b-facts">
@@ -1789,7 +1784,7 @@ body.gm-menu-open { overflow: hidden; }
       </div>
     </div>
 
-    <!-- ↙ Нижній лівий: цитата -->
+    <!-- Цитата (на мобільному — order:2, останньою) -->
     <div class="s02b-cell s02b-bl js-s02b-cell">
       <blockquote class="s02b-quote" data-i18n="about.quote">
         Кожен проект — це не демо.<br>Це система що живе, продає<br>і росте разом з бізнесом.<br><br>
@@ -1798,14 +1793,12 @@ body.gm-menu-open { overflow: hidden; }
       <span class="s02b-quote-by" data-i18n="about.name">— Богдан Годлюк · AI Architect</span>
     </div>
 
-    <!-- Два фото проектів в одному рядку -->
+    <!-- Десктоп: два фото проектів в grid -->
     <div class="s02b-projects-row">
-      <!-- AutoSmart -->
       <div class="s02b-cell s02b-tl js-s02b-cell">
         <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/AutoSmart-preview.png" alt="AutoSmart"/>
         <div class="s02b-proj-overlay"></div>
       </div>
-      <!-- ARCA -->
       <div class="s02b-cell s02b-br js-s02b-cell">
         <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/ARCA-preview.png" alt="ARCA Robotics"/>
         <div class="s02b-proj-overlay"></div>
@@ -1813,6 +1806,21 @@ body.gm-menu-open { overflow: hidden; }
     </div>
 
   </div>
+
+  <!-- Фото Богдана — десктоп: абсолютне по центру; мобільний: order:1 між фактами і цитатою -->
+  <div class="s02b-photo-wrap js-s02b-photo">
+    <!-- Мобільний фон: AutoSmart зверху -->
+    <div class="s02b-proj-bg proj-tl">
+      <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/AutoSmart-preview.png" alt=""/>
+    </div>
+    <!-- Мобільний фон: ARCA знизу -->
+    <div class="s02b-proj-bg proj-br">
+      <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/ARCA-preview.png" alt=""/>
+    </div>
+    <!-- Фото -->
+    <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/Bohdan-BG.png" alt="Богдан Годлюк"/>
+  </div>
+  <span class="s02b-vname" data-i18n="about.vname">Богдан Годлюк · AI Architect</span>
 
 </section>
 
