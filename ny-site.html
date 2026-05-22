@@ -3560,58 +3560,61 @@ body.gm-menu-open { overflow: hidden; }
 
 /* Mobile */
 @media (max-width: 768px) {
-  /* Секція — менша висота, фото займає нижню частину */
   .s07-section {
-    min-height: 100svh;
+    min-height: 0;
+    height: auto;
     align-items: flex-start;
     padding-top: 0;
+    overflow: hidden;
   }
 
-  /* Ховаємо ліве фото (людина з телефоном) */
   .s07-photo-left { display: none; }
 
-  /* Праве фото (ти спиною) — праворуч, вище */
+  /* Фото — z-index вище кнопки CTA */
   .s07-photo-right {
-    height: 78%;
+    height: 500px;
     max-height: none;
     right: -6%;
-    bottom: auto;
-    top: 8%;
+    bottom: 0;
+    top: auto;
     transform: translateX(110%);
     object-position: top right;
+    z-index: 6;
   }
-  /* Після анімації — залишаємось праворуч */
   .s07-section.s07-vis .s07-photo-right {
     transform: translateX(0);
   }
 
-  /* Текст — поверх фото, з відступом зверху */
+  /* Слайдер — розтягує секцію до висоти фото */
   .s07-slider {
     max-width: 100%;
-    padding: 72px 24px 0;
-    z-index: 6;
+    padding: 72px 24px 32px;
+    z-index: 5;
     position: relative;
+    min-height: 500px;
   }
 
   .s07-scene-label { top: 20px; }
 
-  /* Заголовок і кнопка — по центру як було */
   .s07-slide-heading { font-size: clamp(28px, 8vw, 42px); text-align: center; }
 
-  /* Опис — вліво, вужче, в стовпчик */
+  /* Опис — більші відступи, вліво, в стовпчик */
   .s07-slide-body {
     font-size: 13px;
     text-align: left;
     max-width: 52%;
     line-height: 1.75;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    padding-left: 4px;
   }
 
-  /* Лінія — вліво */
-  .s07-slide-rule { margin-left: 0; margin-right: auto; }
+  .s07-slide-rule { margin-left: 0; margin-right: auto; margin-top: 20px; margin-bottom: 20px; }
 
   .s07-arrow { width: 40px; height: 40px; }
   .s07-nav   { margin-top: 20px; gap: 14px; }
 
+  /* CTA — z-index нижче фото */
   .s07-slide-cta {
     padding: 13px 24px;
     font-size: 10px;
@@ -3621,12 +3624,14 @@ body.gm-menu-open { overflow: hidden; }
     line-height: 1.5;
     max-width: 240px;
     gap: 8px;
+    position: relative;
+    z-index: 4;
   }
 }
 
 @media (max-width: 480px) {
   .s07-slide-body { max-width: 58%; }
-  .s07-slider { max-width: 100%; padding: 68px 20px 0; }
+  .s07-slider { padding: 68px 20px 28px; }
 }
 
 /* ══════════════════════════════════════
