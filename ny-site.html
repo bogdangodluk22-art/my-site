@@ -4709,17 +4709,15 @@ body.gm-menu-open { overflow: hidden; }
     padding: 0 20px;
   }
 
-  /* Ноутбук — спочатку, менший */
+  /* Ноутбук — оригінальне положення, трохи менший і лівіше */
   .faq-right {
     position: static;
     order: -1;
-    margin-right: 0;
-    width: 100%;
+    margin-right: -180px; /* було -320px, зменшили */
+    margin-left: -20px;   /* трохи лівіше */
   }
   .faq-laptop-wrap {
-    width: 100%;
-    max-width: 420px;
-    margin: 0 auto;
+    width: 780px; /* було 920px */
   }
 
   /* Ліва частина з акордеоном — під ноутбуком */
