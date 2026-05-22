@@ -3560,63 +3560,49 @@ body.gm-menu-open { overflow: hidden; }
 
 /* Mobile */
 @media (max-width: 768px) {
-  /* Секція — висота по контенту, фото absolute не розтягує */
+  /* Секція — менша висота, фото займає нижню частину */
   .s07-section {
     min-height: 0;
     height: auto;
-    padding-bottom: 0;
     align-items: flex-start;
     padding-top: 0;
-    overflow: hidden;
+    padding-bottom: 0;
   }
 
-  /* Щоб фото (absolute) розтягувало секцію — додаємо invisible placeholder */
-  .s07-section::after {
-    content: '';
-    display: block;
-    height: 78vw;
-    width: 1px;
-    visibility: hidden;
-    pointer-events: none;
-  }
-
-  /* Ховаємо ліве фото (людина з телефоном) */
+  /* Ховаємо ліве фото */
   .s07-photo-left { display: none; }
 
-  /* Праве фото (ти спиною) — праворуч, вище */
+  /* Праве фото — фіксована висота в vw щоб секція могла підлаштуватись */
   .s07-photo-right {
-    height: 78%;
-    max-height: none;
+    height: 220vw;
+    max-height: 560px;
+    width: auto;
     right: -6%;
-    bottom: auto;
-    top: 18%;
+    bottom: 0;
+    top: auto;
     transform: translateX(110%);
     object-position: top right;
   }
-  /* Після анімації — залишаємось праворуч */
   .s07-section.s07-vis .s07-photo-right {
     transform: translateX(0);
   }
 
-  /* Текст — поверх фото, з відступом зверху */
+  /* Текст — поверх фото */
   .s07-slider {
     max-width: 100%;
-    padding: 72px 24px 0;
+    padding: 72px 24px 32px;
     z-index: 6;
     position: relative;
+    /* Мінімальна висота = висота фото щоб секція розтяглась */
+    min-height: min(220vw, 560px);
   }
 
-  /* Зменшуємо відступ між scene-label і слайдером */
-  .s07-scene-label {
-    top: 20px;
-  }
-
+  .s07-scene-label { top: 20px; }
   .s07-slide-heading { font-size: clamp(28px, 8vw, 42px); }
   .s07-slide-body    { font-size: 14px; }
   .s07-arrow         { width: 40px; height: 40px; }
   .s07-nav           { margin-top: 20px; gap: 14px; }
 
-  /* Кнопка CTA — компактна, не обрізається */
   .s07-slide-cta {
     padding: 13px 24px;
     font-size: 10px;
@@ -3630,8 +3616,7 @@ body.gm-menu-open { overflow: hidden; }
 }
 
 @media (max-width: 480px) {
-  .s07-photo-right { height: 65%; }
-  .s07-slider      { max-width: 100%; padding: 68px 20px 0; }
+  .s07-slider { max-width: 100%; padding: 68px 20px 28px; }
 }
 
 /* ══════════════════════════════════════
