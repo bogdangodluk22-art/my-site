@@ -3252,10 +3252,6 @@ body.gm-menu-open { overflow: hidden; }
   height: 200vh;
   pointer-events: none;
 }
-
-@media (max-width: 768px) {
-  .curtain-trigger { height: 140vh; }
-}
 .curtain-wrap {
   position: sticky;
   top: 0;
@@ -3560,60 +3556,17 @@ body.gm-menu-open { overflow: hidden; }
 
 /* Mobile */
 @media (max-width: 768px) {
-  /* Секція — менша висота, фото займає нижню частину */
-  .s07-section {
-    min-height: 100svh;
-    align-items: flex-start;
-    padding-top: 0;
-  }
-
-  /* Ховаємо ліве фото */
-  .s07-photo-left { display: none; }
-
-  /* Праве фото — фіксована висота px, не залежить від секції */
-  .s07-photo-right {
-    height: 500px;
-    max-height: none;
-    right: -6%;
-    bottom: 0;
-    top: auto;
-    object-position: top right;
-  }
-
-  /* Текст — поверх фото, з відступом зверху */
-  .s07-slider {
-    max-width: 100%;
-    padding: 72px 24px 0;
-    z-index: 6;
-    position: relative;
-  }
-
-  /* Зменшуємо відступ між scene-label і слайдером */
-  .s07-scene-label {
-    top: 20px;
-  }
-
-  .s07-slide-heading { font-size: clamp(28px, 8vw, 42px); }
-  .s07-slide-body    { font-size: 14px; }
-  .s07-arrow         { width: 40px; height: 40px; }
-  .s07-nav           { margin-top: 20px; gap: 14px; }
-
-  /* Кнопка CTA — компактна, не обрізається */
-  .s07-slide-cta {
-    padding: 13px 24px;
-    font-size: 10px;
-    letter-spacing: .14em;
-    white-space: normal;
-    text-align: center;
-    line-height: 1.5;
-    max-width: 240px;
-    gap: 8px;
-  }
+  .s07-photo-left  { height: 58%; max-height: 380px; }
+  .s07-photo-right { height: 52%; max-height: 340px; }
+  .s07-slider      { max-width: 320px; }
+  .s07-slide-heading { font-size: clamp(28px, 7vw, 44px); }
+  .s07-slide-body    { font-size: clamp(13px, 3.5vw, 15px); }
+  .s07-arrow         { width: 44px; height: 44px; }
 }
-
 @media (max-width: 480px) {
-  .s07-photo-right { height: 65%; }
-  .s07-slider      { max-width: 100%; padding: 68px 20px 0; }
+  .s07-photo-left  { height: 46%; max-height: 280px; }
+  .s07-photo-right { height: 42%; max-height: 260px; }
+  .s07-slider      { max-width: 270px; }
 }
 
 /* ══════════════════════════════════════
@@ -4034,9 +3987,8 @@ body.gm-menu-open { overflow: hidden; }
   const s07 = document.querySelector('.js-s07-section');
   const photoL = document.querySelector('.s07-photo-left');
   const photoR = document.querySelector('.s07-photo-right');
-  const isMobile = () => window.innerWidth <= 768;
 
-  if (s07 && photoR) {
+  if (s07 && photoL && photoR) {
     let raf07 = null;
     let labelShown = false;
     let currentL = 110, currentR = 110; // lerp targets
@@ -4067,21 +4019,8 @@ body.gm-menu-open { overflow: hidden; }
       currentL = lerp(currentL, targetOffset, 0.08);
       currentR = lerp(currentR, targetOffset, 0.08);
 
-      if (photoL && !isMobile()) photoL.style.transform = `translateX(-${currentL.toFixed(2)}%)`;
+      photoL.style.transform = `translateX(-${currentL.toFixed(2)}%)`;
       photoR.style.transform = `translateX(${currentR.toFixed(2)}%)`;
-
-      // label reveal
-      if (proximity > 0.15 && !labelShown) { s07.classList.add('s07-vis'); labelShown = true; }
-      if (proximity < 0.03 && labelShown)  { s07.classList.remove('s07-vis'); labelShown = false; }
-
-      // keep animating while not settled
-      if (Math.abs(currentL - targetOffset) > 0.05) {
-        raf07 = requestAnimationFrame(animate);
-      } else {
-        animating = false;
-        raf07 = null;
-      }
-    }
 
       // label reveal
       if (proximity > 0.15 && !labelShown) { s07.classList.add('s07-vis'); labelShown = true; }
