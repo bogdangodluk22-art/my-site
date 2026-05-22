@@ -615,8 +615,9 @@ body {
     right: 20px;
     gap: 7px;
   }
-  .hero-nav a { font-size: 9px; letter-spacing: 0.14em; }
+  .hero-nav a { font-size: 10px; letter-spacing: 0.13em; }
   .hero-nav-desktop { display: none; }
+  .hero-logo { height: clamp(80px, 16vw, 120px); }
 
   /* Ховаємо Badge і Roles */
   .hero-badge  { display: none; }
@@ -3638,8 +3639,11 @@ body.gm-menu-open { overflow: hidden; }
     max-width: 240px;
     gap: 8px;
     position: relative;
-    z-index: 4;
+    z-index: 1;
   }
+  /* Слайдер не створює stacking context — фото буде поверх */
+  .s07-slider { isolation: auto; z-index: auto; }
+  .s07-photo-right { z-index: 10; }
 }
 
 @media (max-width: 480px) {
