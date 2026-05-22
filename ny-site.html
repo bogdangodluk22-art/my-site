@@ -3252,6 +3252,10 @@ body.gm-menu-open { overflow: hidden; }
   height: 200vh;
   pointer-events: none;
 }
+
+@media (max-width: 768px) {
+  .curtain-trigger { height: 140vh; }
+}
 .curtain-wrap {
   position: sticky;
   top: 0;
@@ -3556,17 +3560,64 @@ body.gm-menu-open { overflow: hidden; }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .s07-photo-left  { height: 58%; max-height: 380px; }
-  .s07-photo-right { height: 52%; max-height: 340px; }
-  .s07-slider      { max-width: 320px; }
-  .s07-slide-heading { font-size: clamp(28px, 7vw, 44px); }
-  .s07-slide-body    { font-size: clamp(13px, 3.5vw, 15px); }
-  .s07-arrow         { width: 44px; height: 44px; }
+  /* Секція — менша висота, фото займає нижню частину */
+  .s07-section {
+    min-height: 100svh;
+    align-items: flex-start;
+    padding-top: 0;
+  }
+
+  /* Ховаємо ліве фото (людина з телефоном) */
+  .s07-photo-left { display: none; }
+
+  /* Праве фото (ти спиною) — велике, знизу, під текстом */
+  .s07-photo-right {
+    height: 72%;
+    max-height: none;
+    right: 50%;
+    transform: translateX(50%) translateX(110%); /* зберігаємо анімацію */
+    bottom: 0;
+    object-position: bottom center;
+  }
+  /* Після анімації — центруємо */
+  .s07-section.s07-vis .s07-photo-right {
+    transform: translateX(50%);
+  }
+
+  /* Текст — поверх фото, з відступом зверху */
+  .s07-slider {
+    max-width: 100%;
+    padding: 72px 24px 0;
+    z-index: 6;
+    position: relative;
+  }
+
+  /* Зменшуємо відступ між scene-label і слайдером */
+  .s07-scene-label {
+    top: 20px;
+  }
+
+  .s07-slide-heading { font-size: clamp(28px, 8vw, 42px); }
+  .s07-slide-body    { font-size: 14px; }
+  .s07-arrow         { width: 40px; height: 40px; }
+  .s07-nav           { margin-top: 20px; gap: 14px; }
+
+  /* Кнопка CTA — компактна, не обрізається */
+  .s07-slide-cta {
+    padding: 13px 24px;
+    font-size: 10px;
+    letter-spacing: .14em;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.5;
+    max-width: 240px;
+    gap: 8px;
+  }
 }
+
 @media (max-width: 480px) {
-  .s07-photo-left  { height: 46%; max-height: 280px; }
-  .s07-photo-right { height: 42%; max-height: 260px; }
-  .s07-slider      { max-width: 270px; }
+  .s07-photo-right { height: 65%; }
+  .s07-slider      { max-width: 100%; padding: 68px 20px 0; }
 }
 
 /* ══════════════════════════════════════
