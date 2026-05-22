@@ -3570,18 +3570,19 @@ body.gm-menu-open { overflow: hidden; }
   /* Ховаємо ліве фото (людина з телефоном) */
   .s07-photo-left { display: none; }
 
-  /* Праве фото (ти спиною) — велике, знизу, під текстом */
+  /* Праве фото (ти спиною) — праворуч, вище */
   .s07-photo-right {
-    height: 72%;
+    height: 78%;
     max-height: none;
-    right: 50%;
-    transform: translateX(50%) translateX(110%); /* зберігаємо анімацію */
-    bottom: 0;
-    object-position: bottom center;
+    right: -6%;
+    bottom: auto;
+    top: 18%;
+    transform: translateX(110%);
+    object-position: top right;
   }
-  /* Після анімації — центруємо */
+  /* Після анімації — залишаємось праворуч */
   .s07-section.s07-vis .s07-photo-right {
-    transform: translateX(50%);
+    transform: translateX(0);
   }
 
   /* Текст — поверх фото, з відступом зверху */
