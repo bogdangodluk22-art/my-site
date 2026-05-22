@@ -3576,7 +3576,7 @@ body.gm-menu-open { overflow: hidden; }
     max-height: none;
     right: -6%;
     bottom: auto;
-    top: 18%;
+    top: 8%;
     transform: translateX(110%);
     object-position: top right;
   }
@@ -3593,17 +3593,25 @@ body.gm-menu-open { overflow: hidden; }
     position: relative;
   }
 
-  /* Зменшуємо відступ між scene-label і слайдером */
-  .s07-scene-label {
-    top: 20px;
+  .s07-scene-label { top: 20px; }
+
+  /* Заголовок і кнопка — по центру як було */
+  .s07-slide-heading { font-size: clamp(28px, 8vw, 42px); text-align: center; }
+
+  /* Опис — вліво, вужче, в стовпчик */
+  .s07-slide-body {
+    font-size: 13px;
+    text-align: left;
+    max-width: 52%;
+    line-height: 1.75;
   }
 
-  .s07-slide-heading { font-size: clamp(28px, 8vw, 42px); }
-  .s07-slide-body    { font-size: 14px; }
-  .s07-arrow         { width: 40px; height: 40px; }
-  .s07-nav           { margin-top: 20px; gap: 14px; }
+  /* Лінія — вліво */
+  .s07-slide-rule { margin-left: 0; margin-right: auto; }
 
-  /* Кнопка CTA — компактна, не обрізається */
+  .s07-arrow { width: 40px; height: 40px; }
+  .s07-nav   { margin-top: 20px; gap: 14px; }
+
   .s07-slide-cta {
     padding: 13px 24px;
     font-size: 10px;
@@ -3617,8 +3625,8 @@ body.gm-menu-open { overflow: hidden; }
 }
 
 @media (max-width: 480px) {
-  .s07-photo-right { height: 65%; }
-  .s07-slider      { max-width: 100%; padding: 68px 20px 0; }
+  .s07-slide-body { max-width: 58%; }
+  .s07-slider { max-width: 100%; padding: 68px 20px 0; }
 }
 
 /* ══════════════════════════════════════
