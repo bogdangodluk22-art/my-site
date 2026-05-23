@@ -1550,309 +1550,130 @@ body.gm-menu-open { overflow: hidden; }
 
 
 <!-- ══════════════════════════════════════
-     SECTION 02B — AI CORE TERMINAL
+     SECTION 02B — ПРО МЕНЕ
 ══════════════════════════════════════ -->
 <style>
 /* ════════════════════════════════════════
-   S02B — AI CORE TERMINAL
+   S02B — ДЕСКТОП: світла версія (> 860px)
 ════════════════════════════════════════ */
+
+/* Базова секція — десктоп за замовчуванням */
 .s02b {
-  background: #07080F;
+  background: #E6E0D7;
   position: relative;
   overflow: hidden;
+  height: 120vh;
+  min-height: 800px;
 }
 
-/* Grain texture — цифровий шум поверх фону */
-.s02b-tr::before,
-.s02b-bl::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.05;
-  pointer-events: none;
-  z-index: 0;
-}
+/* Canvas — прихований на десктопі */
+#s02b-canvas { display: none; }
 
-/* Радіальний glow — глибина фону */
-.s02b-tr {
-  position: relative;
-  background: radial-gradient(ellipse 80% 50% at 50% 20%, rgba(56,189,248,0.04) 0%, transparent 70%);
-}
-
-/* ── Canvas для Babylon.js node-мережі ── */
-#s02b-canvas {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.55;
-}
-
-/* ── Весь контент поверх canvas ── */
-.s02b-content {
-  position: relative;
-  z-index: 2;
-}
-
-/* ═══════════════════════════════════════
-   ДЕСКТОП — сітка 2×2
-═══════════════════════════════════════ */
+/* 2×2 grid з відступами */
 .s02b-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  height: 100vh;
-  min-height: 700px;
-  max-height: 900px;
+  height: 100%;
+  padding: 32px;
+  gap: 16px;
+  box-sizing: border-box;
 }
 
 .s02b-cell {
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
   opacity: 0;
   transition: opacity 0.7s ease;
 }
 .s02b-cell.s02b-vis { opacity: 1; }
+.s02b-cell:nth-child(1) { transition-delay: 0.0s; }
+.s02b-cell:nth-child(2) { transition-delay: 0.1s; }
+.s02b-cell:nth-child(3) { transition-delay: 0.2s; }
+.s02b-cell:nth-child(4) { transition-delay: 0.3s; }
 
-/* ── Розміщення клітинок у сітці ── */
-@media (min-width: 861px) {
-  .s02b-projects-row { display: contents; }
-  .s02b-tl { grid-column: 1; grid-row: 1; }
-  .s02b-tr { grid-column: 2; grid-row: 1; }
-  .s02b-bl { grid-column: 1; grid-row: 2; }
-  .s02b-br { grid-column: 2; grid-row: 2; }
-}
-
-/* ── Фото-клітинки (AutoSmart і ARCA) ── */
+/* Фото-клітинки */
 .s02b-tl img, .s02b-br img {
   width: 100%; height: 100%;
   object-fit: cover; object-position: center top;
-  display: block;
-  transition: transform 0.6s ease;
+  display: block; transition: transform 0.6s ease;
 }
-.s02b-tl:hover img, .s02b-br:hover img { transform: scale(1.04); }
+.s02b-tl:hover img, .s02b-br:hover img { transform: scale(1.03); }
 
 .s02b-proj-overlay {
   position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 60px 28px 24px;
-  background: linear-gradient(to top, rgba(4,4,8,0.92) 0%, transparent 100%);
+  padding: 48px 28px 22px;
+  background: linear-gradient(to top, rgba(4,4,8,0.88) 0%, transparent 100%);
+}
+.s02b-proj-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px; letter-spacing: 0.12em;
+  color: #fff; display: block; margin-bottom: 4px;
+}
+.s02b-proj-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px; letter-spacing: 0.18em;
+  color: rgba(201,168,76,0.85); text-transform: uppercase;
 }
 
-/* ── Правий верхній: FACTS BLOCK ── */
+/* Верхній правий: факти */
 .s02b-tr {
-  background: rgba(8,10,20,0.92);
-  border-left: 1px solid rgba(56,189,248,0.10);
-  border-bottom: 1px solid rgba(56,189,248,0.07);
-  padding: clamp(28px,3.5vh,44px) clamp(24px,2.5vw,40px);
+  background: #F2EFE9;
+  padding: clamp(32px,4vh,52px) clamp(28px,3vw,44px) clamp(32px,4vh,52px) clamp(44px,5vw,72px);
   display: flex; flex-direction: column; justify-content: center;
-  overflow: hidden;
 }
-
-/* MODULE_01 label — тільки десктоп версія */
 .s02b-sec-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 0.30em;
-  color: rgba(56,189,248,0.55); text-transform: uppercase;
-  display: flex; align-items: center; gap: 10px;
-  margin-bottom: 20px;
+  font-size: 10px; letter-spacing: 0.28em;
+  color: #0A0A0F; text-transform: uppercase;
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 32px;
 }
 .s02b-sec-label::before {
-  content: ''; width: 24px; height: 1px;
-  background: rgba(56,189,248,0.4); flex-shrink: 0;
+  content: ''; width: 28px; height: 1px;
+  background: #0A0A0F; flex-shrink: 0;
 }
-
-/* BOHDAN HODLIUK — заголовок */
-.s02b-headline {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(32px,3.8vw,54px);
-  font-weight: 400;
-  letter-spacing: 0.04em;
-  line-height: 0.92;
-  margin-bottom: 8px;
-  background: linear-gradient(155deg, #FFFFFF 0%, #C8CDD6 45%, #7A8494 80%, #4A5260 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.s02b-headline-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 0.22em;
-  color: rgba(56,189,248,0.55);
-  display: flex; align-items: center; gap: 8px;
-  text-transform: uppercase; margin-bottom: 18px;
-}
-.s02b-headline-sub::before {
-  content: '';
-  display: inline-block; width: 6px; height: 6px;
-  border-radius: 50%; background: #38BDF8; flex-shrink: 0;
-  box-shadow: 0 0 7px rgba(56,189,248,0.8);
-  animation: s02b-pulse 2s ease-in-out infinite;
-}
-@keyframes s02b-pulse {
-  0%,100% { opacity:1; box-shadow:0 0 7px rgba(56,189,248,0.8); }
-  50%      { opacity:0.35; box-shadow:0 0 3px rgba(56,189,248,0.3); }
-}
-
-/* Розділювач */
-.s02b-divider-top {
-  height: 1px;
-  background: linear-gradient(to right, rgba(56,189,248,0.2), rgba(56,189,248,0.04) 70%, transparent);
-  margin-bottom: 14px;
-}
-
-/* Контейнер карток */
-.s02b-facts {
-  display: flex; flex-direction: column; gap: 8px;
-}
-.s02b-facts-row-1,
-.s02b-facts-row-2,
-.s02b-facts-row-3 { display: block; }
-
-/* Кожна картка — підкладка */
-.s02b-card-role,
-.s02b-card-approach,
-.s02b-card-stack {
-  background: rgba(10,15,32,0.75);
-  border: 1px solid rgba(56,189,248,0.11);
-  border-radius: 4px;
-  padding: 12px 14px 10px;
-  position: relative;
-  transition: border-color 0.3s, background 0.3s;
-}
-.s02b-card-role:hover,
-.s02b-card-approach:hover,
-.s02b-card-stack:hover {
-  background: rgba(14,22,46,0.85);
-  border-color: rgba(56,189,248,0.25);
-}
-
-/* fact-key — рядок з лейблом + бейдж */
+.s02b-facts { display: flex; flex-direction: column; gap: 22px; }
 .s02b-fact-key {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 7.5px; letter-spacing: 0.24em;
-  color: rgba(56,189,248,0.45); text-transform: uppercase;
-  display: flex; align-items: center; gap: 8px;
-  margin-bottom: 6px;
-  white-space: nowrap;
+  font-size: 9px; letter-spacing: 0.22em;
+  color: rgba(10,10,15,0.4); text-transform: uppercase;
+  display: block; margin-bottom: 4px;
 }
-.s02b-fact-key::before { content: none; }
-.s02b-fact-key::after  { content: none; }
-
-/* Статус-бейдж */
-.s02b-status {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 6.5px; letter-spacing: 0.16em;
-  color: rgba(56,189,248,0.65);
-  border: 1px solid rgba(56,189,248,0.22);
-  padding: 2px 6px; border-radius: 2px;
-  text-transform: uppercase; white-space: nowrap;
-  margin-left: auto; flex-shrink: 0;
-}
-
-/* Основний текст */
 .s02b-fact-val {
   font-family: 'Outfit', sans-serif;
-  font-size: clamp(13px,1.15vw,16px); font-weight: 700;
-  color: #E8EAF6; line-height: 1.2;
-  display: block;
-  background: none !important;
-  -webkit-text-fill-color: #E8EAF6 !important;
-}
-.s02b-card-approach .s02b-fact-val { font-size: clamp(13px,1.2vw,17px); }
-.s02b-card-approach .s02b-fact-val em {
-  font-style: normal;
-  color: rgba(232,234,246,0.65);
-  -webkit-text-fill-color: rgba(232,234,246,0.65) !important;
-}
-.s02b-card-stack .s02b-fact-val {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px; font-weight: 400;
-  color: rgba(125,211,252,0.8);
-  -webkit-text-fill-color: rgba(125,211,252,0.8) !important;
-  line-height: 1.8; letter-spacing: 0.05em;
+  font-size: clamp(14px,1.3vw,17px); font-weight: 500;
+  color: #0A0A0F; line-height: 1.35;
 }
 
-/* Підзаголовок */
-.s02b-fact-desc {
-  font-family: 'Outfit', sans-serif;
-  font-size: 11.5px; font-weight: 400;
-  color: rgba(232,234,246,0.38); line-height: 1.45;
-  margin-top: 4px; display: block;
-}
-
-/* Progress bar */
-.s02b-progress {
-  height: 1px;
-  background: rgba(56,189,248,0.10);
-  margin-top: 10px; position: relative; overflow: hidden;
-  border-radius: 1px;
-}
-.s02b-progress-fill {
-  position: absolute; top:0; left:0; height:100%; width:0%;
-  background: linear-gradient(to right, rgba(56,189,248,0.75), rgba(129,140,248,0.55));
-  box-shadow: 0 0 6px rgba(56,189,248,0.4);
-  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-  border-radius: 1px;
-}
-.s02b-progress-pct {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 7px; letter-spacing: 0.14em;
-  color: rgba(56,189,248,0.35);
-  text-align: right; margin-top: 3px; display: block;
-}
-
-/* L-corner brackets — тільки на .s02b-tr */
-.s02b-corners { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
-.s02b-corner  { position: absolute; width: 14px; height: 14px; }
-.s02b-corner::before,
-.s02b-corner::after {
-  content: ''; position: absolute;
-  background: rgba(56,189,248,0.45);
-  box-shadow: 0 0 5px rgba(56,189,248,0.25);
-}
-.s02b-corner::before { width:100%; height:1px; top:0; left:0; }
-.s02b-corner::after  { width:1px; height:100%; top:0; left:0; }
-.s02b-corner.tr { top:10px; right:10px; }
-.s02b-corner.tr::before { left:auto; right:0; }
-.s02b-corner.tr::after  { left:auto; right:0; }
-.s02b-corner.bl { bottom:10px; left:10px; }
-.s02b-corner.bl::before { top:auto; bottom:0; }
-.s02b-corner.br { bottom:10px; right:10px; }
-.s02b-corner.br::before { top:auto; bottom:0; left:auto; right:0; }
-.s02b-corner.br::after  { left:auto; right:0; top:auto; bottom:0; }
-.s02b-corner.tl { top:10px; left:10px; }
-
-/* ── Нижній лівий: цитата ── */
+/* Нижній лівий: цитата */
 .s02b-bl {
-  background: rgba(5,7,14,0.88);
-  padding: clamp(32px,4vh,56px) clamp(28px,3vw,48px);
+  background: #EAE5DC;
+  padding: clamp(36px,5vh,64px) clamp(32px,3vw,52px);
   display: flex; flex-direction: column; justify-content: flex-end;
-  border-right: 1px solid rgba(56,189,248,0.07);
-  border-top: 1px solid rgba(56,189,248,0.07);
 }
 .s02b-quote {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(18px,1.7vw,25px); font-weight: 300; font-style: italic;
-  color: #C8CAD4; line-height: 1.65;
-  border-left: 1px solid rgba(56,189,248,0.45); padding-left: 20px;
-  margin-bottom: 18px;
+  font-size: clamp(19px,1.8vw,26px); font-weight: 300; font-style: italic;
+  color: #0A0A0F; line-height: 1.65;
+  border-left: 2px solid #0A0A0F; padding-left: 20px;
+  margin-bottom: 20px;
 }
 .s02b-quote-by {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 0.22em;
-  color: rgba(56,189,248,0.45); text-transform: uppercase;
+  font-size: 10px; letter-spacing: 0.22em;
+  color: rgba(10,10,15,0.65); text-transform: uppercase;
   padding-left: 22px;
 }
 
-/* ── Фото Богдана — абсолютне, центр, поверх сітки ── */
+/* Фото Богдана */
 .s02b-photo-wrap {
   position: absolute;
   bottom: 0; left: 50%;
   transform: translateX(-50%);
   height: 100%; width: auto;
-  z-index: 5; pointer-events: none;
+  z-index: 10; pointer-events: none;
   opacity: 0;
   transition: opacity 0.9s ease 0.15s;
 }
@@ -1870,23 +1691,50 @@ body.gm-menu-open { overflow: hidden; }
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: center center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 8px; letter-spacing: 0.35em;
-  color: rgba(56,189,248,0.10); text-transform: uppercase;
-  white-space: nowrap; z-index: 6;
+  font-size: 9px; letter-spacing: 0.35em;
+  color: rgba(10,10,15,0.18); text-transform: uppercase;
+  white-space: nowrap; z-index: 11;
 }
 
+/* Десктоп: projects-row — видимий */
+.s02b-projects-row { display: contents; }
+
+/* Мобільні блоки — приховані на десктопі */
+.s02b-headline,
+.s02b-headline-sub,
+.s02b-divider-top,
+.s02b-corners,
+.s02b-card-role,
+.s02b-card-approach,
+.s02b-card-stack,
+.s02b-facts-row-1,
+.s02b-facts-row-2,
+.s02b-facts-row-3,
+.s02b-progress,
+.s02b-progress-pct,
+.s02b-fact-desc,
+.s02b-status,
 .s02b-proj-bg { display: none; }
 
 /* ════════════════════════════════════════
-   МОБІЛЬНА ВЕРСІЯ — AI CORE TERMINAL
+   S02B — МОБІЛЬНА ВЕРСІЯ: нeon terminal (≤ 860px)
 ════════════════════════════════════════ */
 @media (max-width: 860px) {
 
-  /* Layout */
-  .s02b { height: auto; overflow: visible; display: flex; flex-direction: column; }
+  /* Базові скиди */
+  .s02b {
+    background: #07080F;
+    height: auto;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    min-height: unset;
+  }
+
+  #s02b-canvas { display: block; opacity: 0.4; }
+
   .s02b-grid { display: contents; }
-  .s02b-cell { width: 100%; }
-  #s02b-canvas { opacity: 0.4; }
+  .s02b-cell { border-radius: 0; width: 100%; }
 
   /* ══ 1. FACTS BLOCK ══ */
   .s02b-tr {
@@ -1894,25 +1742,52 @@ body.gm-menu-open { overflow: hidden; }
     padding: 0;
     background: transparent;
     display: block;
+    position: relative;
     border-left: none;
-    border-bottom: none;
   }
+
+  /* Показуємо мобільні елементи */
+  .s02b-headline { display: block; }
+  .s02b-headline-sub { display: block; }
+  .s02b-divider-top { display: block; }
+  .s02b-corners { display: block; }
+  .s02b-facts-row-1,
+  .s02b-facts-row-2,
+  .s02b-facts-row-3 { display: block; }
+  .s02b-card-role,
+  .s02b-card-approach,
+  .s02b-card-stack { display: block; }
+  .s02b-progress { display: block; }
+  .s02b-progress-pct { display: block; }
+  .s02b-fact-desc { display: block; }
+  .s02b-status { display: inline-block; }
+
+  /* Ховаємо десктопні */
+  .s02b-projects-row { display: none; }
+  .s02b-vname { display: none; }
+  .s02b-facts { display: flex; flex-direction: column; gap: 0; position: relative; z-index: 3; }
 
   /* MODULE HEADER */
   .s02b-sec-label {
+    font-family: 'JetBrains Mono', monospace;
     font-size: 8.5px; letter-spacing: 0.30em;
     color: rgba(56,189,248,0.55);
     padding: 22px 24px 0; margin-bottom: 0;
+    display: flex; align-items: center; gap: 10px;
+    text-transform: uppercase;
+    background: none;
   }
   .s02b-sec-label::before {
     content: '◈'; background: none;
     width: auto; height: auto;
-    color: rgba(56,189,248,0.4); font-size: 10px;
+    color: rgba(56,189,248,0.4); font-size: 10px; flex-shrink: 0;
   }
 
   /* Заголовок */
   .s02b-headline {
-    font-size: 52px; line-height: 0.92;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px; font-weight: 400;
+    letter-spacing: 0.03em; line-height: 0.92;
     padding: 16px 24px 10px;
     position: relative; z-index: 3;
     background: linear-gradient(160deg,#FFF 0%,#C8CDD6 40%,#7A8494 75%,#4A5260 100%);
@@ -1920,11 +1795,11 @@ body.gm-menu-open { overflow: hidden; }
     filter: drop-shadow(0 2px 12px rgba(255,255,255,0.08));
   }
   .s02b-headline-sub {
+    font-family: 'JetBrains Mono', monospace;
     font-size: 10px; letter-spacing: 0.25em;
     color: rgba(56,189,248,0.6);
     padding: 0 24px 28px;
-    display: block; text-transform: uppercase;
-    position: relative; z-index: 3;
+    text-transform: uppercase; position: relative; z-index: 3;
   }
   .s02b-headline-sub::before {
     content: ''; display: inline-block;
@@ -1932,6 +1807,10 @@ body.gm-menu-open { overflow: hidden; }
     background: #38BDF8; margin-right: 8px; vertical-align: middle;
     box-shadow: 0 0 8px rgba(56,189,248,0.8);
     animation: s02b-pulse 2s ease-in-out infinite;
+  }
+  @keyframes s02b-pulse {
+    0%,100% { opacity:1; box-shadow:0 0 8px rgba(56,189,248,0.8); }
+    50% { opacity:0.4; box-shadow:0 0 3px rgba(56,189,248,0.3); }
   }
 
   /* Розділювач */
@@ -1941,33 +1820,100 @@ body.gm-menu-open { overflow: hidden; }
     margin: 0 24px; position: relative; z-index: 3;
   }
 
-  /* Картки — на мобілці плоскі, без підкладки */
-  .s02b-facts { flex-direction: column; gap: 0; position: relative; z-index: 3; }
-  .s02b-facts-row-1, .s02b-facts-row-2, .s02b-facts-row-3 { display: block; }
-
+  /* Картки — плоскі */
   .s02b-card-role,
   .s02b-card-approach,
   .s02b-card-stack {
-    background: transparent !important;
-    border: none !important;
-    border-top: 1px solid rgba(56,189,248,0.10) !important;
-    border-radius: 0 !important;
-    padding: 20px 24px 16px !important;
-    transition: none !important;
-  }
-  .s02b-card-role:hover,
-  .s02b-card-approach:hover,
-  .s02b-card-stack:hover {
-    background: transparent !important;
-    border-color: rgba(56,189,248,0.10) !important;
+    background: transparent;
+    border-top: 1px solid rgba(56,189,248,0.10);
+    border-left: none; border-right: none; border-bottom: none;
+    border-radius: 0;
+    padding: 20px 24px 16px;
   }
 
-  /* Текст карток — мобільні розміри */
-  .s02b-fact-key { font-size: 8px; letter-spacing: 0.26em; margin-bottom: 10px; }
-  .s02b-fact-val { font-size: 20px; line-height: 1.15; letter-spacing: -0.01em; }
+  /* fact-key */
+  .s02b-fact-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 0.26em;
+    color: rgba(56,189,248,0.45); text-transform: uppercase;
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px; white-space: nowrap;
+  }
+  .s02b-fact-key::before, .s02b-fact-key::after { content: none; }
+
+  /* Status badge */
+  .s02b-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5px; letter-spacing: 0.18em;
+    color: rgba(56,189,248,0.7);
+    border: 1px solid rgba(56,189,248,0.25);
+    padding: 2px 7px; border-radius: 2px;
+    text-transform: uppercase; white-space: nowrap;
+    margin-left: auto; flex-shrink: 0;
+  }
+
+  /* fact-val */
+  .s02b-fact-val {
+    font-family: 'Outfit', sans-serif;
+    font-size: 20px; font-weight: 700;
+    color: #E8EAF6; line-height: 1.15; letter-spacing: -0.01em;
+    display: block; background: none !important;
+    -webkit-text-fill-color: #E8EAF6 !important;
+  }
   .s02b-card-approach .s02b-fact-val { font-size: 20px; }
-  .s02b-card-stack .s02b-fact-val { font-size: 12px; line-height: 2.0; }
-  .s02b-fact-desc { font-size: 13px; margin-top: 7px; }
+  .s02b-card-approach .s02b-fact-val em { font-style: normal; color: rgba(232,234,246,0.7); -webkit-text-fill-color: rgba(232,234,246,0.7) !important; }
+  .s02b-card-stack .s02b-fact-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; font-weight: 400;
+    color: rgba(125,211,252,0.75);
+    -webkit-text-fill-color: rgba(125,211,252,0.75) !important;
+    line-height: 2.0; letter-spacing: 0.06em;
+  }
+
+  /* fact-desc */
+  .s02b-fact-desc {
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px; font-weight: 400;
+    color: rgba(232,234,246,0.4); line-height: 1.5;
+    margin-top: 7px;
+  }
+
+  /* Progress bar */
+  .s02b-progress {
+    height: 1px; background: rgba(56,189,248,0.10);
+    margin-top: 14px; position: relative; overflow: hidden; border-radius: 1px;
+  }
+  .s02b-progress-fill {
+    position: absolute; top:0; left:0; height:100%; width:0%;
+    background: linear-gradient(to right, rgba(56,189,248,0.8), rgba(129,140,248,0.6));
+    box-shadow: 0 0 6px rgba(56,189,248,0.5);
+    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); border-radius: 1px;
+  }
+  .s02b-progress-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px; letter-spacing: 0.15em;
+    color: rgba(56,189,248,0.4); text-align: right; margin-top: 4px;
+  }
+
+  /* L-corner brackets */
+  .s02b-corners { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+  .s02b-corner { position: absolute; width: 16px; height: 16px; }
+  .s02b-corner::before, .s02b-corner::after {
+    content: ''; position: absolute;
+    background: rgba(56,189,248,0.55);
+    box-shadow: 0 0 6px rgba(56,189,248,0.3);
+  }
+  .s02b-corner::before { width:100%; height:1px; top:0; left:0; }
+  .s02b-corner::after  { width:1px; height:100%; top:0; left:0; }
+  .s02b-corner.tr { top:8px; right:8px; }
+  .s02b-corner.tr::before { left:auto; right:0; }
+  .s02b-corner.tr::after  { left:auto; right:0; }
+  .s02b-corner.bl { bottom:8px; left:8px; }
+  .s02b-corner.bl::before { top:auto; bottom:0; }
+  .s02b-corner.br { bottom:8px; right:8px; }
+  .s02b-corner.br::before { top:auto; bottom:0; left:auto; right:0; }
+  .s02b-corner.br::after  { left:auto; right:0; top:auto; bottom:0; }
+  .s02b-corner.tl { top:8px; left:8px; }
 
   /* ══ 2. ФОТО-БЛОК ══ */
   .s02b-photo-wrap {
@@ -1979,18 +1925,18 @@ body.gm-menu-open { overflow: hidden; }
   }
   .s02b-proj-bg {
     display: block; position: absolute;
-    left: 0; right: 0; width: 100%; height: 50%;
+    left:0; right:0; width:100%; height:50%;
     overflow: hidden; opacity: 0.85;
   }
   .s02b-proj-bg img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
-  .s02b-proj-bg.proj-tl { top: 0; }
-  .s02b-proj-bg.proj-br { bottom: 0; }
+  .s02b-proj-bg.proj-tl { top:0; }
+  .s02b-proj-bg.proj-br { bottom:0; }
   .s02b-proj-bg.proj-br::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0;
-    height: 1px; background: rgba(7,8,15,0.6); z-index: 1;
+    content:''; position:absolute; top:0; left:0; right:0;
+    height:1px; background:rgba(7,8,15,0.6); z-index:1;
   }
   .s02b-photo-wrap > img {
-    position: absolute; bottom: 0; left: 50%;
+    position: absolute; bottom:0; left:50%;
     transform: translateX(-50%);
     height: 108%; width: auto;
     object-fit: contain; object-position: bottom center; z-index: 2;
@@ -2001,89 +1947,107 @@ body.gm-menu-open { overflow: hidden; }
     order: 2; padding: 28px 24px 36px;
     background: #07080F;
     border-top: 1px solid rgba(56,189,248,0.08);
-    border-right: none;
+    border-radius: 0;
   }
-  .s02b-quote { font-size: 17px; line-height: 1.6; color: rgba(232,234,246,0.75); border-left-color: rgba(56,189,248,0.4); }
-  .s02b-quote-by { color: rgba(56,189,248,0.45); }
-
-  .s02b-projects-row { display: none; }
-  .s02b-vname { display: none; }
+  .s02b-quote {
+    font-size: 17px; line-height: 1.6;
+    color: rgba(232,234,246,0.75);
+    border-left: 1px solid rgba(56,189,248,0.4); border-left-width: 1px;
+    border-color: rgba(56,189,248,0.4);
+  }
+  .s02b-quote-by { color: rgba(56,189,248,0.45); font-size: 9px; }
 }
 </style>
 
 <section class="s02b">
 
-  <!-- Babylon.js node-мережа — фонова анімація -->
+  <!-- Canvas — видимий тільки на мобілці (CSS) -->
   <canvas id="s02b-canvas"></canvas>
 
   <div class="s02b-grid s02b-content">
 
-    <!-- FACTS BLOCK -->
+    <!-- ↖ Верхній лівий: AutoSmart (десктоп) / Facts block (мобілка) -->
+    <div class="s02b-cell s02b-tl js-s02b-cell">
+      <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/AutoSmart-preview.png" alt="AutoSmart"/>
+      <div class="s02b-proj-overlay"></div>
+    </div>
+
+    <!-- ↗ Верхній правий: факти -->
     <div class="s02b-cell s02b-tr js-s02b-cell">
-      <!-- L-куточки по кутах блоку -->
+
+      <!-- Мобільні елементи (приховані на десктопі) -->
       <div class="s02b-corners">
         <div class="s02b-corner tl"></div>
         <div class="s02b-corner tr"></div>
         <div class="s02b-corner bl"></div>
         <div class="s02b-corner br"></div>
       </div>
-      <p class="s02b-sec-label">MODULE_01 // CORE_ARCHITECT</p>
       <div class="s02b-headline">BOHDAN<br>HODLIUK</div>
       <span class="s02b-headline-sub">SYSTEM INITIALIZATION — ACTIVE</span>
       <div class="s02b-divider-top"></div>
-      <div class="s02b-facts">
 
-        <!-- Шар 01 -->
+      <!-- Лейбл — різний текст для десктоп/мобілки через CSS visibility не можна,
+           тому два елементи: перший видний на десктопі, другий на мобілці -->
+      <p class="s02b-sec-label s02b-label-desk">02 · Про мене</p>
+      <p class="s02b-sec-label s02b-label-mob">MODULE_01 // CORE_ARCHITECT</p>
+
+      <!-- Факти — десктопна версія -->
+      <div class="s02b-facts s02b-facts-desk">
+        <div>
+          <span class="s02b-fact-key">Роль</span>
+          <span class="s02b-fact-val">AI Architect · Founder · Builder</span>
+        </div>
+        <div>
+          <span class="s02b-fact-key">Підхід</span>
+          <span class="s02b-fact-val">Не прототип — повноцінна система</span>
+        </div>
+        <div>
+          <span class="s02b-fact-key">Продукт</span>
+          <span class="s02b-fact-val">Живий, задеплоєний, з меседжем</span>
+        </div>
+        <div>
+          <span class="s02b-fact-key">Стек</span>
+          <span class="s02b-fact-val">n8n · GPT-4o · Babylon.js · Supabase</span>
+        </div>
+        <div>
+          <span class="s02b-fact-key">Бренд</span>
+          <span class="s02b-fact-val">BWA — Built with AI</span>
+        </div>
+      </div>
+
+      <!-- Факти — мобільна версія (neon terminal) -->
+      <div class="s02b-facts s02b-facts-mob">
         <div class="s02b-facts-row-1">
           <div class="s02b-card-role">
-            <span class="s02b-fact-key">
-              01 // SYSTEM_ROLE
-              <span class="s02b-status">OPERATIONAL</span>
-            </span>
+            <span class="s02b-fact-key">01 // SYSTEM_ROLE<span class="s02b-status">OPERATIONAL</span></span>
             <span class="s02b-fact-val">AI Architect · Founder · Builder</span>
             <span class="s02b-fact-desc">Проектую автономні системи, які керують бізнес-процесами без людського фактора.</span>
-            <div class="s02b-progress js-s02b-progress" data-to="92">
-              <div class="s02b-progress-fill"></div>
-            </div>
+            <div class="s02b-progress js-s02b-progress" data-to="92"><div class="s02b-progress-fill"></div></div>
             <span class="s02b-progress-pct">92%</span>
           </div>
         </div>
-
-        <!-- Шар 02 -->
         <div class="s02b-facts-row-2">
           <div class="s02b-card-approach">
-            <span class="s02b-fact-key">
-              02 // PHILOSOPHY
-              <span class="s02b-status">PRODUCTION_READY</span>
-            </span>
+            <span class="s02b-fact-key">02 // PHILOSOPHY<span class="s02b-status">PRODUCTION_READY</span></span>
             <span class="s02b-fact-val">Не прототип —<br><em>повноцінна система</em></span>
             <span class="s02b-fact-desc">Guard-логіка, пам'ять між сесіями, преміальна візуальна обгортка.</span>
-            <div class="s02b-progress js-s02b-progress" data-to="100">
-              <div class="s02b-progress-fill"></div>
-            </div>
+            <div class="s02b-progress js-s02b-progress" data-to="100"><div class="s02b-progress-fill"></div></div>
             <span class="s02b-progress-pct">100%</span>
           </div>
         </div>
-
-        <!-- Шар 03 -->
         <div class="s02b-facts-row-3">
           <div class="s02b-card-stack">
-            <span class="s02b-fact-key">
-              03 // TECH_STACK
-              <span class="s02b-status">ECOSYSTEM: BWA</span>
-            </span>
+            <span class="s02b-fact-key">03 // TECH_STACK<span class="s02b-status">ECOSYSTEM: BWA</span></span>
             <span class="s02b-fact-val">n8n · GPT-4o · Supabase<br>Babylon.js · Telegram API</span>
-            <div class="s02b-progress js-s02b-progress" data-to="87">
-              <div class="s02b-progress-fill"></div>
-            </div>
+            <div class="s02b-progress js-s02b-progress" data-to="87"><div class="s02b-progress-fill"></div></div>
             <span class="s02b-progress-pct">87%</span>
           </div>
         </div>
-
       </div>
+
     </div>
 
-    <!-- ЦИТАТА -->
+    <!-- ↙ Нижній лівий: цитата -->
     <div class="s02b-cell s02b-bl js-s02b-cell">
       <blockquote class="s02b-quote">
         Кожен проект — це не демо.<br>Це система що живе, продає<br>і росте разом з бізнесом.<br><br>
@@ -2092,22 +2056,17 @@ body.gm-menu-open { overflow: hidden; }
       <span class="s02b-quote-by">— Богдан Годлюк · AI Architect</span>
     </div>
 
-    <!-- Десктоп: фото-проекти -->
-    <div class="s02b-projects-row">
-      <div class="s02b-cell s02b-tl js-s02b-cell">
-        <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/AutoSmart-preview.png" alt="AutoSmart"/>
-        <div class="s02b-proj-overlay"></div>
-      </div>
-      <div class="s02b-cell s02b-br js-s02b-cell">
-        <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/ARCA-preview.png" alt="ARCA Robotics"/>
-        <div class="s02b-proj-overlay"></div>
-      </div>
+    <!-- ↘ Нижній правий: ARCA -->
+    <div class="s02b-cell s02b-br js-s02b-cell">
+      <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/ARCA-preview.png" alt="ARCA Robotics"/>
+      <div class="s02b-proj-overlay"></div>
     </div>
 
   </div>
 
-  <!-- Фото Богдана -->
+  <!-- Фото Богдана — центр, поверх сітки -->
   <div class="s02b-photo-wrap js-s02b-photo">
+    <!-- Мобільні bg (приховані на десктопі) -->
     <div class="s02b-proj-bg proj-tl">
       <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/AutoSmart-preview.png" alt=""/>
     </div>
@@ -2120,13 +2079,27 @@ body.gm-menu-open { overflow: hidden; }
 
 </section>
 
+<style>
+/* Перемикач десктоп/мобілка для двох версій фактів і лейблів */
+.s02b-label-mob,
+.s02b-facts-mob { display: none; }
+.s02b-label-desk { display: flex; }
+.s02b-facts-desk { display: flex; }
+
+@media (max-width: 860px) {
+  .s02b-label-desk,
+  .s02b-facts-desk { display: none !important; }
+  .s02b-label-mob  { display: flex !important; }
+  .s02b-facts-mob  { display: flex !important; flex-direction: column; gap: 0; }
+}
+</style>
+
 <script>
-/* ── Babylon.js Node Network ── */
+/* ── Canvas node-мережа — тільки на мобілці ── */
 (function(){
+  if (window.innerWidth > 860) return;
   var canvas = document.getElementById('s02b-canvas');
   if (!canvas) return;
-
-  // Resize canvas
   function resizeCanvas() {
     var section = canvas.parentElement;
     canvas.width  = section.offsetWidth;
@@ -2134,120 +2107,37 @@ body.gm-menu-open { overflow: hidden; }
   }
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
-
   var ctx = canvas.getContext('2d');
   var W = canvas.width, H = canvas.height;
-
-  // Nodes
-  var NODE_COUNT = window.innerWidth < 861 ? 28 : 50;
+  var NODE_COUNT = 28;
   var nodes = [];
   for (var i = 0; i < NODE_COUNT; i++) {
-    nodes.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      r: Math.random() * 1.5 + 0.8,
-      pulse: Math.random() * Math.PI * 2
-    });
+    nodes.push({ x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-0.5)*0.35, vy:(Math.random()-0.5)*0.35, r:Math.random()*1.5+0.8, pulse:Math.random()*Math.PI*2 });
   }
-
-  var MAX_DIST = window.innerWidth < 861 ? 100 : 140;
-  var scrollY = 0;
-  var tapped = false;
-  var tapTimer = 0;
-
-  // Scroll / tap reactivity
-  window.addEventListener('scroll', function() {
-    scrollY = window.scrollY;
-    nodes.forEach(function(n) {
-      n.vx += (Math.random() - 0.5) * 0.4;
-      n.vy += (Math.random() - 0.5) * 0.4;
-    });
-  }, {passive: true});
-
+  var MAX_DIST = 100;
   canvas.addEventListener('touchstart', function() {
-    tapped = true; tapTimer = 40;
-    nodes.forEach(function(n) {
-      n.vx *= 2.5; n.vy *= 2.5;
-    });
-  }, {passive: true});
-
+    nodes.forEach(function(n){ n.vx*=2.5; n.vy*=2.5; });
+  }, {passive:true});
   var raf;
   function draw() {
-    // Sync size
     var sec = canvas.parentElement;
-    if (canvas.width !== sec.offsetWidth || canvas.height !== sec.offsetHeight) {
-      canvas.width = sec.offsetWidth;
-      canvas.height = sec.offsetHeight;
-      W = canvas.width; H = canvas.height;
+    if (canvas.width !== sec.offsetWidth) { canvas.width=sec.offsetWidth; canvas.height=sec.offsetHeight; W=canvas.width; H=canvas.height; }
+    ctx.clearRect(0,0,W,H);
+    nodes.forEach(function(n){ n.pulse+=0.018; n.x+=n.vx; n.y+=n.vy; n.vx*=0.995; n.vy*=0.995; if(n.x<0||n.x>W)n.vx*=-1; if(n.y<0||n.y>H)n.vy*=-1; });
+    for (var a=0;a<nodes.length;a++) for (var b=a+1;b<nodes.length;b++) {
+      var dx=nodes[a].x-nodes[b].x, dy=nodes[a].y-nodes[b].y, dist=Math.sqrt(dx*dx+dy*dy);
+      if (dist<MAX_DIST) { var alpha=(1-dist/MAX_DIST)*0.35; ctx.beginPath(); ctx.moveTo(nodes[a].x,nodes[a].y); ctx.lineTo(nodes[b].x,nodes[b].y); ctx.strokeStyle='rgba(56,189,248,'+alpha+')'; ctx.lineWidth=0.5; ctx.stroke(); }
     }
-
-    ctx.clearRect(0, 0, W, H);
-
-    if (tapTimer > 0) tapTimer--;
-    if (tapTimer === 0) tapped = false;
-
-    nodes.forEach(function(n) {
-      n.pulse += 0.018;
-      n.x += n.vx;
-      n.y += n.vy;
-      // Friction
-      n.vx *= 0.995; n.vy *= 0.995;
-      // Bounce
-      if (n.x < 0 || n.x > W) n.vx *= -1;
-      if (n.y < 0 || n.y > H) n.vy *= -1;
-    });
-
-    // Edges
-    for (var a = 0; a < nodes.length; a++) {
-      for (var b = a + 1; b < nodes.length; b++) {
-        var dx = nodes[a].x - nodes[b].x;
-        var dy = nodes[a].y - nodes[b].y;
-        var dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < MAX_DIST) {
-          var alpha = (1 - dist / MAX_DIST) * 0.35;
-          ctx.beginPath();
-          ctx.moveTo(nodes[a].x, nodes[a].y);
-          ctx.lineTo(nodes[b].x, nodes[b].y);
-          ctx.strokeStyle = 'rgba(56,189,248,' + alpha + ')';
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      }
-    }
-
-    // Nodes dots
-    nodes.forEach(function(n) {
-      var glow = (Math.sin(n.pulse) * 0.5 + 0.5);
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r + glow * 0.8, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(56,189,248,' + (0.5 + glow * 0.4) + ')';
-      ctx.fill();
-    });
-
+    nodes.forEach(function(n){ var glow=(Math.sin(n.pulse)*0.5+0.5); ctx.beginPath(); ctx.arc(n.x,n.y,n.r+glow*0.8,0,Math.PI*2); ctx.fillStyle='rgba(56,189,248,'+(0.5+glow*0.4)+')'; ctx.fill(); });
     raf = requestAnimationFrame(draw);
   }
-
-  // Запускаємо тільки коли секція у viewport
   var started = false;
-  var obs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting && !started) {
-        started = true;
-        draw();
-      } else if (!e.isIntersecting && started) {
-        cancelAnimationFrame(raf);
-        started = false;
-      }
-    });
-  }, {threshold: 0.05});
-
+  var obs = new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting&&!started){started=true;draw();} else if(!e.isIntersecting&&started){cancelAnimationFrame(raf);started=false;} }); },{threshold:0.05});
   var sec = document.querySelector('.s02b');
   if (sec) obs.observe(sec);
 })();
 
-/* ── Progress bars + Reveal анімація ── */
+/* ── Reveal + Progress bars ── */
 (function(){
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
@@ -2257,19 +2147,19 @@ body.gm-menu-open { overflow: hidden; }
       s.querySelectorAll('.js-s02b-cell').forEach(function(c,i){
         setTimeout(function(){ c.classList.add('s02b-vis'); }, i*100);
       });
-      s.querySelectorAll('.js-s02b-progress').forEach(function(bar, i){
-        var fill = bar.querySelector('.s02b-progress-fill');
-        var to = parseInt(bar.getAttribute('data-to') || '80');
-        setTimeout(function(){ fill.style.width = to + '%'; }, 400 + i * 200);
-      });
+      if (window.innerWidth <= 860) {
+        s.querySelectorAll('.js-s02b-progress').forEach(function(bar, i){
+          var fill = bar.querySelector('.s02b-progress-fill');
+          var to = parseInt(bar.getAttribute('data-to') || '80');
+          setTimeout(function(){ fill.style.width = to + '%'; }, 400 + i*200);
+        });
+      }
       io.unobserve(s);
     });
   }, {threshold:0.08});
   var sec = document.querySelector('.s02b');
   if (sec) io.observe(sec);
 })();
-</script>
-
 </script>
 
 <!-- ════════════════════════════════════════
