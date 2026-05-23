@@ -1562,25 +1562,14 @@ body.gm-menu-open { overflow: hidden; }
   overflow: hidden;
 }
 
-/* ── Canvas для node-мережі ── */
+/* ── Canvas для node-мережі — повний об'єм без маски ── */
 #s02b-canvas {
   position: absolute;
   top: 0; left: 0;
   width: 100%; height: 100%;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.55;
-  /* Маска: canvas яскравий по краях, згасає в центрі де текст */
-  -webkit-mask-image: radial-gradient(ellipse 85% 70% at 50% 50%,
-    rgba(0,0,0,0.15) 0%,
-    rgba(0,0,0,0.5) 35%,
-    rgba(0,0,0,1) 65%,
-    rgba(0,0,0,1) 100%);
-  mask-image: radial-gradient(ellipse 85% 70% at 50% 50%,
-    rgba(0,0,0,0.15) 0%,
-    rgba(0,0,0,0.5) 35%,
-    rgba(0,0,0,1) 65%,
-    rgba(0,0,0,1) 100%);
+  opacity: 0.6;
 }
 
 /* ── Fade-оверлеї для плавних переходів між секціями ── */
@@ -1589,7 +1578,7 @@ body.gm-menu-open { overflow: hidden; }
   content: '';
   position: absolute;
   left: 0; right: 0;
-  height: 80px;
+  height: 100px;
   z-index: 5;
   pointer-events: none;
 }
@@ -1744,36 +1733,48 @@ body.gm-menu-open { overflow: hidden; }
   .s02b-grid { display: contents; }
   .s02b-cell { border-radius: 0; width: 100%; }
 
-  /* ── Canvas на мобілці — менша opacity, маска під текстову зону ── */
+  /* ── Canvas на мобілці — повний об'єм ── */
   #s02b-canvas {
-    opacity: 0.35;
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(0,0,0,0.15) 15%,
-      rgba(0,0,0,0.6) 35%,
-      rgba(0,0,0,1) 55%,
-      rgba(0,0,0,1) 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      rgba(0,0,0,0.15) 15%,
-      rgba(0,0,0,0.6) 35%,
-      rgba(0,0,0,1) 55%,
-      rgba(0,0,0,1) 100%
-    );
+    opacity: 0.5;
   }
 
   /* ══ 1. FACTS BLOCK — AI TERMINAL ══ */
   .s02b-tr {
     order: 0;
     padding: 0;
-    background: #07080F;
+    background: transparent;
     display: block;
     position: relative;
     border-left: none;
     backdrop-filter: none;
+  }
+
+  /* Радіальне glow-ядро — дає об'єм і глибину фону */
+  .s02b-tr::after {
+    content: '';
+    position: absolute;
+    top: 30%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px; height: 320px;
+    background: radial-gradient(circle,
+      rgba(56,189,248,0.08) 0%,
+      rgba(56,189,248,0.03) 40%,
+      transparent 70%
+    );
+    z-index: 2;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  /* Підкладка під кожен текстовий блок — текст читається поверх canvas */
+  .s02b-card-role,
+  .s02b-card-approach,
+  .s02b-card-product,
+  .s02b-card-stack,
+  .s02b-card-brand {
+    background: rgba(7, 8, 15, 0.72) !important;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
   }
 
   /* ── MODULE HEADER ── */
@@ -1942,6 +1943,9 @@ body.gm-menu-open { overflow: hidden; }
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent !important;
     background-clip: text;
+    display: inline;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
   .s02b-card-approach .s02b-fact-val em { font-style: normal; }
 
@@ -2145,32 +2149,37 @@ body.gm-menu-open { overflow: hidden; }
   var W = canvas.width, H = canvas.height;
   var isMob = window.innerWidth < 861;
 
-  var NODE_COUNT = isMob ? 28 : 50;
+  var NODE_COUNT = isMob ? 32 : 55;
   var nodes = [];
+
+  // Центральне ядро — нерухомий великий вузол, фокусна точка
+  var core = { x: W * 0.5, y: H * 0.38, r: 3.5, pulse: 0 };
+
   for (var i = 0; i < NODE_COUNT; i++) {
+    // Розміщуємо ноди по всій площі, трохи щільніше біля центру
+    var angle = Math.random() * Math.PI * 2;
+    var dist  = Math.random() * Math.min(W, H) * 0.55 + Math.min(W, H) * 0.05;
     nodes.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      baseSpeed: (Math.random() * 0.15 + 0.1),
-      r: Math.random() * 1.4 + 0.7,
+      x: core.x + Math.cos(angle) * dist,
+      y: core.y + Math.sin(angle) * dist,
+      vx: (Math.random() - 0.5) * 0.28,
+      vy: (Math.random() - 0.5) * 0.28,
+      baseSpeed: Math.random() * 0.12 + 0.08,
+      r: Math.random() * 1.3 + 0.6,
       pulse: Math.random() * Math.PI * 2
     });
   }
 
-  var MAX_DIST = isMob ? 100 : 140;
+  var MAX_DIST = isMob ? 110 : 150;
+  var CORE_DIST = isMob ? 160 : 220; // ноди з'єднуються з ядром
 
-  // Стан енергії системи: 0 = спокій, 1 = збуджений
   var energy = 0;
   var energyDecay = 0.97;
 
-  // Scroll → мікро-збурення пропорційно дельті
   var lastScrollY = window.scrollY;
   window.addEventListener('scroll', function() {
     var delta = Math.abs(window.scrollY - lastScrollY);
     lastScrollY = window.scrollY;
-    // Імпульс пропорційний швидкості скролу, не більше 0.6
     energy = Math.min(1, energy + delta * 0.005);
     nodes.forEach(function(n) {
       var kick = delta * 0.003;
@@ -2179,7 +2188,6 @@ body.gm-menu-open { overflow: hidden; }
     });
   }, {passive: true});
 
-  // Tap → різкий імпульс з epicenter від тапу
   canvas.addEventListener('touchstart', function(e) {
     energy = 1.0;
     var touch = e.touches[0];
@@ -2188,10 +2196,10 @@ body.gm-menu-open { overflow: hidden; }
     var ty = touch.clientY - rect.top;
     nodes.forEach(function(n) {
       var dx = n.x - tx, dy = n.y - ty;
-      var dist = Math.sqrt(dx*dx + dy*dy) || 1;
-      var force = Math.min(200 / dist, 3.5);
-      n.vx += (dx / dist) * force;
-      n.vy += (dy / dist) * force;
+      var d = Math.sqrt(dx*dx + dy*dy) || 1;
+      var force = Math.min(180 / d, 3.0);
+      n.vx += (dx / d) * force;
+      n.vy += (dy / d) * force;
     });
   }, {passive: true});
 
@@ -2202,40 +2210,33 @@ body.gm-menu-open { overflow: hidden; }
       canvas.width = sec.offsetWidth;
       canvas.height = sec.offsetHeight;
       W = canvas.width; H = canvas.height;
+      core.x = W * 0.5; core.y = H * 0.38;
     }
-
     ctx.clearRect(0, 0, W, H);
 
-    // Energy decay
     energy *= energyDecay;
+    core.pulse += 0.022 + energy * 0.03;
 
+    // Оновлюємо ноди
     nodes.forEach(function(n) {
-      n.pulse += 0.016 + energy * 0.025;
-
-      // Повертаємо до baseSpeed через friction
+      n.pulse += 0.015 + energy * 0.02;
       var speed = Math.sqrt(n.vx*n.vx + n.vy*n.vy);
-      if (speed > n.baseSpeed) {
-        n.vx *= 0.985;
-        n.vy *= 0.985;
-      }
-
-      n.x += n.vx;
-      n.y += n.vy;
-
+      if (speed > n.baseSpeed) { n.vx *= 0.986; n.vy *= 0.986; }
+      n.x += n.vx; n.y += n.vy;
       if (n.x < 0)  { n.x = 0;  n.vx = Math.abs(n.vx); }
       if (n.x > W)  { n.x = W;  n.vx = -Math.abs(n.vx); }
       if (n.y < 0)  { n.y = 0;  n.vy = Math.abs(n.vy); }
       if (n.y > H)  { n.y = H;  n.vy = -Math.abs(n.vy); }
     });
 
-    // Лінії між вузлами
+    // Лінії нода–нода
     for (var a = 0; a < nodes.length; a++) {
       for (var b = a + 1; b < nodes.length; b++) {
         var dx = nodes[a].x - nodes[b].x;
         var dy = nodes[a].y - nodes[b].y;
-        var dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < MAX_DIST) {
-          var alpha = (1 - dist / MAX_DIST) * (0.28 + energy * 0.18);
+        var d = Math.sqrt(dx*dx + dy*dy);
+        if (d < MAX_DIST) {
+          var alpha = (1 - d / MAX_DIST) * (0.22 + energy * 0.15);
           ctx.beginPath();
           ctx.moveTo(nodes[a].x, nodes[a].y);
           ctx.lineTo(nodes[b].x, nodes[b].y);
@@ -2246,26 +2247,65 @@ body.gm-menu-open { overflow: hidden; }
       }
     }
 
-    // Вузли з пульсацією
+    // Лінії нода–ядро (тільки ближні)
     nodes.forEach(function(n) {
-      var glow = (Math.sin(n.pulse) * 0.5 + 0.5);
-      var extraGlow = energy * 0.4;
-      var radius = n.r + (glow + extraGlow) * 1.0;
-      var nodeAlpha = 0.45 + glow * 0.45 + extraGlow * 0.3;
-
-      // Зовнішнє glow-коло при енергії
-      if (energy > 0.1) {
+      var dx = n.x - core.x, dy = n.y - core.y;
+      var d = Math.sqrt(dx*dx + dy*dy);
+      if (d < CORE_DIST) {
+        var alpha = (1 - d / CORE_DIST) * (0.30 + energy * 0.20);
         ctx.beginPath();
-        ctx.arc(n.x, n.y, radius * 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(56,189,248,' + (energy * 0.06) + ')';
+        ctx.moveTo(n.x, n.y);
+        ctx.lineTo(core.x, core.y);
+        ctx.strokeStyle = 'rgba(56,189,248,' + alpha + ')';
+        ctx.lineWidth = 0.6;
+        ctx.stroke();
+      }
+    });
+
+    // Звичайні ноди
+    nodes.forEach(function(n) {
+      var glow = Math.sin(n.pulse) * 0.5 + 0.5;
+      var ex = energy * 0.35;
+      if (ex > 0.05) {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r * 3, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(56,189,248,' + (ex * 0.07) + ')';
         ctx.fill();
       }
-
       ctx.beginPath();
-      ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(56,189,248,' + nodeAlpha + ')';
+      ctx.arc(n.x, n.y, n.r + glow * 0.9, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(56,189,248,' + (0.4 + glow * 0.45 + ex * 0.25) + ')';
       ctx.fill();
     });
+
+    // Центральне ядро — пульсуючі кільця + яскрава крапка
+    var coreGlow = Math.sin(core.pulse) * 0.5 + 0.5;
+    var coreEnergy = coreGlow + energy * 0.5;
+    // Зовнішнє кільце
+    ctx.beginPath();
+    ctx.arc(core.x, core.y, 18 + coreGlow * 8, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(56,189,248,' + (0.08 + coreEnergy * 0.12) + ')';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    // Середнє кільце
+    ctx.beginPath();
+    ctx.arc(core.x, core.y, 9 + coreGlow * 4, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(56,189,248,' + (0.18 + coreEnergy * 0.2) + ')';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    // Центр
+    ctx.beginPath();
+    ctx.arc(core.x, core.y, core.r + coreGlow * 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(56,189,248,' + (0.7 + coreGlow * 0.3) + ')';
+    ctx.fill();
+    // Glow-halo навколо ядра
+    var grad = ctx.createRadialGradient(core.x, core.y, 0, core.x, core.y, 50 + coreGlow * 20);
+    grad.addColorStop(0, 'rgba(56,189,248,' + (0.12 + coreEnergy * 0.1) + ')');
+    grad.addColorStop(1, 'rgba(56,189,248,0)');
+    ctx.beginPath();
+    ctx.arc(core.x, core.y, 50 + coreGlow * 20, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
 
     raf = requestAnimationFrame(draw);
   }
