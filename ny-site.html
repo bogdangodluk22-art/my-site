@@ -635,7 +635,7 @@ body {
 /* ── Language Switcher ── */
 .lang-switcher {
   position: fixed;
-  top: 24px; right: 24px;
+  top: 24px; right: 92px;
   z-index: 1000;
   width: 52px; height: 52px;
   background: rgba(245,242,236,0.92);
@@ -650,17 +650,6 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: none;
-}
-
-@media (max-width: 768px) {
-  .lang-switcher {
-    top: auto;
-    bottom: calc(24px + 44px + 8px); /* під бургером */
-    right: 20px;
-    width: 44px; height: 44px;
-    border-radius: 8px;
-  }
-  .lang-switcher svg { width: 20px; height: 20px; }
 }
 .lang-switcher.gm-visible { opacity: 1; pointer-events: all; }
 .lang-switcher:hover { background: var(--gold); }
@@ -695,17 +684,6 @@ body {
   transition: opacity 0.3s, background 0.35s ease, border-color 0.35s ease;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-}
-
-@media (max-width: 768px) {
-  .gm-burger {
-    top: 24px;
-    right: 20px;
-    width: 44px; height: 44px;
-    border-radius: 8px;
-    padding: 0 11px;
-    gap: 4px;
-  }
 }
 .gm-burger.gm-visible { opacity: 1; pointer-events: all; }
 /* Dark bg hover → gold fill */
@@ -3324,9 +3302,9 @@ body.gm-menu-open { overflow: hidden; }
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom,
-    rgba(0,0,0,0.55) 0%,
-    rgba(0,0,0,0.35) 45%,
-    rgba(0,0,0,0.72) 100%
+    rgba(0,0,0,0.35) 0%,
+    rgba(0,0,0,0.1)  45%,
+    rgba(0,0,0,0.55) 100%
   );
   display: flex;
   align-items: center;
@@ -3362,7 +3340,6 @@ body.gm-menu-open { overflow: hidden; }
   color: #F5F5F0;
   letter-spacing: 0.01em;
   display: block;
-  text-shadow: 0 2px 16px rgba(0,0,0,0.6), 0 1px 4px rgba(0,0,0,0.8);
 }
 .s06-quote em {
   color: var(--gold);
