@@ -659,7 +659,7 @@ body {
   .lang-switcher.gm-open {
     display: flex;
     top: 24px;
-    right: 76px; /* зліва від бургера */
+    right: 72px; /* зліва від бургера (20px right + 44px width + 8px gap) */
     width: 44px; height: 44px;
     border-radius: 8px;
     opacity: 1;
@@ -1035,6 +1035,7 @@ body.gm-menu-open { overflow: hidden; }
   .gm-panel { width: 100vw; border-left: none; }
   .gm-nav-label { font-size: clamp(24px, 7vw, 34px); }
   .gm-burger { top: 18px; right: 18px; }
+  .lang-switcher.gm-open { top: 18px; right: calc(18px + 44px + 8px); }
   .gm-logo-letters { font-size: clamp(44px, 12vw, 64px); }
 }
 </style>
@@ -1734,16 +1735,203 @@ body.gm-menu-open { overflow: hidden; }
   }
   .s02b-cell { border-radius: 0; width: 100%; }
 
-  /* ══ 1. ФАКТИ — самий верх (order 0) ══ */
+  /* ══ 1. ФАКТИ — самий верх (order 0) — ІНЖЕНЕРНА ПАНЕЛЬ ══ */
   .s02b-tr {
     order: 0;
     margin-left: 0;
-    padding: 32px 24px 28px;
-    background: #F2EFE9;
+    padding: 0;
+    background: #F4F4F6;
+    display: block;
+    position: relative;
   }
-  .s02b-sec-label { margin-bottom: 20px; }
-  .s02b-facts { gap: 16px; }
-  .s02b-fact-val { font-size: 15px; }
+
+  /* Grain texture overlay */
+  .s02b-tr::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ══ ІНДЕКС БЛОКУ — верхня лінія + JetBrains Mono ══ */
+  .s02b-sec-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    color: rgba(10,10,15,0.35);
+    text-transform: uppercase;
+    margin-bottom: 0;
+    padding: 20px 24px 18px;
+    background: transparent;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .s02b-sec-label::before {
+    content: '◈';
+    background: none;
+    width: auto;
+    height: auto;
+    color: rgba(10,10,15,0.25);
+    font-size: 9px;
+    flex-shrink: 0;
+  }
+
+  /* ══ ВЕЛИКИЙ ЗАГОЛОВОК СЕКЦІЇ ══ */
+  .s02b-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: #0A0A0F;
+    line-height: 1.0;
+    padding: 8px 24px 36px;
+    position: relative;
+    z-index: 1;
+  }
+  .s02b-headline span {
+    display: block;
+    font-size: 28px;
+    letter-spacing: 0.06em;
+    color: rgba(10,10,15,0.55);
+  }
+
+  /* ══ ІНЖЕНЕРНА СІТКА КОМІРОК ══ */
+  .s02b-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: transparent;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Ряд 1: дві рівні комірки */
+  .s02b-facts-row-1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: transparent;
+  }
+
+  /* Ряд 2: одна широка комірка */
+  .s02b-facts-row-2 {
+    background: transparent;
+  }
+
+  /* Ряд 3: дві комірки */
+  .s02b-facts-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    background: transparent;
+  }
+
+  /* Кожна комірка — розділена лінією */
+  .s02b-facts > div,
+  .s02b-facts-row-1 > div,
+  .s02b-facts-row-2 > div,
+  .s02b-facts-row-3 > div {
+    background: transparent;
+    padding: 22px 24px 24px;
+    position: relative;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+
+  /* Вертикальний роздільник між колонками */
+  .s02b-facts-row-1 > div:first-child,
+  .s02b-facts-row-3 > div:first-child {
+    border-right: 1px solid rgba(0,0,0,0.08);
+  }
+
+  /* Картки без фонів */
+  .s02b-card-approach,
+  .s02b-card-stack {
+    background: transparent !important;
+  }
+
+  /* Ключ — мікро-лейбл зверху, технічний */
+  .s02b-fact-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.30em;
+    color: rgba(10,10,15,0.35);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
+  }
+  /* Дужки навколо ключа */
+  .s02b-fact-key::before { content: '[ '; }
+  .s02b-fact-key::after  { content: ' ]'; }
+
+  /* Значення — чіткий темний текст */
+  .s02b-fact-val {
+    font-family: 'Outfit', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #0A0A0F;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    display: block;
+  }
+
+  /* Роль — трохи крупніше */
+  .s02b-card-role .s02b-fact-val {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0A0A0F;
+    background: none;
+    -webkit-text-fill-color: #0A0A0F;
+    line-height: 1.3;
+  }
+
+  /* Підхід — акцентний */
+  .s02b-card-approach .s02b-fact-val {
+    font-size: 20px;
+    color: #0A0A0F;
+    font-weight: 700;
+  }
+  .s02b-card-approach .s02b-fact-val em {
+    font-style: normal;
+    color: #0A0A0F;
+  }
+
+  /* Продукт */
+  .s02b-card-product .s02b-fact-val {
+    font-size: 15px;
+    color: rgba(10,10,15,0.75);
+  }
+
+  /* Стек — монопростір, термінальний стиль */
+  .s02b-card-stack .s02b-fact-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(10,10,15,0.6);
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+  }
+
+  /* Бренд */
+  .s02b-card-brand .s02b-fact-val {
+    font-size: 16px;
+    color: rgba(10,10,15,0.75);
+  }
+
+  /* Прибираємо декоративні лінії з попереднього варіанту */
+  .s02b-facts-row-1 > div::before,
+  .s02b-facts-row-2 > div::before,
+  .s02b-facts-row-3 > div::before {
+    display: none;
+  }
+  .s02b-card-role::before { display: none !important; }
 
   /* ══ 2. ФОТО-БЛОК — по середині (order 1) ══ */
   .s02b-photo-wrap {
@@ -1819,27 +2007,40 @@ body.gm-menu-open { overflow: hidden; }
 
     <!-- ↗ Факти (на мобільному — order:0, першим) -->
     <div class="s02b-cell s02b-tr js-s02b-cell">
-      <p class="s02b-sec-label" data-i18n="about.sec.label">02 · Про мене</p>
+      <p class="s02b-sec-label" data-i18n="about.sec.label">01 / SYSTEM_PROFILE</p>
+      <div class="s02b-headline">
+        AI ARCHITECT
+        <span>FOUNDER · BUILDER</span>
+      </div>
       <div class="s02b-facts">
-        <div>
-          <span class="s02b-fact-key">Роль</span>
-          <span class="s02b-fact-val" data-i18n="about.role">AI Architect · Founder · Builder</span>
+        <!-- Ряд 1: Роль + Продукт -->
+        <div class="s02b-facts-row-1">
+          <div class="s02b-card-role">
+            <span class="s02b-fact-key">ROLE</span>
+            <span class="s02b-fact-val" data-i18n="about.role">AI Architect · Founder · Builder</span>
+          </div>
+          <div class="s02b-card-product">
+            <span class="s02b-fact-key">THE_PRODUCT</span>
+            <span class="s02b-fact-val" data-i18n="about.product">Живий. Задеплоєний. З меседжем.</span>
+          </div>
         </div>
-        <div>
-          <span class="s02b-fact-key">Підхід</span>
-          <span class="s02b-fact-val" data-i18n="about.approach">Не прототип — повноцінна система</span>
+        <!-- Ряд 2: Підхід — широкий -->
+        <div class="s02b-facts-row-2">
+          <div class="s02b-card-approach">
+            <span class="s02b-fact-key">APPROACH</span>
+            <span class="s02b-fact-val" data-i18n="about.approach">Не прототип —<br><em>повноцінна система</em></span>
+          </div>
         </div>
-        <div>
-          <span class="s02b-fact-key">Продукт</span>
-          <span class="s02b-fact-val" data-i18n="about.product">Живий, задеплоєний, з меседжем</span>
-        </div>
-        <div>
-          <span class="s02b-fact-key">Стек</span>
-          <span class="s02b-fact-val">n8n · GPT-4o · Babylon.js · Supabase</span>
-        </div>
-        <div>
-          <span class="s02b-fact-key">Бренд</span>
-          <span class="s02b-fact-val" data-i18n="about.brand">BWA — Built with AI</span>
+        <!-- Ряд 3: Стек + Бренд -->
+        <div class="s02b-facts-row-3">
+          <div class="s02b-card-stack">
+            <span class="s02b-fact-key">CORE_STACK.LOG</span>
+            <span class="s02b-fact-val">n8n · GPT-4o<br>Babylon.js · Supabase<br>Telegram API</span>
+          </div>
+          <div class="s02b-card-brand">
+            <span class="s02b-fact-key">ECOSYSTEM</span>
+            <span class="s02b-fact-val" data-i18n="about.brand">BWA — Built with AI</span>
+          </div>
         </div>
       </div>
     </div>
@@ -6227,8 +6428,8 @@ const i18n = {
     'about.fullname':  'Богдан Годлюк',
     'about.badge':  '◈ &nbsp;ПРО МЕНЕ',
     'about.role':    'AI Architect · Founder · Builder',
-    'about.approach':'Не прототип — повноцінна система',
-    'about.product': 'Живий, задеплоєний, з меседжем',
+    'about.approach':'Не прототип —<br><em>повноцінна система</em>',
+    'about.product': 'Живий. Задеплоєний. З меседжем.',
     'about.brand':   'BWA — Built with AI',
     'about.quote':   'Кожен проект — це не демо.<br>Це система що живе, продає<br>і росте разом з бізнесом.<br><br>Моє головне правило — якщо це не можна запустити і показати клієнту, це не готово.',
     'about.rule':    'Моє головне правило — якщо це не можна запустити і показати клієнту, це не готово.',
@@ -6419,8 +6620,8 @@ const i18n = {
     'about.fullname':  'Bohdan Hodliuk',
     'about.badge':  '◈ &nbsp;ABOUT ME',
     'about.role':    'AI Architect · Founder · Builder',
-    'about.approach':'Not a prototype — a full system',
-    'about.product': 'Live, deployed, with a message',
+    'about.approach':'Not a prototype —<br><em>a full system</em>',
+    'about.product': 'Live. Deployed. With a message.',
     'about.brand':   'BWA — Built with AI',
     'about.quote':   'Every project is not a demo.<br>It\'s a system that lives, sells<br>and grows with the business.<br><br>My main rule — if it can\'t be launched and shown to a client, it\'s not ready.',
     'about.rule':    'My main rule — if it can\'t be launched and shown to a client, it\'s not ready.',
