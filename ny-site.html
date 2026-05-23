@@ -1158,6 +1158,7 @@ body.gm-menu-open { overflow: hidden; }
 
   // ── Light sections ──
   const lightSectionIds     = ['comparison', 'journey', 'faq', 'contact'];
+  const lightSectionDesktop = ['about-desktop']; // light only on desktop (861px+)
   const lightSectionClasses = [];
 
   function updateBurgerTheme() {
@@ -1172,11 +1173,12 @@ body.gm-menu-open { overflow: hidden; }
       if (r.top <= bMid && r.bottom >= bMid) isLight = true;
     });
 
-    lightSectionClasses.forEach(cls => {
-      document.querySelectorAll('.' + cls).forEach(el => {
-        const r = el.getBoundingClientRect();
-        if (r.top <= bMid && r.bottom >= bMid) isLight = true;
-      });
+    lightSectionDesktop.forEach(id => {
+      if (window.innerWidth < 861) return;
+      const el = document.getElementById(id);
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      if (r.top <= bMid && r.bottom >= bMid) isLight = true;
     });
 
     burger.classList.toggle('gm-light', isLight);
@@ -2236,7 +2238,7 @@ body.gm-menu-open { overflow: hidden; }
 }
 </style>
 
-<section class="s02b">
+<section class="s02b" id="about-desktop">
 
   <!-- Babylon.js node-мережа — фонова анімація -->
   <canvas id="s02b-canvas"></canvas>
@@ -6092,7 +6094,7 @@ function render() {
   ];
   const bizLabel = s08.querySelector('.js-s08-biz-label');
 
-  function getNodeLabels() {
+  window.getNodeLabels = function() {
     const d = (typeof i18n !== 'undefined' && typeof currentLang !== 'undefined') ? i18n[currentLang] : null;
     return d ? [
       (d['svc.n1.title'] || '').replace('<br>',' '),
