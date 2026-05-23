@@ -1158,7 +1158,7 @@ body.gm-menu-open { overflow: hidden; }
 
   // ── Light sections ──
   const lightSectionIds     = ['comparison', 'journey', 'faq', 'contact'];
-  const lightSectionClasses = ['s02b'];
+  const lightSectionClasses = [];
 
   function updateBurgerTheme() {
     if (overlay.classList.contains('gm-open')) return;
@@ -1548,180 +1548,162 @@ body.gm-menu-open { overflow: hidden; }
 </script>
 
 
-<!-- ══════════════════════════════════════
-     SECTION 02B — EDITORIAL: PHOTO + CARDS
-══════════════════════════════════════ -->
 
 <!-- ══════════════════════════════════════
-     SECTION 02B — NEW LAYOUT
-     Left: big vertical photo + name overlay
-     Right: 2×2 MeetHR-style cards
-     Bottom: full-width quote
+     SECTION 02B — AI CORE TERMINAL
 ══════════════════════════════════════ -->
 <style>
 /* ════════════════════════════════════════
-   S02B — ПРО МЕНЕ
+   S02B — AI CORE TERMINAL
 ════════════════════════════════════════ */
 .s02b {
-  background: #E6E0D7;
+  background: #07080F;
   position: relative;
   overflow: hidden;
-  height: 120vh;
-  min-height: 800px;
 }
 
-/* 2×2 grid з відступами — padding на весь розділ */
+/* ── Canvas для Babylon.js node-мережі ── */
+#s02b-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+/* ── Весь контент поверх canvas ── */
+.s02b-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Десктоп: сітка 2×2 ── */
 .s02b-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  height: 100%;
-  padding: 32px;
-  gap: 16px;
-  box-sizing: border-box;
+  height: 120vh;
+  min-height: 800px;
 }
 
-/* На десктопі projects-row розпадається назад в grid */
 @media (min-width: 861px) {
-  .s02b-projects-row {
-    display: contents; /* діти стають прямими grid-items */
-  }
+  .s02b-projects-row { display: contents; }
   .s02b-tr { order: 0; grid-column: 2; grid-row: 1; }
   .s02b-bl { order: 0; grid-column: 1; grid-row: 2; }
   .s02b-tl { order: 0; grid-column: 1; grid-row: 1; }
   .s02b-br { order: 0; grid-column: 2; grid-row: 2; }
 }
 
-/* ── Спільні стилі клітинок ── */
 .s02b-cell {
-  border-radius: 12px;
+  border-radius: 0;
   overflow: hidden;
   position: relative;
   opacity: 0;
   transition: opacity 0.7s ease;
 }
 .s02b-cell.s02b-vis { opacity: 1; }
-.s02b-cell:nth-child(1) { transition-delay: 0.0s; }
-.s02b-cell:nth-child(2) { transition-delay: 0.1s; }
-.s02b-cell:nth-child(3) { transition-delay: 0.2s; }
-.s02b-cell:nth-child(4) { transition-delay: 0.3s; }
 
-/* ── Верхній лівий: AutoSmart ── */
+/* Десктоп фото-проекти */
 .s02b-tl img, .s02b-br img {
   width: 100%; height: 100%;
   object-fit: cover; object-position: center top;
-  display: block; transition: transform 0.6s ease;
+  display: block;
 }
-.s02b-tl:hover img, .s02b-br:hover img { transform: scale(1.03); }
 .s02b-proj-overlay {
   position: absolute; bottom: 0; left: 0; right: 0;
   padding: 48px 28px 22px;
   background: linear-gradient(to top, rgba(4,4,8,0.88) 0%, transparent 100%);
 }
-.s02b-proj-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 22px; letter-spacing: 0.12em;
-  color: #fff; display: block; margin-bottom: 4px;
-}
-.s02b-proj-tag {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 0.18em;
-  color: rgba(201,168,76,0.85); text-transform: uppercase;
-}
 
-/* ── Верхній правий: факти ── */
+/* Десктоп: правий блок фактів */
 .s02b-tr {
-  background: #F2EFE9;
-  padding: clamp(32px,4vh,52px) clamp(28px,3vw,44px) clamp(32px,4vh,52px) clamp(44px,5vw,72px);
+  background: rgba(10,12,24,0.6);
+  backdrop-filter: blur(12px);
+  border-left: 1px solid rgba(56,189,248,0.08);
+  padding: clamp(32px,4vh,52px) clamp(28px,3vw,44px);
   display: flex; flex-direction: column; justify-content: center;
-  margin-left: 8%;
 }
 .s02b-sec-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; letter-spacing: 0.28em;
-  color: #0A0A0F; text-transform: uppercase;
+  color: rgba(56,189,248,0.6); text-transform: uppercase;
   display: flex; align-items: center; gap: 12px;
   margin-bottom: 32px;
 }
 .s02b-sec-label::before {
   content: ''; width: 28px; height: 1px;
-  background: #0A0A0F; flex-shrink: 0;
+  background: rgba(56,189,248,0.4); flex-shrink: 0;
 }
 .s02b-facts { display: flex; flex-direction: column; gap: 22px; }
 .s02b-fact-key {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px; letter-spacing: 0.22em;
-  color: rgba(10,10,15,0.4); text-transform: uppercase;
+  color: rgba(56,189,248,0.45); text-transform: uppercase;
   display: block; margin-bottom: 4px;
 }
 .s02b-fact-val {
   font-family: 'Outfit', sans-serif;
   font-size: clamp(14px,1.3vw,17px); font-weight: 500;
-  color: #0A0A0F; line-height: 1.35;
+  color: #E8EAF0; line-height: 1.35;
 }
 
-/* ── Нижній лівий: цитата ── */
+/* Десктоп: цитата */
 .s02b-bl {
-  background: #EAE5DC;
+  background: rgba(7,8,15,0.7);
   padding: clamp(36px,5vh,64px) clamp(32px,3vw,52px);
   display: flex; flex-direction: column; justify-content: flex-end;
+  border-top: 1px solid rgba(56,189,248,0.08);
 }
 .s02b-quote {
   font-family: 'Cormorant Garamond', Georgia, serif;
   font-size: clamp(19px,1.8vw,26px); font-weight: 300; font-style: italic;
-  color: #0A0A0F; line-height: 1.65;
-  border-left: 2px solid #0A0A0F; padding-left: 20px;
+  color: #C8CAD4; line-height: 1.65;
+  border-left: 1px solid rgba(56,189,248,0.5); padding-left: 20px;
   margin-bottom: 20px;
 }
 .s02b-quote-by {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px; letter-spacing: 0.22em;
-  color: rgba(10,10,15,0.65); text-transform: uppercase;
+  color: rgba(56,189,248,0.5); text-transform: uppercase;
   padding-left: 22px;
 }
 
-/* ── Нижній правий: ARCA ── */
-/* (uses same .s02b-br with img styles above) */
-
-/* ── ФОТО — абсолютне, центр, повна висота секції ── */
+/* ── Фото Богдана ── */
 .s02b-photo-wrap {
   position: absolute;
-  bottom: 0;
-  left: 50%;
+  bottom: 0; left: 50%;
   transform: translateX(-50%);
-  height: 100%;
-  width: auto;
-  z-index: 10;
-  pointer-events: none;
+  height: 100%; width: auto;
+  z-index: 3; pointer-events: none;
   opacity: 0;
   transition: opacity 0.9s ease 0.15s;
 }
 .s02b-photo-wrap.s02b-vis { opacity: 1; }
-.s02b-photo-wrap img {
-  height: 100%;
-  width: auto;
-  object-fit: contain;
-  object-position: bottom center;
+.s02b-photo-wrap > img {
+  height: 100%; width: auto;
+  object-fit: contain; object-position: bottom center;
   display: block;
 }
 
-/* Вертикальний підпис */
 .s02b-vname {
-  position: absolute;
-  top: 50%;
+  position: absolute; top: 50%;
   left: calc(50% - 240px);
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: center center;
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px; letter-spacing: 0.35em;
-  color: rgba(10,10,15,0.18); text-transform: uppercase;
-  white-space: nowrap; z-index: 11;
+  color: rgba(56,189,248,0.12); text-transform: uppercase;
+  white-space: nowrap; z-index: 4;
 }
 
-/* Фони проектів всередині photo-wrap — десктоп: приховані */
 .s02b-proj-bg { display: none; }
 
+/* ════════════════════════════════════════
+   МОБІЛЬНА ВЕРСІЯ — AI CORE TERMINAL
+════════════════════════════════════════ */
 @media (max-width: 860px) {
+
   .s02b {
     height: auto;
     overflow: visible;
@@ -1729,97 +1711,96 @@ body.gm-menu-open { overflow: hidden; }
     flex-direction: column;
   }
 
-  /* Grid → flex-колонка, order:0 (факти) і order:2 (цитата) всередині */
-  .s02b-grid {
-    display: contents; /* діти виходять назовні в flex s02b */
-  }
+  .s02b-grid { display: contents; }
   .s02b-cell { border-radius: 0; width: 100%; }
 
-  /* ══════════════════════════════════════
-     МОБІЛЬНИЙ БЛОК ФАКТІВ — ІНЖЕНЕРНА ПАНЕЛЬ v3
-     Вертикальна сітка: лінія → тег → текст → лінія
-  ══════════════════════════════════════ */
+  /* ── Canvas на мобілці — лише у facts блоці ── */
+  #s02b-canvas { opacity: 0.4; }
 
-  /* Обгортка всього блоку — світлий інженерний фон */
+  /* ══ 1. FACTS BLOCK — AI TERMINAL ══ */
   .s02b-tr {
     order: 0;
-    margin-left: 0;
     padding: 0;
-    background: #F2F2F4;
+    background: #07080F;
     display: block;
     position: relative;
-    overflow: hidden;
+    border-left: none;
+    backdrop-filter: none;
   }
 
-  /* Grain поверх фону */
-  .s02b-tr::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-    opacity: 0.045;
-    pointer-events: none;
-    z-index: 2;
-  }
-
-  /* ── Лейбл секції: верхня лінія + ◈ 01 / SYSTEM_PROFILE ── */
+  /* ── MODULE HEADER ── */
   .s02b-sec-label {
-    font-family: 'JetBrains Mono', monospace;
     font-size: 8.5px;
-    letter-spacing: 0.28em;
-    color: rgba(10,10,15,0.32);
-    text-transform: uppercase;
-    padding: 18px 24px 16px;
-    border-top: 1px solid rgba(0,0,0,0.10);
-    border-bottom: none;
-    background: transparent;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    letter-spacing: 0.30em;
+    color: rgba(56,189,248,0.55);
+    padding: 22px 24px 0;
     margin-bottom: 0;
-    position: relative;
-    z-index: 3;
+    border-bottom: none;
+    display: flex; align-items: center; gap: 10px;
   }
   .s02b-sec-label::before {
     content: '◈';
-    background: none;
-    width: auto; height: auto;
-    color: rgba(10,10,15,0.22);
-    font-size: 9px;
-    flex-shrink: 0;
+    background: none; width: auto; height: auto;
+    color: rgba(56,189,248,0.4);
+    font-size: 10px; flex-shrink: 0;
   }
 
-  /* ── Великий заголовок секції ── */
+  /* ── Заголовок ── */
   .s02b-headline {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
+    font-size: 48px;
     font-weight: 400;
     letter-spacing: 0.03em;
-    color: #0C0C10;
+    color: #E8EAF6;
     line-height: 0.95;
-    padding: 20px 24px 32px;
-    position: relative;
-    z-index: 3;
+    padding: 16px 24px 10px;
+    position: relative; z-index: 3;
   }
-  .s02b-headline span {
+  .s02b-headline-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: rgba(56,189,248,0.6);
+    padding: 0 24px 28px;
     display: block;
-    font-size: 30px;
-    letter-spacing: 0.05em;
-    color: rgba(12,12,16,0.45);
-    margin-top: 4px;
+    text-transform: uppercase;
+    position: relative; z-index: 3;
+  }
+  /* Пульсуючий статус-dot */
+  .s02b-headline-sub::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #38BDF8;
+    margin-right: 8px;
+    vertical-align: middle;
+    box-shadow: 0 0 8px rgba(56,189,248,0.8);
+    animation: s02b-pulse 2s ease-in-out infinite;
+  }
+  @keyframes s02b-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(56,189,248,0.8); }
+    50%       { opacity: 0.4; box-shadow: 0 0 3px rgba(56,189,248,0.3); }
   }
 
-  /* ── Контейнер комірок: чиста вертикальна колонка ── */
+  /* ── Розділювач перед шарами ── */
+  .s02b-divider-top {
+    height: 1px;
+    background: linear-gradient(to right, rgba(56,189,248,0.25), rgba(56,189,248,0.05) 70%, transparent);
+    margin: 0 24px;
+    position: relative; z-index: 3;
+  }
+
+  /* ── Шари системи ── */
   .s02b-facts {
     display: flex;
     flex-direction: column;
     gap: 0;
     background: transparent;
-    position: relative;
-    z-index: 3;
+    position: relative; z-index: 3;
   }
 
-  /* Рядки-обгортки — скидаємо в flex-column, нічого більше */
+  /* Скидаємо row-обгортки */
   .s02b-facts-row-1,
   .s02b-facts-row-2,
   .s02b-facts-row-3 {
@@ -1829,226 +1810,248 @@ body.gm-menu-open { overflow: hidden; }
     background: transparent;
   }
 
-  /* ── Кожна комірка ── */
+  /* Кожен шар */
   .s02b-facts > div,
   .s02b-facts-row-1 > div,
   .s02b-facts-row-2 > div,
   .s02b-facts-row-3 > div,
+  .s02b-card-role,
   .s02b-card-approach,
-  .s02b-card-stack {
+  .s02b-card-product,
+  .s02b-card-stack,
+  .s02b-card-brand {
     background: transparent !important;
-    padding: 20px 24px 22px;
-    border-top: 1px solid rgba(0,0,0,0.09);
+    padding: 20px 24px 20px;
+    border-top: 1px solid rgba(56,189,248,0.10);
     border-bottom: none;
-    border-right: none;
     border-left: none;
+    border-right: none;
     position: relative;
   }
 
-  /* ── Мікро-тег [ TAG ] ── */
+  /* Номер шару + назва — ліворуч у рядок */
   .s02b-fact-key {
     font-family: 'JetBrains Mono', monospace;
     font-size: 8px;
     letter-spacing: 0.26em;
-    color: rgba(10,10,15,0.30);
+    color: rgba(56,189,248,0.45);
     text-transform: uppercase;
-    display: block;
-    margin-bottom: 9px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
     white-space: nowrap;
   }
-  .s02b-fact-key::before { content: '[ '; }
-  .s02b-fact-key::after  { content: ' ]'; }
+  .s02b-fact-key::before { content: none; }
+  .s02b-fact-key::after  { content: none; }
 
-  /* ── Значення — великий, чіткий, чорний ── */
+  /* Статус-бейдж праворуч у рядок ключа */
+  .s02b-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.5px;
+    letter-spacing: 0.18em;
+    color: rgba(56,189,248,0.7);
+    border: 1px solid rgba(56,189,248,0.25);
+    padding: 2px 7px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    box-shadow: 0 0 8px rgba(56,189,248,0.08);
+    white-space: nowrap;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* Основний текст шару */
   .s02b-fact-val {
     font-family: 'Outfit', sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 700;
-    color: #0C0C10;
+    color: #E8EAF6;
     line-height: 1.15;
     letter-spacing: -0.01em;
     display: block;
     background: none !important;
-    -webkit-text-fill-color: #0C0C10 !important;
+    -webkit-text-fill-color: #E8EAF6 !important;
   }
 
-  /* Роль — трохи менше, щільно */
-  .s02b-card-role .s02b-fact-val {
-    font-size: 20px;
-    line-height: 1.2;
-  }
-
-  /* Підхід — найбільший акцент */
-  .s02b-card-approach .s02b-fact-val {
-    font-size: 24px;
-  }
-  .s02b-card-approach .s02b-fact-val em {
-    font-style: normal;
-    color: #0C0C10;
-    -webkit-text-fill-color: #0C0C10 !important;
-  }
-
-  /* Продукт */
-  .s02b-card-product .s02b-fact-val {
-    font-size: 20px;
-    color: rgba(12,12,16,0.72);
-    -webkit-text-fill-color: rgba(12,12,16,0.72) !important;
-  }
-
-  /* Стек — монопростір, термінальний */
-  .s02b-card-stack .s02b-fact-val {
-    font-family: 'JetBrains Mono', monospace;
+  /* Підзаголовок під значенням */
+  .s02b-fact-desc {
+    font-family: 'Outfit', sans-serif;
     font-size: 13px;
     font-weight: 400;
-    color: rgba(12,12,16,0.55);
-    -webkit-text-fill-color: rgba(12,12,16,0.55) !important;
+    color: rgba(232,234,246,0.4);
+    line-height: 1.5;
+    margin-top: 7px;
+    display: block;
+  }
+
+  /* Шар 01: Роль — без особливостей */
+
+  /* Шар 02: Підхід — акцент */
+  .s02b-card-approach .s02b-fact-val {
+    font-size: 22px;
+    background: linear-gradient(90deg, #E8EAF6 0%, #7DD3FC 100%) !important;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text;
+  }
+  .s02b-card-approach .s02b-fact-val em { font-style: normal; }
+
+  /* Шар 03: Продукт */
+  .s02b-card-product .s02b-fact-val {
+    font-size: 19px;
+    color: rgba(232,234,246,0.85);
+    -webkit-text-fill-color: rgba(232,234,246,0.85) !important;
+  }
+
+  /* Шар 04: Стек — термінал */
+  .s02b-card-stack .s02b-fact-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(125,211,252,0.75);
+    -webkit-text-fill-color: rgba(125,211,252,0.75) !important;
     line-height: 2.0;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
   }
 
-  /* Бренд */
+  /* Шар 05: Бренд */
   .s02b-card-brand .s02b-fact-val {
-    font-size: 20px;
-    color: rgba(12,12,16,0.70);
-    -webkit-text-fill-color: rgba(12,12,16,0.70) !important;
+    font-size: 19px;
+    color: rgba(232,234,246,0.75);
+    -webkit-text-fill-color: rgba(232,234,246,0.75) !important;
   }
 
-  /* Скидаємо всі старі декоративні ::before */
+  /* Скидаємо старі ::before ліній */
   .s02b-facts-row-1 > div::before,
   .s02b-facts-row-2 > div::before,
   .s02b-facts-row-3 > div::before,
-  .s02b-card-role::before {
-    display: none !important;
-  }
+  .s02b-card-role::before { display: none !important; }
 
-  /* ══ 2. ФОТО-БЛОК — по середині (order 1) ══ */
+  /* ══ 2. ФОТО-БЛОК ══ */
   .s02b-photo-wrap {
     order: 1;
     position: relative;
     left: auto; bottom: auto; transform: none;
-    width: 100%;
-    height: 115vw;
+    width: 100%; height: 115vw;
     max-height: 540px;
     opacity: 1 !important;
     overflow: hidden;
-    background: #E6E0D7;
-    display: flex;
-    flex-direction: column;
+    background: #07080F;
+    display: flex; flex-direction: column;
   }
 
-  /* Дві горизонтальні смуги — AutoSmart зверху, ARCA знизу */
   .s02b-proj-bg {
     display: block;
     position: absolute;
     left: 0; right: 0;
-    width: 100%;
-    height: 50%;
-    overflow: hidden;
-    opacity: 0.92;
+    width: 100%; height: 50%;
+    overflow: hidden; opacity: 0.85;
   }
   .s02b-proj-bg img {
     width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center top;
+    object-fit: cover; object-position: center top;
     display: block;
   }
   .s02b-proj-bg.proj-tl { top: 0; }
   .s02b-proj-bg.proj-br { bottom: 0; }
-  /* Тонкий роздільник між смугами */
   .s02b-proj-bg.proj-br::before {
     content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: rgba(230,224,215,0.4);
-    z-index: 1;
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px; background: rgba(7,8,15,0.6); z-index: 1;
   }
 
-  /* Фото Богдана — поверх смуг, по центру знизу */
   .s02b-photo-wrap > img {
     position: absolute;
     bottom: 0; left: 50%;
     transform: translateX(-50%);
-    height: 108%;
-    width: auto;
-    object-fit: contain;
-    object-position: bottom center;
+    height: 108%; width: auto;
+    object-fit: contain; object-position: bottom center;
     z-index: 2;
   }
 
-  /* ══ 3. ЦИТАТА — знизу (order 2) ══ */
+  /* ══ 3. ЦИТАТА ══ */
   .s02b-bl {
     order: 2;
     padding: 28px 24px 36px;
-    background: #EAE5DC;
+    background: #07080F;
+    border-top: 1px solid rgba(56,189,248,0.08);
   }
-  .s02b-quote { font-size: 17px; line-height: 1.6; }
+  .s02b-quote {
+    font-size: 17px; line-height: 1.6;
+    color: rgba(232,234,246,0.75);
+    border-left-color: rgba(56,189,248,0.4);
+  }
+  .s02b-quote-by { color: rgba(56,189,248,0.45); }
 
-  /* Окремий рядок проектів — ховаємо */
   .s02b-projects-row { display: none; }
+  .s02b-vname { display: none; }
 }
 </style>
 
 <section class="s02b">
 
-  <div class="s02b-grid">
+  <!-- Babylon.js node-мережа — фонова анімація -->
+  <canvas id="s02b-canvas"></canvas>
 
-    <!-- ↗ Факти (на мобільному — order:0, першим) -->
+  <div class="s02b-grid s02b-content">
+
+    <!-- FACTS BLOCK -->
     <div class="s02b-cell s02b-tr js-s02b-cell">
-      <p class="s02b-sec-label" data-i18n="about.sec.label">01 / SYSTEM_PROFILE</p>
-      <div class="s02b-headline">
-        AI ARCHITECT
-        <span>FOUNDER · BUILDER</span>
-      </div>
+      <p class="s02b-sec-label">MODULE_01 // CORE_ARCHITECT</p>
+      <div class="s02b-headline">BOHDAN<br>HODLIUK</div>
+      <span class="s02b-headline-sub">SYSTEM INITIALIZATION — ACTIVE</span>
+      <div class="s02b-divider-top"></div>
       <div class="s02b-facts">
-        <!-- Комірка 1: Роль -->
+
+        <!-- Шар 01 -->
         <div class="s02b-facts-row-1">
           <div class="s02b-card-role">
-            <span class="s02b-fact-key">SYSTEM_ROLE</span>
-            <span class="s02b-fact-val" data-i18n="about.role">AI Architect · Founder · Builder</span>
+            <span class="s02b-fact-key">
+              01 // SYSTEM_ROLE
+              <span class="s02b-status">OPERATIONAL</span>
+            </span>
+            <span class="s02b-fact-val">AI Architect · Founder · Builder</span>
+            <span class="s02b-fact-desc">Проектую автономні системи, які керують бізнес-процесами без людського фактора.</span>
           </div>
         </div>
-        <!-- Комірка 2: Підхід -->
+
+        <!-- Шар 02 -->
         <div class="s02b-facts-row-2">
           <div class="s02b-card-approach">
-            <span class="s02b-fact-key">APPROACH</span>
-            <span class="s02b-fact-val" data-i18n="about.approach">Не прототип —<br><em>повноцінна система</em></span>
+            <span class="s02b-fact-key">
+              02 // PHILOSOPHY
+              <span class="s02b-status">PRODUCTION_READY</span>
+            </span>
+            <span class="s02b-fact-val">Не прототип —<br><em>повноцінна система</em></span>
+            <span class="s02b-fact-desc">Guard-логіка, пам'ять між сесіями, преміальна візуальна обгортка.</span>
           </div>
         </div>
-        <!-- Комірка 3: Продукт -->
-        <div class="s02b-facts-row-2">
-          <div class="s02b-card-product">
-            <span class="s02b-fact-key">THE_PRODUCT</span>
-            <span class="s02b-fact-val" data-i18n="about.product">Живий. Задеплоєний. З меседжем.</span>
-          </div>
-        </div>
-        <!-- Комірка 4: Стек -->
+
+        <!-- Шар 03 -->
         <div class="s02b-facts-row-3">
           <div class="s02b-card-stack">
-            <span class="s02b-fact-key">CORE_STACK.LOG</span>
-            <span class="s02b-fact-val">n8n · GPT-4o · Supabase · Babylon.js · Telegram API</span>
+            <span class="s02b-fact-key">
+              03 // TECH_STACK
+              <span class="s02b-status">ECOSYSTEM: BWA</span>
+            </span>
+            <span class="s02b-fact-val">n8n · GPT-4o · Supabase<br>Babylon.js · Telegram API</span>
           </div>
         </div>
-        <!-- Комірка 5: Бренд -->
-        <div class="s02b-facts-row-3">
-          <div class="s02b-card-brand">
-            <span class="s02b-fact-key">ECOSYSTEM</span>
-            <span class="s02b-fact-val" data-i18n="about.brand">BWA — Built with AI</span>
-          </div>
-        </div>
+
       </div>
     </div>
 
-    <!-- Цитата (на мобільному — order:2, останньою) -->
+    <!-- ЦИТАТА -->
     <div class="s02b-cell s02b-bl js-s02b-cell">
-      <blockquote class="s02b-quote" data-i18n="about.quote">
+      <blockquote class="s02b-quote">
         Кожен проект — це не демо.<br>Це система що живе, продає<br>і росте разом з бізнесом.<br><br>
         Моє головне правило — якщо це не можна запустити і показати клієнту, це не готово.
       </blockquote>
-      <span class="s02b-quote-by" data-i18n="about.name">— Богдан Годлюк · AI Architect</span>
+      <span class="s02b-quote-by">— Богдан Годлюк · AI Architect</span>
     </div>
 
-    <!-- Десктоп: два фото проектів в grid -->
+    <!-- Десктоп: фото-проекти -->
     <div class="s02b-projects-row">
       <div class="s02b-cell s02b-tl js-s02b-cell">
         <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/AutoSmart-preview.png" alt="AutoSmart"/>
@@ -2062,24 +2065,148 @@ body.gm-menu-open { overflow: hidden; }
 
   </div>
 
-  <!-- Фото Богдана — десктоп: абсолютне по центру; мобільний: order:1 між фактами і цитатою -->
+  <!-- Фото Богдана -->
   <div class="s02b-photo-wrap js-s02b-photo">
-    <!-- Мобільний фон: AutoSmart зверху -->
     <div class="s02b-proj-bg proj-tl">
       <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/AutoSmart-preview.png" alt=""/>
     </div>
-    <!-- Мобільний фон: ARCA знизу -->
     <div class="s02b-proj-bg proj-br">
       <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/ARCA-preview.png" alt=""/>
     </div>
-    <!-- Фото -->
     <img src="https://raw.githubusercontent.com/bogdangodluk22-art/my-site/main/Bohdan-BG.png" alt="Богдан Годлюк"/>
   </div>
-  <span class="s02b-vname" data-i18n="about.vname">Богдан Годлюк · AI Architect</span>
+  <span class="s02b-vname">Богдан Годлюк · AI Architect</span>
 
 </section>
 
 <script>
+/* ── Babylon.js Node Network ── */
+(function(){
+  var canvas = document.getElementById('s02b-canvas');
+  if (!canvas) return;
+
+  // Resize canvas
+  function resizeCanvas() {
+    var section = canvas.parentElement;
+    canvas.width  = section.offsetWidth;
+    canvas.height = section.offsetHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+
+  // Nodes
+  var NODE_COUNT = window.innerWidth < 861 ? 28 : 50;
+  var nodes = [];
+  for (var i = 0; i < NODE_COUNT; i++) {
+    nodes.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      r: Math.random() * 1.5 + 0.8,
+      pulse: Math.random() * Math.PI * 2
+    });
+  }
+
+  var MAX_DIST = window.innerWidth < 861 ? 100 : 140;
+  var scrollY = 0;
+  var tapped = false;
+  var tapTimer = 0;
+
+  // Scroll / tap reactivity
+  window.addEventListener('scroll', function() {
+    scrollY = window.scrollY;
+    nodes.forEach(function(n) {
+      n.vx += (Math.random() - 0.5) * 0.4;
+      n.vy += (Math.random() - 0.5) * 0.4;
+    });
+  }, {passive: true});
+
+  canvas.addEventListener('touchstart', function() {
+    tapped = true; tapTimer = 40;
+    nodes.forEach(function(n) {
+      n.vx *= 2.5; n.vy *= 2.5;
+    });
+  }, {passive: true});
+
+  var raf;
+  function draw() {
+    // Sync size
+    var sec = canvas.parentElement;
+    if (canvas.width !== sec.offsetWidth || canvas.height !== sec.offsetHeight) {
+      canvas.width = sec.offsetWidth;
+      canvas.height = sec.offsetHeight;
+      W = canvas.width; H = canvas.height;
+    }
+
+    ctx.clearRect(0, 0, W, H);
+
+    if (tapTimer > 0) tapTimer--;
+    if (tapTimer === 0) tapped = false;
+
+    nodes.forEach(function(n) {
+      n.pulse += 0.018;
+      n.x += n.vx;
+      n.y += n.vy;
+      // Friction
+      n.vx *= 0.995; n.vy *= 0.995;
+      // Bounce
+      if (n.x < 0 || n.x > W) n.vx *= -1;
+      if (n.y < 0 || n.y > H) n.vy *= -1;
+    });
+
+    // Edges
+    for (var a = 0; a < nodes.length; a++) {
+      for (var b = a + 1; b < nodes.length; b++) {
+        var dx = nodes[a].x - nodes[b].x;
+        var dy = nodes[a].y - nodes[b].y;
+        var dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < MAX_DIST) {
+          var alpha = (1 - dist / MAX_DIST) * 0.35;
+          ctx.beginPath();
+          ctx.moveTo(nodes[a].x, nodes[a].y);
+          ctx.lineTo(nodes[b].x, nodes[b].y);
+          ctx.strokeStyle = 'rgba(56,189,248,' + alpha + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Nodes dots
+    nodes.forEach(function(n) {
+      var glow = (Math.sin(n.pulse) * 0.5 + 0.5);
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r + glow * 0.8, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(56,189,248,' + (0.5 + glow * 0.4) + ')';
+      ctx.fill();
+    });
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  // Запускаємо тільки коли секція у viewport
+  var started = false;
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting && !started) {
+        started = true;
+        draw();
+      } else if (!e.isIntersecting && started) {
+        cancelAnimationFrame(raf);
+        started = false;
+      }
+    });
+  }, {threshold: 0.05});
+
+  var sec = document.querySelector('.s02b');
+  if (sec) obs.observe(sec);
+})();
+
+/* ── Reveal анімація клітинок ── */
 (function(){
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
@@ -2095,6 +2222,8 @@ body.gm-menu-open { overflow: hidden; }
   var sec = document.querySelector('.s02b');
   if (sec) io.observe(sec);
 })();
+</script>
+
 </script>
 
 <!-- ════════════════════════════════════════
