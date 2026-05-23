@@ -1596,25 +1596,19 @@ body.gm-menu-open { overflow: hidden; }
   z-index: 2;
 }
 
-/* ── Десктоп: сітка 2×2 ── */
+/* ═══════════════════════════════════════
+   ДЕСКТОП — сітка 2×2
+═══════════════════════════════════════ */
 .s02b-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  height: 120vh;
-  min-height: 800px;
-}
-
-@media (min-width: 861px) {
-  .s02b-projects-row { display: contents; }
-  .s02b-tr { order: 0; grid-column: 2; grid-row: 1; }
-  .s02b-bl { order: 0; grid-column: 1; grid-row: 2; }
-  .s02b-tl { order: 0; grid-column: 1; grid-row: 1; }
-  .s02b-br { order: 0; grid-column: 2; grid-row: 2; }
+  height: 100vh;
+  min-height: 700px;
+  max-height: 900px;
 }
 
 .s02b-cell {
-  border-radius: 0;
   overflow: hidden;
   position: relative;
   opacity: 0;
@@ -1622,105 +1616,243 @@ body.gm-menu-open { overflow: hidden; }
 }
 .s02b-cell.s02b-vis { opacity: 1; }
 
-/* Десктоп фото-проекти */
+/* ── Розміщення клітинок у сітці ── */
+@media (min-width: 861px) {
+  .s02b-projects-row { display: contents; }
+  .s02b-tl { grid-column: 1; grid-row: 1; }
+  .s02b-tr { grid-column: 2; grid-row: 1; }
+  .s02b-bl { grid-column: 1; grid-row: 2; }
+  .s02b-br { grid-column: 2; grid-row: 2; }
+}
+
+/* ── Фото-клітинки (AutoSmart і ARCA) ── */
 .s02b-tl img, .s02b-br img {
   width: 100%; height: 100%;
   object-fit: cover; object-position: center top;
   display: block;
   transition: transform 0.6s ease;
 }
-.s02b-tl:hover img, .s02b-br:hover img { transform: scale(1.03); }
+.s02b-tl:hover img, .s02b-br:hover img { transform: scale(1.04); }
+
 .s02b-proj-overlay {
   position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 48px 28px 22px;
-  background: linear-gradient(to top, rgba(4,4,8,0.88) 0%, transparent 100%);
+  padding: 60px 28px 24px;
+  background: linear-gradient(to top, rgba(4,4,8,0.92) 0%, transparent 100%);
 }
 
-/* Десктоп: правий блок фактів */
+/* ── Правий верхній: FACTS BLOCK ── */
 .s02b-tr {
-  background: rgba(10,12,24,0.6);
-  backdrop-filter: blur(12px);
-  border-left: 1px solid rgba(56,189,248,0.08);
-  padding: clamp(32px,4vh,52px) clamp(28px,3vw,44px);
+  background: rgba(8,10,20,0.92);
+  border-left: 1px solid rgba(56,189,248,0.10);
+  border-bottom: 1px solid rgba(56,189,248,0.07);
+  padding: clamp(28px,3.5vh,44px) clamp(24px,2.5vw,40px);
   display: flex; flex-direction: column; justify-content: center;
+  overflow: hidden;
 }
+
+/* MODULE_01 label — тільки десктоп версія */
 .s02b-sec-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; letter-spacing: 0.28em;
-  color: rgba(56,189,248,0.6); text-transform: uppercase;
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 32px;
+  font-size: 9px; letter-spacing: 0.30em;
+  color: rgba(56,189,248,0.55); text-transform: uppercase;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
 }
 .s02b-sec-label::before {
-  content: ''; width: 28px; height: 1px;
+  content: ''; width: 24px; height: 1px;
   background: rgba(56,189,248,0.4); flex-shrink: 0;
 }
-.s02b-facts { display: flex; flex-direction: column; gap: 22px; }
-.s02b-fact-key {
+
+/* BOHDAN HODLIUK — заголовок */
+.s02b-headline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px,3.8vw,54px);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 0.92;
+  margin-bottom: 8px;
+  background: linear-gradient(155deg, #FFFFFF 0%, #C8CDD6 45%, #7A8494 80%, #4A5260 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.s02b-headline-sub {
   font-family: 'JetBrains Mono', monospace;
   font-size: 9px; letter-spacing: 0.22em;
-  color: rgba(56,189,248,0.45); text-transform: uppercase;
-  display: block; margin-bottom: 4px;
+  color: rgba(56,189,248,0.55);
+  display: flex; align-items: center; gap: 8px;
+  text-transform: uppercase; margin-bottom: 18px;
 }
-.s02b-fact-val {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(14px,1.3vw,17px); font-weight: 500;
-  color: #E8EAF0; line-height: 1.35;
+.s02b-headline-sub::before {
+  content: '';
+  display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%; background: #38BDF8; flex-shrink: 0;
+  box-shadow: 0 0 7px rgba(56,189,248,0.8);
+  animation: s02b-pulse 2s ease-in-out infinite;
+}
+@keyframes s02b-pulse {
+  0%,100% { opacity:1; box-shadow:0 0 7px rgba(56,189,248,0.8); }
+  50%      { opacity:0.35; box-shadow:0 0 3px rgba(56,189,248,0.3); }
 }
 
-/* Десктоп: цитата */
+/* Розділювач */
+.s02b-divider-top {
+  height: 1px;
+  background: linear-gradient(to right, rgba(56,189,248,0.2), rgba(56,189,248,0.04) 70%, transparent);
+  margin-bottom: 14px;
+}
+
+/* Контейнер карток */
+.s02b-facts {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.s02b-facts-row-1,
+.s02b-facts-row-2,
+.s02b-facts-row-3 { display: block; }
+
+/* Кожна картка — підкладка */
+.s02b-card-role,
+.s02b-card-approach,
+.s02b-card-stack {
+  background: rgba(10,15,32,0.75);
+  border: 1px solid rgba(56,189,248,0.11);
+  border-radius: 4px;
+  padding: 12px 14px 10px;
+  position: relative;
+  transition: border-color 0.3s, background 0.3s;
+}
+.s02b-card-role:hover,
+.s02b-card-approach:hover,
+.s02b-card-stack:hover {
+  background: rgba(14,22,46,0.85);
+  border-color: rgba(56,189,248,0.25);
+}
+
+/* fact-key — рядок з лейблом + бейдж */
+.s02b-fact-key {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7.5px; letter-spacing: 0.24em;
+  color: rgba(56,189,248,0.45); text-transform: uppercase;
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 6px;
+  white-space: nowrap;
+}
+.s02b-fact-key::before { content: none; }
+.s02b-fact-key::after  { content: none; }
+
+/* Статус-бейдж */
+.s02b-status {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 6.5px; letter-spacing: 0.16em;
+  color: rgba(56,189,248,0.65);
+  border: 1px solid rgba(56,189,248,0.22);
+  padding: 2px 6px; border-radius: 2px;
+  text-transform: uppercase; white-space: nowrap;
+  margin-left: auto; flex-shrink: 0;
+}
+
+/* Основний текст */
+.s02b-fact-val {
+  font-family: 'Outfit', sans-serif;
+  font-size: clamp(13px,1.15vw,16px); font-weight: 700;
+  color: #E8EAF6; line-height: 1.2;
+  display: block;
+  background: none !important;
+  -webkit-text-fill-color: #E8EAF6 !important;
+}
+.s02b-card-approach .s02b-fact-val { font-size: clamp(13px,1.2vw,17px); }
+.s02b-card-approach .s02b-fact-val em {
+  font-style: normal;
+  color: rgba(232,234,246,0.65);
+  -webkit-text-fill-color: rgba(232,234,246,0.65) !important;
+}
+.s02b-card-stack .s02b-fact-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; font-weight: 400;
+  color: rgba(125,211,252,0.8);
+  -webkit-text-fill-color: rgba(125,211,252,0.8) !important;
+  line-height: 1.8; letter-spacing: 0.05em;
+}
+
+/* Підзаголовок */
+.s02b-fact-desc {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11.5px; font-weight: 400;
+  color: rgba(232,234,246,0.38); line-height: 1.45;
+  margin-top: 4px; display: block;
+}
+
+/* Progress bar */
+.s02b-progress {
+  height: 1px;
+  background: rgba(56,189,248,0.10);
+  margin-top: 10px; position: relative; overflow: hidden;
+  border-radius: 1px;
+}
+.s02b-progress-fill {
+  position: absolute; top:0; left:0; height:100%; width:0%;
+  background: linear-gradient(to right, rgba(56,189,248,0.75), rgba(129,140,248,0.55));
+  box-shadow: 0 0 6px rgba(56,189,248,0.4);
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  border-radius: 1px;
+}
+.s02b-progress-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 7px; letter-spacing: 0.14em;
+  color: rgba(56,189,248,0.35);
+  text-align: right; margin-top: 3px; display: block;
+}
+
+/* L-corner brackets — тільки на .s02b-tr */
+.s02b-corners { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+.s02b-corner  { position: absolute; width: 14px; height: 14px; }
+.s02b-corner::before,
+.s02b-corner::after {
+  content: ''; position: absolute;
+  background: rgba(56,189,248,0.45);
+  box-shadow: 0 0 5px rgba(56,189,248,0.25);
+}
+.s02b-corner::before { width:100%; height:1px; top:0; left:0; }
+.s02b-corner::after  { width:1px; height:100%; top:0; left:0; }
+.s02b-corner.tr { top:10px; right:10px; }
+.s02b-corner.tr::before { left:auto; right:0; }
+.s02b-corner.tr::after  { left:auto; right:0; }
+.s02b-corner.bl { bottom:10px; left:10px; }
+.s02b-corner.bl::before { top:auto; bottom:0; }
+.s02b-corner.br { bottom:10px; right:10px; }
+.s02b-corner.br::before { top:auto; bottom:0; left:auto; right:0; }
+.s02b-corner.br::after  { left:auto; right:0; top:auto; bottom:0; }
+.s02b-corner.tl { top:10px; left:10px; }
+
+/* ── Нижній лівий: цитата ── */
 .s02b-bl {
-  background: rgba(7,8,15,0.7);
-  padding: clamp(36px,5vh,64px) clamp(32px,3vw,52px);
+  background: rgba(5,7,14,0.88);
+  padding: clamp(32px,4vh,56px) clamp(28px,3vw,48px);
   display: flex; flex-direction: column; justify-content: flex-end;
-  border-top: 1px solid rgba(56,189,248,0.08);
+  border-right: 1px solid rgba(56,189,248,0.07);
+  border-top: 1px solid rgba(56,189,248,0.07);
 }
 .s02b-quote {
   font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(19px,1.8vw,26px); font-weight: 300; font-style: italic;
+  font-size: clamp(18px,1.7vw,25px); font-weight: 300; font-style: italic;
   color: #C8CAD4; line-height: 1.65;
-  border-left: 1px solid rgba(56,189,248,0.5); padding-left: 20px;
-  margin-bottom: 20px;
+  border-left: 1px solid rgba(56,189,248,0.45); padding-left: 20px;
+  margin-bottom: 18px;
 }
 .s02b-quote-by {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px; letter-spacing: 0.22em;
-  color: rgba(56,189,248,0.5); text-transform: uppercase;
+  font-size: 9px; letter-spacing: 0.22em;
+  color: rgba(56,189,248,0.45); text-transform: uppercase;
   padding-left: 22px;
 }
 
-/* ── Десктоп: картки-шари всередині .s02b-tr ── */
-@media (min-width: 861px) {
-  .s02b-card-role,
-  .s02b-card-approach,
-  .s02b-card-stack {
-    background: rgba(10,14,28,0.65) !important;
-    border: 1px solid rgba(56,189,248,0.10) !important;
-    border-radius: 6px;
-    padding: 18px 20px;
-    margin-bottom: 10px;
-    position: relative;
-    transition: border-color 0.3s ease, background 0.3s ease;
-  }
-  .s02b-card-role:hover,
-  .s02b-card-approach:hover,
-  .s02b-card-stack:hover {
-    background: rgba(14,20,40,0.8) !important;
-    border-color: rgba(56,189,248,0.22) !important;
-  }
-  .s02b-facts { gap: 0; }
-  .s02b-facts-row-1,
-  .s02b-facts-row-2,
-  .s02b-facts-row-3 { gap: 0; }
-}
-
-/* ── Фото Богдана ── */
+/* ── Фото Богдана — абсолютне, центр, поверх сітки ── */
 .s02b-photo-wrap {
   position: absolute;
   bottom: 0; left: 50%;
   transform: translateX(-50%);
   height: 100%; width: auto;
-  z-index: 3; pointer-events: none;
+  z-index: 5; pointer-events: none;
   opacity: 0;
   transition: opacity 0.9s ease 0.15s;
 }
@@ -1731,15 +1863,16 @@ body.gm-menu-open { overflow: hidden; }
   display: block;
 }
 
+/* Вертикальний підпис */
 .s02b-vname {
   position: absolute; top: 50%;
   left: calc(50% - 240px);
   transform: translateY(-50%) rotate(-90deg);
   transform-origin: center center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px; letter-spacing: 0.35em;
-  color: rgba(56,189,248,0.12); text-transform: uppercase;
-  white-space: nowrap; z-index: 4;
+  font-size: 8px; letter-spacing: 0.35em;
+  color: rgba(56,189,248,0.10); text-transform: uppercase;
+  white-space: nowrap; z-index: 6;
 }
 
 .s02b-proj-bg { display: none; }
@@ -1749,355 +1882,128 @@ body.gm-menu-open { overflow: hidden; }
 ════════════════════════════════════════ */
 @media (max-width: 860px) {
 
-  .s02b {
-    height: auto;
-    overflow: visible;
-    display: flex;
-    flex-direction: column;
-  }
-
+  /* Layout */
+  .s02b { height: auto; overflow: visible; display: flex; flex-direction: column; }
   .s02b-grid { display: contents; }
-  .s02b-cell { border-radius: 0; width: 100%; }
-
-  /* ── Canvas на мобілці — лише у facts блоці ── */
+  .s02b-cell { width: 100%; }
   #s02b-canvas { opacity: 0.4; }
 
-  /* ══ 1. FACTS BLOCK — AI TERMINAL ══ */
+  /* ══ 1. FACTS BLOCK ══ */
   .s02b-tr {
     order: 0;
     padding: 0;
     background: transparent;
     display: block;
-    position: relative;
     border-left: none;
-    backdrop-filter: none;
+    border-bottom: none;
   }
 
-  /* ── MODULE HEADER ── */
+  /* MODULE HEADER */
   .s02b-sec-label {
-    font-size: 8.5px;
-    letter-spacing: 0.30em;
+    font-size: 8.5px; letter-spacing: 0.30em;
     color: rgba(56,189,248,0.55);
-    padding: 22px 24px 0;
-    margin-bottom: 0;
-    border-bottom: none;
-    display: flex; align-items: center; gap: 10px;
+    padding: 22px 24px 0; margin-bottom: 0;
   }
   .s02b-sec-label::before {
-    content: '◈';
-    background: none; width: auto; height: auto;
-    color: rgba(56,189,248,0.4);
-    font-size: 10px; flex-shrink: 0;
+    content: '◈'; background: none;
+    width: auto; height: auto;
+    color: rgba(56,189,248,0.4); font-size: 10px;
   }
 
-  /* ── Заголовок ── */
+  /* Заголовок */
   .s02b-headline {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
-    font-weight: 400;
-    letter-spacing: 0.03em;
-    line-height: 0.92;
+    font-size: 52px; line-height: 0.92;
     padding: 16px 24px 10px;
     position: relative; z-index: 3;
-    /* Білий → сталевий — шліфований метал */
-    background: linear-gradient(160deg, #FFFFFF 0%, #C8CDD6 40%, #7A8494 75%, #4A5260 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    background: linear-gradient(160deg,#FFF 0%,#C8CDD6 40%,#7A8494 75%,#4A5260 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     filter: drop-shadow(0 2px 12px rgba(255,255,255,0.08));
   }
   .s02b-headline-sub {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.25em;
+    font-size: 10px; letter-spacing: 0.25em;
     color: rgba(56,189,248,0.6);
     padding: 0 24px 28px;
-    display: block;
-    text-transform: uppercase;
+    display: block; text-transform: uppercase;
     position: relative; z-index: 3;
   }
-  /* Пульсуючий статус-dot */
   .s02b-headline-sub::before {
-    content: '';
-    display: inline-block;
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #38BDF8;
-    margin-right: 8px;
-    vertical-align: middle;
+    content: ''; display: inline-block;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #38BDF8; margin-right: 8px; vertical-align: middle;
     box-shadow: 0 0 8px rgba(56,189,248,0.8);
     animation: s02b-pulse 2s ease-in-out infinite;
   }
-  @keyframes s02b-pulse {
-    0%, 100% { opacity: 1; box-shadow: 0 0 8px rgba(56,189,248,0.8); }
-    50%       { opacity: 0.4; box-shadow: 0 0 3px rgba(56,189,248,0.3); }
-  }
 
-  /* ── Розділювач перед шарами ── */
+  /* Розділювач */
   .s02b-divider-top {
     height: 1px;
     background: linear-gradient(to right, rgba(56,189,248,0.25), rgba(56,189,248,0.05) 70%, transparent);
-    margin: 0 24px;
-    position: relative; z-index: 3;
+    margin: 0 24px; position: relative; z-index: 3;
   }
 
-  /* ── Шари системи ── */
-  .s02b-facts {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    background: transparent;
-    position: relative; z-index: 3;
-  }
+  /* Картки — на мобілці плоскі, без підкладки */
+  .s02b-facts { flex-direction: column; gap: 0; position: relative; z-index: 3; }
+  .s02b-facts-row-1, .s02b-facts-row-2, .s02b-facts-row-3 { display: block; }
 
-  /* Скидаємо row-обгортки */
-  .s02b-facts-row-1,
-  .s02b-facts-row-2,
-  .s02b-facts-row-3 {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    background: transparent;
-  }
-
-  /* Кожен шар */
-  .s02b-facts > div,
-  .s02b-facts-row-1 > div,
-  .s02b-facts-row-2 > div,
-  .s02b-facts-row-3 > div,
   .s02b-card-role,
   .s02b-card-approach,
-  .s02b-card-product,
-  .s02b-card-stack,
-  .s02b-card-brand {
+  .s02b-card-stack {
     background: transparent !important;
-    padding: 20px 24px 20px;
-    border-top: 1px solid rgba(56,189,248,0.10);
-    border-bottom: none;
-    border-left: none;
-    border-right: none;
-    position: relative;
+    border: none !important;
+    border-top: 1px solid rgba(56,189,248,0.10) !important;
+    border-radius: 0 !important;
+    padding: 20px 24px 16px !important;
+    transition: none !important;
+  }
+  .s02b-card-role:hover,
+  .s02b-card-approach:hover,
+  .s02b-card-stack:hover {
+    background: transparent !important;
+    border-color: rgba(56,189,248,0.10) !important;
   }
 
-  /* Номер шару + назва — ліворуч у рядок */
-  .s02b-fact-key {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 8px;
-    letter-spacing: 0.26em;
-    color: rgba(56,189,248,0.45);
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-    white-space: nowrap;
-  }
-  .s02b-fact-key::before { content: none; }
-  .s02b-fact-key::after  { content: none; }
-
-  /* Статус-бейдж праворуч у рядок ключа */
-  .s02b-status {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 7.5px;
-    letter-spacing: 0.18em;
-    color: rgba(56,189,248,0.7);
-    border: 1px solid rgba(56,189,248,0.25);
-    padding: 2px 7px;
-    border-radius: 2px;
-    text-transform: uppercase;
-    box-shadow: 0 0 8px rgba(56,189,248,0.08);
-    white-space: nowrap;
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-
-  /* Основний текст шару */
-  .s02b-fact-val {
-    font-family: 'Outfit', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #E8EAF6;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-    display: block;
-    background: none !important;
-    -webkit-text-fill-color: #E8EAF6 !important;
-  }
-
-  /* Підзаголовок під значенням */
-  .s02b-fact-desc {
-    font-family: 'Outfit', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    color: rgba(232,234,246,0.4);
-    line-height: 1.5;
-    margin-top: 7px;
-    display: block;
-  }
-
-  /* Шар 01: Роль — без особливостей */
-
-  /* Шар 02: Підхід — акцент */
-  .s02b-card-approach .s02b-fact-val {
-    font-size: 22px;
-    color: #E8EAF6 !important;
-    background: none !important;
-    -webkit-text-fill-color: #E8EAF6 !important;
-    display: block;
-  }
-  .s02b-card-approach .s02b-fact-val em { font-style: normal; color: rgba(232,234,246,0.7); -webkit-text-fill-color: rgba(232,234,246,0.7) !important; }
-
-  /* Шар 03: Продукт */
-  .s02b-card-product .s02b-fact-val {
-    font-size: 19px;
-    color: rgba(232,234,246,0.85);
-    -webkit-text-fill-color: rgba(232,234,246,0.85) !important;
-  }
-
-  /* Шар 04: Стек — термінал */
-  .s02b-card-stack .s02b-fact-val {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 400;
-    color: rgba(125,211,252,0.75);
-    -webkit-text-fill-color: rgba(125,211,252,0.75) !important;
-    line-height: 2.0;
-    letter-spacing: 0.06em;
-  }
-
-  /* Шар 05: Бренд */
-  .s02b-card-brand .s02b-fact-val {
-    font-size: 19px;
-    color: rgba(232,234,246,0.75);
-    -webkit-text-fill-color: rgba(232,234,246,0.75) !important;
-  }
-
-  /* Скидаємо старі ::before ліній */
-  .s02b-facts-row-1 > div::before,
-  .s02b-facts-row-2 > div::before,
-  .s02b-facts-row-3 > div::before,
-  .s02b-card-role::before { display: none !important; }
-
-  /* ══ PROGRESS BARS — під кожним шаром ══ */
-  .s02b-progress {
-    height: 1px;
-    background: rgba(56,189,248,0.10);
-    margin-top: 14px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 1px;
-  }
-  .s02b-progress-fill {
-    position: absolute;
-    top: 0; left: 0;
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(to right, rgba(56,189,248,0.8), rgba(129,140,248,0.6));
-    box-shadow: 0 0 6px rgba(56,189,248,0.5);
-    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-    border-radius: 1px;
-  }
-  /* Лічильник % праворуч */
-  .s02b-progress-pct {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 7px;
-    letter-spacing: 0.15em;
-    color: rgba(56,189,248,0.4);
-    text-align: right;
-    margin-top: 4px;
-    display: block;
-  }
-
-  /* ══ L-CORNER BRACKETS — по кутах блоку ══ */
-  .s02b-corners {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    pointer-events: none;
-  }
-  .s02b-corner {
-    position: absolute;
-    width: 16px; height: 16px;
-  }
-  .s02b-corner::before,
-  .s02b-corner::after {
-    content: '';
-    position: absolute;
-    background: rgba(56,189,248,0.55);
-    box-shadow: 0 0 6px rgba(56,189,248,0.3);
-  }
-  /* Горизонтальна риска */
-  .s02b-corner::before { width: 100%; height: 1px; top: 0; left: 0; }
-  /* Вертикальна риска */
-  .s02b-corner::after  { width: 1px; height: 100%; top: 0; left: 0; }
-  /* Top-right */
-  .s02b-corner.tr { top: 8px; right: 8px; }
-  .s02b-corner.tr::before { left: auto; right: 0; }
-  .s02b-corner.tr::after  { left: auto; right: 0; }
-  /* Bottom-left */
-  .s02b-corner.bl { bottom: 8px; left: 8px; }
-  .s02b-corner.bl::before { top: auto; bottom: 0; }
-  /* Bottom-right */
-  .s02b-corner.br { bottom: 8px; right: 8px; }
-  .s02b-corner.br::before { top: auto; bottom: 0; left: auto; right: 0; }
-  .s02b-corner.br::after  { left: auto; right: 0; top: auto; bottom: 0; }
-  /* Top-left */
-  .s02b-corner.tl { top: 8px; left: 8px; }
+  /* Текст карток — мобільні розміри */
+  .s02b-fact-key { font-size: 8px; letter-spacing: 0.26em; margin-bottom: 10px; }
+  .s02b-fact-val { font-size: 20px; line-height: 1.15; letter-spacing: -0.01em; }
+  .s02b-card-approach .s02b-fact-val { font-size: 20px; }
+  .s02b-card-stack .s02b-fact-val { font-size: 12px; line-height: 2.0; }
+  .s02b-fact-desc { font-size: 13px; margin-top: 7px; }
 
   /* ══ 2. ФОТО-БЛОК ══ */
   .s02b-photo-wrap {
     order: 1;
-    position: relative;
-    left: auto; bottom: auto; transform: none;
-    width: 100%; height: 115vw;
-    max-height: 540px;
-    opacity: 1 !important;
-    overflow: hidden;
-    background: #07080F;
-    display: flex; flex-direction: column;
+    position: relative; left: auto; bottom: auto; transform: none;
+    width: 100%; height: 115vw; max-height: 540px;
+    opacity: 1 !important; overflow: hidden;
+    background: #07080F; display: flex; flex-direction: column;
   }
-
   .s02b-proj-bg {
-    display: block;
-    position: absolute;
-    left: 0; right: 0;
-    width: 100%; height: 50%;
+    display: block; position: absolute;
+    left: 0; right: 0; width: 100%; height: 50%;
     overflow: hidden; opacity: 0.85;
   }
-  .s02b-proj-bg img {
-    width: 100%; height: 100%;
-    object-fit: cover; object-position: center top;
-    display: block;
-  }
+  .s02b-proj-bg img { width:100%; height:100%; object-fit:cover; object-position:center top; display:block; }
   .s02b-proj-bg.proj-tl { top: 0; }
   .s02b-proj-bg.proj-br { bottom: 0; }
   .s02b-proj-bg.proj-br::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0;
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
     height: 1px; background: rgba(7,8,15,0.6); z-index: 1;
   }
-
   .s02b-photo-wrap > img {
-    position: absolute;
-    bottom: 0; left: 50%;
+    position: absolute; bottom: 0; left: 50%;
     transform: translateX(-50%);
     height: 108%; width: auto;
-    object-fit: contain; object-position: bottom center;
-    z-index: 2;
+    object-fit: contain; object-position: bottom center; z-index: 2;
   }
 
   /* ══ 3. ЦИТАТА ══ */
   .s02b-bl {
-    order: 2;
-    padding: 28px 24px 36px;
+    order: 2; padding: 28px 24px 36px;
     background: #07080F;
     border-top: 1px solid rgba(56,189,248,0.08);
+    border-right: none;
   }
-  .s02b-quote {
-    font-size: 17px; line-height: 1.6;
-    color: rgba(232,234,246,0.75);
-    border-left-color: rgba(56,189,248,0.4);
-  }
+  .s02b-quote { font-size: 17px; line-height: 1.6; color: rgba(232,234,246,0.75); border-left-color: rgba(56,189,248,0.4); }
   .s02b-quote-by { color: rgba(56,189,248,0.45); }
 
   .s02b-projects-row { display: none; }
