@@ -1735,203 +1735,191 @@ body.gm-menu-open { overflow: hidden; }
   }
   .s02b-cell { border-radius: 0; width: 100%; }
 
-  /* ══ 1. ФАКТИ — самий верх (order 0) — ІНЖЕНЕРНА ПАНЕЛЬ ══ */
+  /* ══════════════════════════════════════
+     МОБІЛЬНИЙ БЛОК ФАКТІВ — ІНЖЕНЕРНА ПАНЕЛЬ v3
+     Вертикальна сітка: лінія → тег → текст → лінія
+  ══════════════════════════════════════ */
+
+  /* Обгортка всього блоку — світлий інженерний фон */
   .s02b-tr {
     order: 0;
     margin-left: 0;
     padding: 0;
-    background: #F4F4F6;
+    background: #F2F2F4;
     display: block;
     position: relative;
+    overflow: hidden;
   }
 
-  /* Grain texture overlay */
-  .s02b-tr::after {
+  /* Grain поверх фону */
+  .s02b-tr::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.045;
     pointer-events: none;
-    z-index: 0;
+    z-index: 2;
   }
 
-  /* ══ ІНДЕКС БЛОКУ — верхня лінія + JetBrains Mono ══ */
+  /* ── Лейбл секції: верхня лінія + ◈ 01 / SYSTEM_PROFILE ── */
   .s02b-sec-label {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    letter-spacing: 0.32em;
-    color: rgba(10,10,15,0.35);
+    font-size: 8.5px;
+    letter-spacing: 0.28em;
+    color: rgba(10,10,15,0.32);
     text-transform: uppercase;
-    margin-bottom: 0;
-    padding: 20px 24px 18px;
+    padding: 18px 24px 16px;
+    border-top: 1px solid rgba(0,0,0,0.10);
+    border-bottom: none;
     background: transparent;
-    border-top: 1px solid rgba(0,0,0,0.08);
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    margin-bottom: 0;
     position: relative;
-    z-index: 1;
+    z-index: 3;
   }
   .s02b-sec-label::before {
     content: '◈';
     background: none;
-    width: auto;
-    height: auto;
-    color: rgba(10,10,15,0.25);
+    width: auto; height: auto;
+    color: rgba(10,10,15,0.22);
     font-size: 9px;
     flex-shrink: 0;
   }
 
-  /* ══ ВЕЛИКИЙ ЗАГОЛОВОК СЕКЦІЇ ══ */
+  /* ── Великий заголовок секції ── */
   .s02b-headline {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px;
+    font-size: 52px;
     font-weight: 400;
-    letter-spacing: 0.04em;
-    color: #0A0A0F;
-    line-height: 1.0;
-    padding: 8px 24px 36px;
+    letter-spacing: 0.03em;
+    color: #0C0C10;
+    line-height: 0.95;
+    padding: 20px 24px 32px;
     position: relative;
-    z-index: 1;
+    z-index: 3;
   }
   .s02b-headline span {
     display: block;
-    font-size: 28px;
-    letter-spacing: 0.06em;
-    color: rgba(10,10,15,0.55);
+    font-size: 30px;
+    letter-spacing: 0.05em;
+    color: rgba(12,12,16,0.45);
+    margin-top: 4px;
   }
 
-  /* ══ ІНЖЕНЕРНА СІТКА КОМІРОК ══ */
+  /* ── Контейнер комірок: чиста вертикальна колонка ── */
   .s02b-facts {
     display: flex;
     flex-direction: column;
     gap: 0;
     background: transparent;
-    border-top: 1px solid rgba(0,0,0,0.08);
     position: relative;
-    z-index: 1;
+    z-index: 3;
   }
 
-  /* Ряд 1: дві рівні комірки */
-  .s02b-facts-row-1 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    background: transparent;
-  }
-
-  /* Ряд 2: одна широка комірка */
-  .s02b-facts-row-2 {
-    background: transparent;
-  }
-
-  /* Ряд 3: дві комірки */
+  /* Рядки-обгортки — скидаємо в flex-column, нічого більше */
+  .s02b-facts-row-1,
+  .s02b-facts-row-2,
   .s02b-facts-row-3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 0;
     background: transparent;
   }
 
-  /* Кожна комірка — розділена лінією */
+  /* ── Кожна комірка ── */
   .s02b-facts > div,
   .s02b-facts-row-1 > div,
   .s02b-facts-row-2 > div,
-  .s02b-facts-row-3 > div {
-    background: transparent;
-    padding: 22px 24px 24px;
-    position: relative;
-    border-bottom: 1px solid rgba(0,0,0,0.08);
-  }
-
-  /* Вертикальний роздільник між колонками */
-  .s02b-facts-row-1 > div:first-child,
-  .s02b-facts-row-3 > div:first-child {
-    border-right: 1px solid rgba(0,0,0,0.08);
-  }
-
-  /* Картки без фонів */
+  .s02b-facts-row-3 > div,
   .s02b-card-approach,
   .s02b-card-stack {
     background: transparent !important;
+    padding: 20px 24px 22px;
+    border-top: 1px solid rgba(0,0,0,0.09);
+    border-bottom: none;
+    border-right: none;
+    border-left: none;
+    position: relative;
   }
 
-  /* Ключ — мікро-лейбл зверху, технічний */
+  /* ── Мікро-тег [ TAG ] ── */
   .s02b-fact-key {
     font-family: 'JetBrains Mono', monospace;
     font-size: 8px;
-    letter-spacing: 0.30em;
-    color: rgba(10,10,15,0.35);
+    letter-spacing: 0.26em;
+    color: rgba(10,10,15,0.30);
     text-transform: uppercase;
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 9px;
+    white-space: nowrap;
   }
-  /* Дужки навколо ключа */
   .s02b-fact-key::before { content: '[ '; }
   .s02b-fact-key::after  { content: ' ]'; }
 
-  /* Значення — чіткий темний текст */
+  /* ── Значення — великий, чіткий, чорний ── */
   .s02b-fact-val {
     font-family: 'Outfit', sans-serif;
-    font-size: 17px;
-    font-weight: 600;
-    color: #0A0A0F;
-    line-height: 1.2;
-    letter-spacing: 0.01em;
-    display: block;
-  }
-
-  /* Роль — трохи крупніше */
-  .s02b-card-role .s02b-fact-val {
-    font-size: 15px;
-    font-weight: 600;
-    color: #0A0A0F;
-    background: none;
-    -webkit-text-fill-color: #0A0A0F;
-    line-height: 1.3;
-  }
-
-  /* Підхід — акцентний */
-  .s02b-card-approach .s02b-fact-val {
-    font-size: 20px;
-    color: #0A0A0F;
+    font-size: 22px;
     font-weight: 700;
+    color: #0C0C10;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    display: block;
+    background: none !important;
+    -webkit-text-fill-color: #0C0C10 !important;
+  }
+
+  /* Роль — трохи менше, щільно */
+  .s02b-card-role .s02b-fact-val {
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  /* Підхід — найбільший акцент */
+  .s02b-card-approach .s02b-fact-val {
+    font-size: 24px;
   }
   .s02b-card-approach .s02b-fact-val em {
     font-style: normal;
-    color: #0A0A0F;
+    color: #0C0C10;
+    -webkit-text-fill-color: #0C0C10 !important;
   }
 
   /* Продукт */
   .s02b-card-product .s02b-fact-val {
-    font-size: 15px;
-    color: rgba(10,10,15,0.75);
+    font-size: 20px;
+    color: rgba(12,12,16,0.72);
+    -webkit-text-fill-color: rgba(12,12,16,0.72) !important;
   }
 
-  /* Стек — монопростір, термінальний стиль */
+  /* Стек — монопростір, термінальний */
   .s02b-card-stack .s02b-fact-val {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 400;
-    color: rgba(10,10,15,0.6);
-    line-height: 1.9;
-    letter-spacing: 0.04em;
+    color: rgba(12,12,16,0.55);
+    -webkit-text-fill-color: rgba(12,12,16,0.55) !important;
+    line-height: 2.0;
+    letter-spacing: 0.05em;
   }
 
   /* Бренд */
   .s02b-card-brand .s02b-fact-val {
-    font-size: 16px;
-    color: rgba(10,10,15,0.75);
+    font-size: 20px;
+    color: rgba(12,12,16,0.70);
+    -webkit-text-fill-color: rgba(12,12,16,0.70) !important;
   }
 
-  /* Прибираємо декоративні лінії з попереднього варіанту */
+  /* Скидаємо всі старі декоративні ::before */
   .s02b-facts-row-1 > div::before,
   .s02b-facts-row-2 > div::before,
-  .s02b-facts-row-3 > div::before {
-    display: none;
+  .s02b-facts-row-3 > div::before,
+  .s02b-card-role::before {
+    display: none !important;
   }
-  .s02b-card-role::before { display: none !important; }
 
   /* ══ 2. ФОТО-БЛОК — по середині (order 1) ══ */
   .s02b-photo-wrap {
@@ -2013,30 +2001,36 @@ body.gm-menu-open { overflow: hidden; }
         <span>FOUNDER · BUILDER</span>
       </div>
       <div class="s02b-facts">
-        <!-- Ряд 1: Роль + Продукт -->
+        <!-- Комірка 1: Роль -->
         <div class="s02b-facts-row-1">
           <div class="s02b-card-role">
-            <span class="s02b-fact-key">ROLE</span>
+            <span class="s02b-fact-key">SYSTEM_ROLE</span>
             <span class="s02b-fact-val" data-i18n="about.role">AI Architect · Founder · Builder</span>
           </div>
-          <div class="s02b-card-product">
-            <span class="s02b-fact-key">THE_PRODUCT</span>
-            <span class="s02b-fact-val" data-i18n="about.product">Живий. Задеплоєний. З меседжем.</span>
-          </div>
         </div>
-        <!-- Ряд 2: Підхід — широкий -->
+        <!-- Комірка 2: Підхід -->
         <div class="s02b-facts-row-2">
           <div class="s02b-card-approach">
             <span class="s02b-fact-key">APPROACH</span>
             <span class="s02b-fact-val" data-i18n="about.approach">Не прототип —<br><em>повноцінна система</em></span>
           </div>
         </div>
-        <!-- Ряд 3: Стек + Бренд -->
+        <!-- Комірка 3: Продукт -->
+        <div class="s02b-facts-row-2">
+          <div class="s02b-card-product">
+            <span class="s02b-fact-key">THE_PRODUCT</span>
+            <span class="s02b-fact-val" data-i18n="about.product">Живий. Задеплоєний. З меседжем.</span>
+          </div>
+        </div>
+        <!-- Комірка 4: Стек -->
         <div class="s02b-facts-row-3">
           <div class="s02b-card-stack">
             <span class="s02b-fact-key">CORE_STACK.LOG</span>
-            <span class="s02b-fact-val">n8n · GPT-4o<br>Babylon.js · Supabase<br>Telegram API</span>
+            <span class="s02b-fact-val">n8n · GPT-4o · Supabase · Babylon.js · Telegram API</span>
           </div>
+        </div>
+        <!-- Комірка 5: Бренд -->
+        <div class="s02b-facts-row-3">
           <div class="s02b-card-brand">
             <span class="s02b-fact-key">ECOSYSTEM</span>
             <span class="s02b-fact-val" data-i18n="about.brand">BWA — Built with AI</span>
