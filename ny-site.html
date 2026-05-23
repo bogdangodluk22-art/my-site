@@ -635,7 +635,7 @@ body {
 /* ── Language Switcher ── */
 .lang-switcher {
   position: fixed;
-  top: 24px; right: 92px;
+  top: 24px; right: 24px;
   z-index: 1000;
   width: 52px; height: 52px;
   background: rgba(245,242,236,0.92);
@@ -653,19 +653,13 @@ body {
 }
 
 @media (max-width: 768px) {
-  /* На мобільному — ховаємо глобус повністю */
-  .lang-switcher { display: none; }
-  /* Показуємо тільки коли меню відкрите — повертаємо поруч з бургером */
-  .lang-switcher.gm-open {
-    display: flex;
-    top: 24px;
-    right: 72px; /* зліва від бургера (20px right + 44px width + 8px gap) */
+  .lang-switcher {
+    top: 76px; /* 24px відступ + 44px висота бургера + 8px gap */
+    right: 20px;
     width: 44px; height: 44px;
     border-radius: 8px;
-    opacity: 1;
-    pointer-events: all;
   }
-  .lang-switcher.gm-open svg { width: 20px; height: 20px; }
+  .lang-switcher svg { width: 20px; height: 20px; }
 }
 .lang-switcher.gm-visible { opacity: 1; pointer-events: all; }
 .lang-switcher:hover { background: var(--gold); }
@@ -1035,7 +1029,6 @@ body.gm-menu-open { overflow: hidden; }
   .gm-panel { width: 100vw; border-left: none; }
   .gm-nav-label { font-size: clamp(24px, 7vw, 34px); }
   .gm-burger { top: 18px; right: 18px; }
-  .lang-switcher.gm-open { top: 18px; right: calc(18px + 44px + 8px); }
   .gm-logo-letters { font-size: clamp(44px, 12vw, 64px); }
 }
 </style>
@@ -1736,106 +1729,15 @@ body.gm-menu-open { overflow: hidden; }
   .s02b-cell { border-radius: 0; width: 100%; }
 
   /* ══ 1. ФАКТИ — самий верх (order 0) ══ */
-  /* ══ МОБІЛЬНИЙ БЛОК ФАКТІВ — типографічний стиль ══ */
   .s02b-tr {
     order: 0;
     margin-left: 0;
-    padding: 0;
-    background: transparent;
-    display: block;
+    padding: 32px 24px 28px;
+    background: #F2EFE9;
   }
-
-  /* Лейбл секції */
-  .s02b-sec-label {
-    font-size: 9px;
-    letter-spacing: 0.32em;
-    margin-bottom: 0;
-    padding: 28px 24px 20px;
-    background: #0A0A0F;
-    color: rgba(201,168,76,0.7);
-  }
-  .s02b-sec-label::before { background: rgba(201,168,76,0.4); }
-
-  /* Сітка карток */
-  .s02b-facts {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: #1a1a1a;
-  }
-
-  /* Кожна картка */
-  .s02b-facts > div {
-    background: #0D0D14;
-    padding: 20px 18px 22px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* Парні картки — трохи світліші */
-  .s02b-facts > div:nth-child(even) {
-    background: #111118;
-  }
-
-  /* Остання картка якщо непарна — на всю ширину */
-  .s02b-facts > div:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-    background: linear-gradient(135deg, #0D0D14 0%, #141420 100%);
-  }
-
-  /* Ключ — маленький, золотий */
-  .s02b-fact-key {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 8px;
-    letter-spacing: 0.28em;
-    color: #C9A84C;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 8px;
-    opacity: 0.8;
-  }
-
-  /* Значення — велике, біле */
-  .s02b-fact-val {
-    font-family: 'Outfit', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #F5F5F0;
-    line-height: 1.3;
-    display: block;
-  }
-
-  /* Стек — менший шрифт бо довгий */
-  .s02b-facts > div:nth-child(4) .s02b-fact-val {
-    font-size: 12px;
-    font-family: 'JetBrains Mono', monospace;
-    color: rgba(245,245,240,0.85);
-  }
-
-  /* Декоративна лінія зверху кожної картки */
-  .s02b-facts > div::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(to right, #C9A84C, transparent);
-    opacity: 0.3;
-  }
-
-  /* Роль — перша картка, акцент */
-  .s02b-facts > div:first-child {
-    background: linear-gradient(135deg, #13111C 0%, #0D0D14 100%);
-  }
-  .s02b-facts > div:first-child .s02b-fact-val {
-    background: linear-gradient(135deg, #C9A84C 0%, #E8D08A 50%, #C9A84C 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-size: 13px;
-  }
-  .s02b-facts > div:first-child::before {
-    opacity: 0.7;
-  }
+  .s02b-sec-label { margin-bottom: 20px; }
+  .s02b-facts { gap: 16px; }
+  .s02b-fact-val { font-size: 15px; }
 
   /* ══ 2. ФОТО-БЛОК — по середині (order 1) ══ */
   .s02b-photo-wrap {
