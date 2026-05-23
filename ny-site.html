@@ -1562,24 +1562,6 @@ body.gm-menu-open { overflow: hidden; }
   overflow: hidden;
 }
 
-/* Grain texture — цифровий шум поверх фону */
-.s02b-tr::before,
-.s02b-bl::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.05;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Радіальний glow — глибина фону */
-.s02b-tr {
-  position: relative;
-  background: radial-gradient(ellipse 80% 50% at 50% 20%, rgba(56,189,248,0.04) 0%, transparent 70%);
-}
-
 /* ── Canvas для Babylon.js node-мережі ── */
 #s02b-canvas {
   position: absolute;
@@ -1739,7 +1721,7 @@ body.gm-menu-open { overflow: hidden; }
   .s02b-tr {
     order: 0;
     padding: 0;
-    background: transparent;
+    background: #07080F;
     display: block;
     position: relative;
     border-left: none;
@@ -1766,18 +1748,13 @@ body.gm-menu-open { overflow: hidden; }
   /* ── Заголовок ── */
   .s02b-headline {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 52px;
+    font-size: 48px;
     font-weight: 400;
     letter-spacing: 0.03em;
-    line-height: 0.92;
+    color: #E8EAF6;
+    line-height: 0.95;
     padding: 16px 24px 10px;
     position: relative; z-index: 3;
-    /* Білий → сталевий — шліфований метал */
-    background: linear-gradient(160deg, #FFFFFF 0%, #C8CDD6 40%, #7A8494 75%, #4A5260 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 2px 12px rgba(255,255,255,0.08));
   }
   .s02b-headline-sub {
     font-family: 'JetBrains Mono', monospace;
@@ -1913,12 +1890,12 @@ body.gm-menu-open { overflow: hidden; }
   /* Шар 02: Підхід — акцент */
   .s02b-card-approach .s02b-fact-val {
     font-size: 22px;
-    color: #E8EAF6 !important;
-    background: none !important;
-    -webkit-text-fill-color: #E8EAF6 !important;
-    display: block;
+    background: linear-gradient(90deg, #E8EAF6 0%, #7DD3FC 100%) !important;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text;
   }
-  .s02b-card-approach .s02b-fact-val em { font-style: normal; color: rgba(232,234,246,0.7); -webkit-text-fill-color: rgba(232,234,246,0.7) !important; }
+  .s02b-card-approach .s02b-fact-val em { font-style: normal; }
 
   /* Шар 03: Продукт */
   .s02b-card-product .s02b-fact-val {
@@ -1950,72 +1927,6 @@ body.gm-menu-open { overflow: hidden; }
   .s02b-facts-row-2 > div::before,
   .s02b-facts-row-3 > div::before,
   .s02b-card-role::before { display: none !important; }
-
-  /* ══ PROGRESS BARS — під кожним шаром ══ */
-  .s02b-progress {
-    height: 1px;
-    background: rgba(56,189,248,0.10);
-    margin-top: 14px;
-    position: relative;
-    overflow: hidden;
-    border-radius: 1px;
-  }
-  .s02b-progress-fill {
-    position: absolute;
-    top: 0; left: 0;
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(to right, rgba(56,189,248,0.8), rgba(129,140,248,0.6));
-    box-shadow: 0 0 6px rgba(56,189,248,0.5);
-    transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-    border-radius: 1px;
-  }
-  /* Лічильник % праворуч */
-  .s02b-progress-pct {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 7px;
-    letter-spacing: 0.15em;
-    color: rgba(56,189,248,0.4);
-    text-align: right;
-    margin-top: 4px;
-    display: block;
-  }
-
-  /* ══ L-CORNER BRACKETS — по кутах блоку ══ */
-  .s02b-corners {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    pointer-events: none;
-  }
-  .s02b-corner {
-    position: absolute;
-    width: 16px; height: 16px;
-  }
-  .s02b-corner::before,
-  .s02b-corner::after {
-    content: '';
-    position: absolute;
-    background: rgba(56,189,248,0.55);
-    box-shadow: 0 0 6px rgba(56,189,248,0.3);
-  }
-  /* Горизонтальна риска */
-  .s02b-corner::before { width: 100%; height: 1px; top: 0; left: 0; }
-  /* Вертикальна риска */
-  .s02b-corner::after  { width: 1px; height: 100%; top: 0; left: 0; }
-  /* Top-right */
-  .s02b-corner.tr { top: 8px; right: 8px; }
-  .s02b-corner.tr::before { left: auto; right: 0; }
-  .s02b-corner.tr::after  { left: auto; right: 0; }
-  /* Bottom-left */
-  .s02b-corner.bl { bottom: 8px; left: 8px; }
-  .s02b-corner.bl::before { top: auto; bottom: 0; }
-  /* Bottom-right */
-  .s02b-corner.br { bottom: 8px; right: 8px; }
-  .s02b-corner.br::before { top: auto; bottom: 0; left: auto; right: 0; }
-  .s02b-corner.br::after  { left: auto; right: 0; top: auto; bottom: 0; }
-  /* Top-left */
-  .s02b-corner.tl { top: 8px; left: 8px; }
 
   /* ══ 2. ФОТО-БЛОК ══ */
   .s02b-photo-wrap {
@@ -2087,13 +1998,6 @@ body.gm-menu-open { overflow: hidden; }
 
     <!-- FACTS BLOCK -->
     <div class="s02b-cell s02b-tr js-s02b-cell">
-      <!-- L-куточки по кутах блоку -->
-      <div class="s02b-corners">
-        <div class="s02b-corner tl"></div>
-        <div class="s02b-corner tr"></div>
-        <div class="s02b-corner bl"></div>
-        <div class="s02b-corner br"></div>
-      </div>
       <p class="s02b-sec-label">MODULE_01 // CORE_ARCHITECT</p>
       <div class="s02b-headline">BOHDAN<br>HODLIUK</div>
       <span class="s02b-headline-sub">SYSTEM INITIALIZATION — ACTIVE</span>
@@ -2109,10 +2013,6 @@ body.gm-menu-open { overflow: hidden; }
             </span>
             <span class="s02b-fact-val">AI Architect · Founder · Builder</span>
             <span class="s02b-fact-desc">Проектую автономні системи, які керують бізнес-процесами без людського фактора.</span>
-            <div class="s02b-progress js-s02b-progress" data-to="92">
-              <div class="s02b-progress-fill"></div>
-            </div>
-            <span class="s02b-progress-pct">92%</span>
           </div>
         </div>
 
@@ -2125,10 +2025,6 @@ body.gm-menu-open { overflow: hidden; }
             </span>
             <span class="s02b-fact-val">Не прототип —<br><em>повноцінна система</em></span>
             <span class="s02b-fact-desc">Guard-логіка, пам'ять між сесіями, преміальна візуальна обгортка.</span>
-            <div class="s02b-progress js-s02b-progress" data-to="100">
-              <div class="s02b-progress-fill"></div>
-            </div>
-            <span class="s02b-progress-pct">100%</span>
           </div>
         </div>
 
@@ -2140,10 +2036,6 @@ body.gm-menu-open { overflow: hidden; }
               <span class="s02b-status">ECOSYSTEM: BWA</span>
             </span>
             <span class="s02b-fact-val">n8n · GPT-4o · Supabase<br>Babylon.js · Telegram API</span>
-            <div class="s02b-progress js-s02b-progress" data-to="87">
-              <div class="s02b-progress-fill"></div>
-            </div>
-            <span class="s02b-progress-pct">87%</span>
           </div>
         </div>
 
@@ -2314,7 +2206,7 @@ body.gm-menu-open { overflow: hidden; }
   if (sec) obs.observe(sec);
 })();
 
-/* ── Progress bars + Reveal анімація ── */
+/* ── Reveal анімація клітинок ── */
 (function(){
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
@@ -2323,11 +2215,6 @@ body.gm-menu-open { overflow: hidden; }
       s.querySelector('.js-s02b-photo')?.classList.add('s02b-vis');
       s.querySelectorAll('.js-s02b-cell').forEach(function(c,i){
         setTimeout(function(){ c.classList.add('s02b-vis'); }, i*100);
-      });
-      s.querySelectorAll('.js-s02b-progress').forEach(function(bar, i){
-        var fill = bar.querySelector('.s02b-progress-fill');
-        var to = parseInt(bar.getAttribute('data-to') || '80');
-        setTimeout(function(){ fill.style.width = to + '%'; }, 400 + i * 200);
       });
       io.unobserve(s);
     });
