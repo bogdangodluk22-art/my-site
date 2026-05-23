@@ -1727,26 +1727,107 @@ body.gm-menu-open { overflow: hidden; }
     overflow: visible;
     display: flex;
     flex-direction: column;
+    background: #F0EDE6;
   }
 
-  /* Grid → flex-колонка, order:0 (факти) і order:2 (цитата) всередині */
-  .s02b-grid {
-    display: contents; /* діти виходять назовні в flex s02b */
-  }
+  .s02b-grid { display: contents; }
   .s02b-cell { border-radius: 0; width: 100%; }
 
-  /* ══ 1. ФАКТИ — самий верх (order 0) ══ */
+  /* Десктопна сітка — прихована на мобайлі */
+  .s02b-facts-desktop { display: none; }
+
   .s02b-tr {
     order: 0;
     margin-left: 0;
-    padding: 32px 24px 28px;
-    background: #F2EFE9;
+    padding: 0;
+    background: transparent;
+    display: block;
   }
-  .s02b-sec-label { margin-bottom: 20px; }
-  .s02b-facts { gap: 16px; }
-  .s02b-fact-val { font-size: 15px; }
 
-  /* ══ 2. ФОТО-БЛОК — по середині (order 1) ══ */
+  .s02b-sec-label {
+    font-size: 9px;
+    letter-spacing: 0.28em;
+    margin-bottom: 0;
+    padding: 20px 20px 0;
+    background: transparent;
+    color: rgba(10,10,15,0.3);
+  }
+  .s02b-sec-label::before { background: rgba(10,10,15,0.2); }
+
+  /* ══ МОБІЛЬНИЙ РЯДКОВИЙ СПИСОК ══ */
+  .s02b-rows {
+    list-style: none;
+    margin: 10px 0 0;
+    padding: 0;
+  }
+
+  .s02b-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .s02b-row:first-child {
+    border-top: 1px solid rgba(201,168,76,0.2);
+  }
+
+  /* Лівий: вертикальний лейбл */
+  .s02b-row-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.22em;
+    color: rgba(10,10,15,0.28);
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    flex-shrink: 0;
+    width: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid rgba(201,168,76,0.15);
+    padding: 12px 0;
+  }
+
+  /* Правий: великий Bebas Neue з fade */
+  .s02b-row-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 10.5vw, 56px);
+    font-weight: 400;
+    color: #0A0A0F;
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    flex: 1;
+    padding: 12px 14px 10px 12px;
+    display: block;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 30%, rgba(0,0,0,0.35) 65%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 30%, rgba(0,0,0,0.35) 65%, transparent 100%);
+  }
+
+  /* Золотий акцент */
+  .s02b-row-gold {
+    color: var(--gold);
+  }
+
+  /* Приглушений */
+  .s02b-row-muted {
+    color: rgba(10,10,15,0.55);
+  }
+
+  /* Стек — моно, без маски */
+  .s02b-row-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    color: rgba(10,10,15,0.4);
+    letter-spacing: 0.04em;
+    -webkit-mask-image: none;
+    mask-image: none;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  /* ══ ФОТО — order 1 ══ */
   .s02b-photo-wrap {
     order: 1;
     position: relative;
@@ -1761,25 +1842,20 @@ body.gm-menu-open { overflow: hidden; }
     flex-direction: column;
   }
 
-  /* Дві горизонтальні смуги — AutoSmart зверху, ARCA знизу */
   .s02b-proj-bg {
     display: block;
     position: absolute;
     left: 0; right: 0;
-    width: 100%;
-    height: 50%;
+    width: 100%; height: 50%;
     overflow: hidden;
     opacity: 0.92;
   }
   .s02b-proj-bg img {
     width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    display: block;
+    object-fit: cover; object-position: center top; display: block;
   }
   .s02b-proj-bg.proj-tl { top: 0; }
   .s02b-proj-bg.proj-br { bottom: 0; }
-  /* Тонкий роздільник між смугами */
   .s02b-proj-bg.proj-br::before {
     content: '';
     position: absolute;
@@ -1788,20 +1864,16 @@ body.gm-menu-open { overflow: hidden; }
     background: rgba(230,224,215,0.4);
     z-index: 1;
   }
-
-  /* Фото Богдана — поверх смуг, по центру знизу */
   .s02b-photo-wrap > img {
     position: absolute;
     bottom: 0; left: 50%;
     transform: translateX(-50%);
-    height: 108%;
-    width: auto;
-    object-fit: contain;
-    object-position: bottom center;
+    height: 108%; width: auto;
+    object-fit: contain; object-position: bottom center;
     z-index: 2;
   }
 
-  /* ══ 3. ЦИТАТА — знизу (order 2) ══ */
+  /* ══ ЦИТАТА — order 2 ══ */
   .s02b-bl {
     order: 2;
     padding: 28px 24px 36px;
@@ -1809,7 +1881,6 @@ body.gm-menu-open { overflow: hidden; }
   }
   .s02b-quote { font-size: 17px; line-height: 1.6; }
 
-  /* Окремий рядок проектів — ховаємо */
   .s02b-projects-row { display: none; }
 }
 </style>
@@ -1821,28 +1892,60 @@ body.gm-menu-open { overflow: hidden; }
     <!-- ↗ Факти (на мобільному — order:0, першим) -->
     <div class="s02b-cell s02b-tr js-s02b-cell">
       <p class="s02b-sec-label" data-i18n="about.sec.label">02 · Про мене</p>
-      <div class="s02b-facts">
-        <div>
-          <span class="s02b-fact-key">Роль</span>
-          <span class="s02b-fact-val" data-i18n="about.role">AI Architect · Founder · Builder</span>
+
+      <!-- ДЕСКТОП: стара сітка (прихована на мобайлі) -->
+      <div class="s02b-facts s02b-facts-desktop">
+        <div class="s02b-facts-row-1">
+          <div class="s02b-card-role">
+            <span class="s02b-fact-key">Роль</span>
+            <span class="s02b-fact-val" data-i18n="about.role">AI Architect · Founder · Builder</span>
+          </div>
+          <div class="s02b-card-product">
+            <span class="s02b-fact-key">Продукт</span>
+            <span class="s02b-fact-val" data-i18n="about.product">Живий. Задеплоєний. З меседжем.</span>
+          </div>
         </div>
-        <div>
-          <span class="s02b-fact-key">Підхід</span>
-          <span class="s02b-fact-val" data-i18n="about.approach">Не прототип — повноцінна система</span>
+        <div class="s02b-facts-row-2">
+          <div class="s02b-card-approach">
+            <span class="s02b-fact-key">Підхід</span>
+            <span class="s02b-fact-val" data-i18n="about.approach">Не прототип —<br><em>повноцінна система</em></span>
+          </div>
         </div>
-        <div>
-          <span class="s02b-fact-key">Продукт</span>
-          <span class="s02b-fact-val" data-i18n="about.product">Живий, задеплоєний, з меседжем</span>
-        </div>
-        <div>
-          <span class="s02b-fact-key">Стек</span>
-          <span class="s02b-fact-val">n8n · GPT-4o · Babylon.js · Supabase</span>
-        </div>
-        <div>
-          <span class="s02b-fact-key">Бренд</span>
-          <span class="s02b-fact-val" data-i18n="about.brand">BWA — Built with AI</span>
+        <div class="s02b-facts-row-3">
+          <div class="s02b-card-stack">
+            <span class="s02b-fact-key">Стек</span>
+            <span class="s02b-fact-val">n8n<br>GPT-4o<br>Babylon.js<br>Supabase</span>
+          </div>
+          <div class="s02b-card-brand">
+            <span class="s02b-fact-key">Бренд</span>
+            <span class="s02b-fact-val" data-i18n="about.brand">BWA — Built with AI</span>
+          </div>
         </div>
       </div>
+
+      <!-- МОБАЙЛ: рядковий список -->
+      <ul class="s02b-rows">
+        <li class="s02b-row">
+          <span class="s02b-row-label">Роль</span>
+          <span class="s02b-row-val s02b-row-gold" data-i18n="about.role">AI Architect · Founder · Builder</span>
+        </li>
+        <li class="s02b-row">
+          <span class="s02b-row-label">Підхід</span>
+          <span class="s02b-row-val" data-i18n="about.approach">Не прототип — повноцінна система</span>
+        </li>
+        <li class="s02b-row">
+          <span class="s02b-row-label">Продукт</span>
+          <span class="s02b-row-val s02b-row-muted" data-i18n="about.product">Живий. Задеплоєний. З меседжем.</span>
+        </li>
+        <li class="s02b-row">
+          <span class="s02b-row-label">Стек</span>
+          <span class="s02b-row-val s02b-row-mono">n8n · GPT-4o · Babylon.js · Supabase</span>
+        </li>
+        <li class="s02b-row">
+          <span class="s02b-row-label">Бренд</span>
+          <span class="s02b-row-val s02b-row-gold" data-i18n="about.brand">BWA — Built with AI</span>
+        </li>
+      </ul>
     </div>
 
     <!-- Цитата (на мобільному — order:2, останньою) -->
@@ -6228,8 +6331,8 @@ const i18n = {
     'about.fullname':  'Богдан Годлюк',
     'about.badge':  '◈ &nbsp;ПРО МЕНЕ',
     'about.role':    'AI Architect · Founder · Builder',
-    'about.approach':'Не прототип — повноцінна система',
-    'about.product': 'Живий, задеплоєний, з меседжем',
+    'about.approach':'Не прототип —<br><em>повноцінна система</em>',
+    'about.product': 'Живий. Задеплоєний. З меседжем.',
     'about.brand':   'BWA — Built with AI',
     'about.quote':   'Кожен проект — це не демо.<br>Це система що живе, продає<br>і росте разом з бізнесом.<br><br>Моє головне правило — якщо це не можна запустити і показати клієнту, це не готово.',
     'about.rule':    'Моє головне правило — якщо це не можна запустити і показати клієнту, це не готово.',
@@ -6420,8 +6523,8 @@ const i18n = {
     'about.fullname':  'Bohdan Hodliuk',
     'about.badge':  '◈ &nbsp;ABOUT ME',
     'about.role':    'AI Architect · Founder · Builder',
-    'about.approach':'Not a prototype — a full system',
-    'about.product': 'Live, deployed, with a message',
+    'about.approach':'Not a prototype —<br><em>a full system</em>',
+    'about.product': 'Live. Deployed. With a message.',
     'about.brand':   'BWA — Built with AI',
     'about.quote':   'Every project is not a demo.<br>It\'s a system that lives, sells<br>and grows with the business.<br><br>My main rule — if it can\'t be launched and shown to a client, it\'s not ready.',
     'about.rule':    'My main rule — if it can\'t be launched and shown to a client, it\'s not ready.',
