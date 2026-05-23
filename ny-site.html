@@ -635,7 +635,7 @@ body {
 /* ── Language Switcher ── */
 .lang-switcher {
   position: fixed;
-  top: 24px; right: 24px;
+  top: 24px; right: 92px;
   z-index: 1000;
   width: 52px; height: 52px;
   background: rgba(245,242,236,0.92);
@@ -653,13 +653,19 @@ body {
 }
 
 @media (max-width: 768px) {
-  .lang-switcher {
-    top: 76px; /* 24px відступ + 44px висота бургера + 8px gap */
-    right: 20px;
+  /* На мобільному — ховаємо глобус повністю */
+  .lang-switcher { display: none; }
+  /* Показуємо тільки коли меню відкрите — повертаємо поруч з бургером */
+  .lang-switcher.gm-open {
+    display: flex;
+    top: 24px;
+    right: 72px; /* зліва від бургера (20px right + 44px width + 8px gap) */
     width: 44px; height: 44px;
     border-radius: 8px;
+    opacity: 1;
+    pointer-events: all;
   }
-  .lang-switcher svg { width: 20px; height: 20px; }
+  .lang-switcher.gm-open svg { width: 20px; height: 20px; }
 }
 .lang-switcher.gm-visible { opacity: 1; pointer-events: all; }
 .lang-switcher:hover { background: var(--gold); }
@@ -1029,6 +1035,7 @@ body.gm-menu-open { overflow: hidden; }
   .gm-panel { width: 100vw; border-left: none; }
   .gm-nav-label { font-size: clamp(24px, 7vw, 34px); }
   .gm-burger { top: 18px; right: 18px; }
+  .lang-switcher.gm-open { top: 18px; right: calc(18px + 44px + 8px); }
   .gm-logo-letters { font-size: clamp(44px, 12vw, 64px); }
 }
 </style>
@@ -1729,15 +1736,159 @@ body.gm-menu-open { overflow: hidden; }
   .s02b-cell { border-radius: 0; width: 100%; }
 
   /* ══ 1. ФАКТИ — самий верх (order 0) ══ */
+  /* ══ МОБІЛЬНИЙ БЛОК ФАКТІВ — типографічний стиль ══ */
   .s02b-tr {
     order: 0;
     margin-left: 0;
-    padding: 32px 24px 28px;
-    background: #F2EFE9;
+    padding: 0;
+    background: transparent;
+    display: block;
   }
-  .s02b-sec-label { margin-bottom: 20px; }
-  .s02b-facts { gap: 16px; }
-  .s02b-fact-val { font-size: 15px; }
+
+  /* Лейбл секції */
+  .s02b-sec-label {
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    margin-bottom: 0;
+    padding: 28px 24px 20px;
+    background: #0A0A0F;
+    color: rgba(201,168,76,0.7);
+  }
+  .s02b-sec-label::before { background: rgba(201,168,76,0.4); }
+
+  /* ══ МОБІЛЬНА СІТКА КАРТОЧОК — Apple-рівень ══ */
+  .s02b-facts {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: #0A0A0F;
+  }
+
+  /* Ряд 1: дві рівні картки */
+  .s02b-facts-row-1 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* Ряд 2: одна широка картка */
+  .s02b-facts-row-2 {
+    margin-top: 1px;
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* Ряд 3: дві картки */
+  .s02b-facts-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    margin-top: 1px;
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* Кожна картка */
+  .s02b-facts > div,
+  .s02b-facts-row-1 > div,
+  .s02b-facts-row-2 > div,
+  .s02b-facts-row-3 > div {
+    background: #0D0D14;
+    padding: 28px 22px 26px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Картка ПІДХІД — акцентна, широка */
+  .s02b-card-approach {
+    background: linear-gradient(135deg, #111020 0%, #0D0D14 100%) !important;
+    padding: 32px 24px 30px !important;
+  }
+
+  /* Картка СТЕК */
+  .s02b-card-stack {
+    background: #090910 !important;
+  }
+
+  /* Ключ — мікро-лейбл зверху */
+  .s02b-fact-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.32em;
+    color: rgba(201,168,76,0.55);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 14px;
+  }
+
+  /* Значення — ВЕЛИКИЙ акцентний текст */
+  .s02b-fact-val {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: #F5F5F0;
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    display: block;
+  }
+
+  /* Роль — золотий градієнт */
+  .s02b-card-role .s02b-fact-val {
+    background: linear-gradient(135deg, #C9A84C 0%, #E8D08A 60%, #C9A84C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 18px;
+    line-height: 1.15;
+  }
+
+  /* Підхід — великий, на повну ширину */
+  .s02b-card-approach .s02b-fact-val {
+    font-size: 32px;
+    color: #F5F5F0;
+  }
+  .s02b-card-approach .s02b-fact-val em {
+    font-style: normal;
+    color: #C9A84C;
+  }
+
+  /* Продукт */
+  .s02b-card-product .s02b-fact-val {
+    font-size: 22px;
+    color: rgba(245,245,240,0.9);
+  }
+
+  /* Стек — монопростір */
+  .s02b-card-stack .s02b-fact-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 400;
+    color: rgba(245,245,240,0.7);
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+  }
+
+  /* Бренд */
+  .s02b-card-brand .s02b-fact-val {
+    font-size: 22px;
+    color: rgba(245,245,240,0.85);
+  }
+
+  /* Верхня золота лінія — тонша, слабша */
+  .s02b-facts-row-1 > div::before,
+  .s02b-facts-row-2 > div::before,
+  .s02b-facts-row-3 > div::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, rgba(201,168,76,0.5), transparent 70%);
+  }
+
+  /* Акцент для першої картки */
+  .s02b-card-role::before {
+    background: linear-gradient(to right, #C9A84C, rgba(201,168,76,0.15) 80%, transparent) !important;
+    height: 2px !important;
+  }
 
   /* ══ 2. ФОТО-БЛОК — по середині (order 1) ══ */
   .s02b-photo-wrap {
@@ -1815,25 +1966,34 @@ body.gm-menu-open { overflow: hidden; }
     <div class="s02b-cell s02b-tr js-s02b-cell">
       <p class="s02b-sec-label" data-i18n="about.sec.label">02 · Про мене</p>
       <div class="s02b-facts">
-        <div>
-          <span class="s02b-fact-key">Роль</span>
-          <span class="s02b-fact-val" data-i18n="about.role">AI Architect · Founder · Builder</span>
+        <!-- Ряд 1: Роль + Продукт -->
+        <div class="s02b-facts-row-1">
+          <div class="s02b-card-role">
+            <span class="s02b-fact-key">Роль</span>
+            <span class="s02b-fact-val" data-i18n="about.role">AI Architect · Founder · Builder</span>
+          </div>
+          <div class="s02b-card-product">
+            <span class="s02b-fact-key">Продукт</span>
+            <span class="s02b-fact-val" data-i18n="about.product">Живий. Задеплоєний. З меседжем.</span>
+          </div>
         </div>
-        <div>
-          <span class="s02b-fact-key">Підхід</span>
-          <span class="s02b-fact-val" data-i18n="about.approach">Не прототип — повноцінна система</span>
+        <!-- Ряд 2: Підхід — широкий -->
+        <div class="s02b-facts-row-2">
+          <div class="s02b-card-approach">
+            <span class="s02b-fact-key">Підхід</span>
+            <span class="s02b-fact-val" data-i18n="about.approach">Не прототип —<br><em>повноцінна система</em></span>
+          </div>
         </div>
-        <div>
-          <span class="s02b-fact-key">Продукт</span>
-          <span class="s02b-fact-val" data-i18n="about.product">Живий, задеплоєний, з меседжем</span>
-        </div>
-        <div>
-          <span class="s02b-fact-key">Стек</span>
-          <span class="s02b-fact-val">n8n · GPT-4o · Babylon.js · Supabase</span>
-        </div>
-        <div>
-          <span class="s02b-fact-key">Бренд</span>
-          <span class="s02b-fact-val" data-i18n="about.brand">BWA — Built with AI</span>
+        <!-- Ряд 3: Стек + Бренд -->
+        <div class="s02b-facts-row-3">
+          <div class="s02b-card-stack">
+            <span class="s02b-fact-key">Стек</span>
+            <span class="s02b-fact-val">n8n<br>GPT-4o<br>Babylon.js<br>Supabase</span>
+          </div>
+          <div class="s02b-card-brand">
+            <span class="s02b-fact-key">Бренд</span>
+            <span class="s02b-fact-val" data-i18n="about.brand">BWA — Built with AI</span>
+          </div>
         </div>
       </div>
     </div>
@@ -6221,8 +6381,8 @@ const i18n = {
     'about.fullname':  'Богдан Годлюк',
     'about.badge':  '◈ &nbsp;ПРО МЕНЕ',
     'about.role':    'AI Architect · Founder · Builder',
-    'about.approach':'Не прототип — повноцінна система',
-    'about.product': 'Живий, задеплоєний, з меседжем',
+    'about.approach':'Не прототип —<br><em>повноцінна система</em>',
+    'about.product': 'Живий. Задеплоєний. З меседжем.',
     'about.brand':   'BWA — Built with AI',
     'about.quote':   'Кожен проект — це не демо.<br>Це система що живе, продає<br>і росте разом з бізнесом.<br><br>Моє головне правило — якщо це не можна запустити і показати клієнту, це не готово.',
     'about.rule':    'Моє головне правило — якщо це не можна запустити і показати клієнту, це не готово.',
@@ -6413,8 +6573,8 @@ const i18n = {
     'about.fullname':  'Bohdan Hodliuk',
     'about.badge':  '◈ &nbsp;ABOUT ME',
     'about.role':    'AI Architect · Founder · Builder',
-    'about.approach':'Not a prototype — a full system',
-    'about.product': 'Live, deployed, with a message',
+    'about.approach':'Not a prototype —<br><em>a full system</em>',
+    'about.product': 'Live. Deployed. With a message.',
     'about.brand':   'BWA — Built with AI',
     'about.quote':   'Every project is not a demo.<br>It\'s a system that lives, sells<br>and grows with the business.<br><br>My main rule — if it can\'t be launched and shown to a client, it\'s not ready.',
     'about.rule':    'My main rule — if it can\'t be launched and shown to a client, it\'s not ready.',
