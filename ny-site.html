@@ -1730,13 +1730,9 @@ body.gm-menu-open { overflow: hidden; }
     background: #F0EDE6;
   }
 
-  /* Grid → flex-колонка, order:0 (факти) і order:2 (цитата) всередині */
-  .s02b-grid {
-    display: contents; /* діти виходять назовні в flex s02b */
-  }
+  .s02b-grid { display: contents; }
   .s02b-cell { border-radius: 0; width: 100%; }
 
-  /* ══ 1. ФАКТИ — самий верх (order 0) ══ */
   .s02b-tr {
     order: 0;
     margin-left: 0;
@@ -1745,152 +1741,118 @@ body.gm-menu-open { overflow: hidden; }
     display: block;
   }
 
-  /* Лейбл секції */
   .s02b-sec-label {
     font-size: 9px;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.28em;
     margin-bottom: 0;
-    padding: 20px 20px 16px;
+    padding: 22px 20px 0;
     background: transparent;
-    color: rgba(10,10,15,0.35);
+    color: rgba(10,10,15,0.3);
   }
-  .s02b-sec-label::before { background: rgba(10,10,15,0.25); }
+  .s02b-sec-label::before { background: rgba(10,10,15,0.2); }
 
-  /* ══ МОБІЛЬНА СІТКА КАРТОЧОК ══ */
   .s02b-facts {
     display: flex;
     flex-direction: column;
     gap: 0;
     background: transparent;
+    padding: 12px 0 0;
   }
 
-  /* Ряд 1: дві рівні картки */
-  .s02b-facts-row-1 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    background: rgba(10,10,15,0.08);
-  }
+  .s02b-facts-row-1,
+  .s02b-facts-row-2,
+  .s02b-facts-row-3 { display: contents; }
 
-  /* Ряд 2: одна широка картка */
-  .s02b-facts-row-2 {
-    margin-top: 1px;
-    background: rgba(10,10,15,0.08);
-  }
-
-  /* Ряд 3: дві картки */
-  .s02b-facts-row-3 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1px;
-    margin-top: 1px;
-    background: rgba(10,10,15,0.08);
-  }
-
-  /* Кожна картка */
+  /* Кожен рядок — flex ліво/право */
   .s02b-facts > div,
   .s02b-facts-row-1 > div,
   .s02b-facts-row-2 > div,
   .s02b-facts-row-3 > div {
-    background: #F0EDE6;
-    padding: 18px 16px 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    background: transparent;
+    padding: 0;
+    border-bottom: 1px solid rgba(201,168,76,0.22);
     position: relative;
     overflow: hidden;
   }
 
-  /* Картка ПІДХІД — акцентна, широка */
-  .s02b-card-approach {
-    background: #E8E4DC !important;
-    padding: 22px 18px 20px !important;
-  }
-
-  /* Картка СТЕК */
-  .s02b-card-stack {
-    background: #EAE7E0 !important;
-  }
-
-  /* Ключ — мікро-лейбл зверху */
+  /* Лівий — вертикальний лейбл */
   .s02b-fact-key {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8px;
-    letter-spacing: 0.28em;
-    color: rgba(10,10,15,0.35);
+    font-size: 7px;
+    letter-spacing: 0.22em;
+    color: rgba(10,10,15,0.3);
     text-transform: uppercase;
-    display: block;
-    margin-bottom: 8px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    flex-shrink: 0;
+    width: 26px;
+    padding: 14px 0 14px 7px;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid rgba(201,168,76,0.18);
   }
 
-  /* Значення */
+  /* Правий — великий Bebas Neue з fade як в s05-num */
   .s02b-fact-val {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 26px;
+    font-size: clamp(44px, 11.5vw, 60px);
     font-weight: 400;
     color: #0A0A0F;
-    line-height: 1.05;
-    letter-spacing: 0.04em;
+    line-height: 0.95;
+    letter-spacing: 0.02em;
     display: block;
+    padding: 10px 14px 10px 12px;
+    flex: 1;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 35%, rgba(0,0,0,0.4) 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 35%, rgba(0,0,0,0.4) 70%, transparent 100%);
   }
 
-  /* Роль */
+  /* Роль — золотий */
   .s02b-card-role .s02b-fact-val {
-    background: linear-gradient(135deg, #9A7A2A 0%, #C9A84C 60%, #9A7A2A 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-size: 16px;
-    line-height: 1.2;
+    color: var(--gold);
+    font-size: clamp(36px, 9.5vw, 52px);
   }
 
   /* Підхід */
   .s02b-card-approach .s02b-fact-val {
-    font-size: 30px;
+    font-size: clamp(38px, 10vw, 54px);
     color: #0A0A0F;
   }
   .s02b-card-approach .s02b-fact-val em {
     font-style: normal;
-    color: #C9A84C;
+    color: var(--gold);
   }
 
   /* Продукт */
   .s02b-card-product .s02b-fact-val {
-    font-size: 20px;
-    color: rgba(10,10,15,0.75);
+    font-size: clamp(34px, 8.5vw, 48px);
+    color: rgba(10,10,15,0.65);
   }
 
-  /* Стек */
+  /* Стек — моно без маски */
   .s02b-card-stack .s02b-fact-val {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10.5px;
-    font-weight: 400;
-    color: rgba(10,10,15,0.5);
-    line-height: 1.85;
-    letter-spacing: 0.03em;
+    color: rgba(10,10,15,0.42);
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+    -webkit-mask-image: none;
+    mask-image: none;
+    padding-top: 13px;
+    padding-bottom: 13px;
   }
 
-  /* Бренд */
+  /* Бренд — золотий */
   .s02b-card-brand .s02b-fact-val {
-    font-size: 20px;
-    color: #0A0A0F;
+    color: var(--gold);
+    font-size: clamp(44px, 11.5vw, 60px);
   }
 
-  /* Роздільна лінія зверху кожної картки */
-  .s02b-facts-row-1 > div::before,
-  .s02b-facts-row-2 > div::before,
-  .s02b-facts-row-3 > div::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(to right, rgba(10,10,15,0.12), transparent 70%);
-  }
-
-  /* Акцент для картки Роль */
-  .s02b-card-role::before {
-    background: linear-gradient(to right, #C9A84C, rgba(201,168,76,0.1) 80%, transparent) !important;
-    height: 2px !important;
-  }
-
-  /* ══ 2. ФОТО-БЛОК — по середині (order 1) ══ */
+  /* ══ ФОТО — order 1 ══ */
   .s02b-photo-wrap {
     order: 1;
     position: relative;
@@ -1905,21 +1867,17 @@ body.gm-menu-open { overflow: hidden; }
     flex-direction: column;
   }
 
-  /* Дві горизонтальні смуги — AutoSmart зверху, ARCA знизу */
   .s02b-proj-bg {
     display: block;
     position: absolute;
     left: 0; right: 0;
-    width: 100%;
-    height: 50%;
+    width: 100%; height: 50%;
     overflow: hidden;
     opacity: 0.92;
   }
   .s02b-proj-bg img {
     width: 100%; height: 100%;
-    object-fit: cover;
-    object-position: center top;
-    display: block;
+    object-fit: cover; object-position: center top; display: block;
   }
   .s02b-proj-bg.proj-tl { top: 0; }
   .s02b-proj-bg.proj-br { bottom: 0; }
@@ -1931,20 +1889,16 @@ body.gm-menu-open { overflow: hidden; }
     background: rgba(230,224,215,0.4);
     z-index: 1;
   }
-
-  /* Фото Богдана */
   .s02b-photo-wrap > img {
     position: absolute;
     bottom: 0; left: 50%;
     transform: translateX(-50%);
-    height: 108%;
-    width: auto;
-    object-fit: contain;
-    object-position: bottom center;
+    height: 108%; width: auto;
+    object-fit: contain; object-position: bottom center;
     z-index: 2;
   }
 
-  /* ══ 3. ЦИТАТА — знизу (order 2) ══ */
+  /* ══ ЦИТАТА — order 2 ══ */
   .s02b-bl {
     order: 2;
     padding: 28px 24px 36px;
@@ -1952,7 +1906,6 @@ body.gm-menu-open { overflow: hidden; }
   }
   .s02b-quote { font-size: 17px; line-height: 1.6; }
 
-  /* Окремий рядок проектів — ховаємо */
   .s02b-projects-row { display: none; }
 }
 </style>
