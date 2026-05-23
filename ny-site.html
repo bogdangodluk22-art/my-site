@@ -1736,15 +1736,106 @@ body.gm-menu-open { overflow: hidden; }
   .s02b-cell { border-radius: 0; width: 100%; }
 
   /* ══ 1. ФАКТИ — самий верх (order 0) ══ */
+  /* ══ МОБІЛЬНИЙ БЛОК ФАКТІВ — типографічний стиль ══ */
   .s02b-tr {
     order: 0;
     margin-left: 0;
-    padding: 32px 24px 28px;
-    background: #F2EFE9;
+    padding: 0;
+    background: transparent;
+    display: block;
   }
-  .s02b-sec-label { margin-bottom: 20px; }
-  .s02b-facts { gap: 16px; }
-  .s02b-fact-val { font-size: 15px; }
+
+  /* Лейбл секції */
+  .s02b-sec-label {
+    font-size: 9px;
+    letter-spacing: 0.32em;
+    margin-bottom: 0;
+    padding: 28px 24px 20px;
+    background: #0A0A0F;
+    color: rgba(201,168,76,0.7);
+  }
+  .s02b-sec-label::before { background: rgba(201,168,76,0.4); }
+
+  /* Сітка карток */
+  .s02b-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: #1a1a1a;
+  }
+
+  /* Кожна картка */
+  .s02b-facts > div {
+    background: #0D0D14;
+    padding: 20px 18px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Парні картки — трохи світліші */
+  .s02b-facts > div:nth-child(even) {
+    background: #111118;
+  }
+
+  /* Остання картка якщо непарна — на всю ширину */
+  .s02b-facts > div:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    background: linear-gradient(135deg, #0D0D14 0%, #141420 100%);
+  }
+
+  /* Ключ — маленький, золотий */
+  .s02b-fact-key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.28em;
+    color: #C9A84C;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 8px;
+    opacity: 0.8;
+  }
+
+  /* Значення — велике, біле */
+  .s02b-fact-val {
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #F5F5F0;
+    line-height: 1.3;
+    display: block;
+  }
+
+  /* Стек — менший шрифт бо довгий */
+  .s02b-facts > div:nth-child(4) .s02b-fact-val {
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(245,245,240,0.85);
+  }
+
+  /* Декоративна лінія зверху кожної картки */
+  .s02b-facts > div::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, #C9A84C, transparent);
+    opacity: 0.3;
+  }
+
+  /* Роль — перша картка, акцент */
+  .s02b-facts > div:first-child {
+    background: linear-gradient(135deg, #13111C 0%, #0D0D14 100%);
+  }
+  .s02b-facts > div:first-child .s02b-fact-val {
+    background: linear-gradient(135deg, #C9A84C 0%, #E8D08A 50%, #C9A84C 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 13px;
+  }
+  .s02b-facts > div:first-child::before {
+    opacity: 0.7;
+  }
 
   /* ══ 2. ФОТО-БЛОК — по середині (order 1) ══ */
   .s02b-photo-wrap {
