@@ -659,7 +659,7 @@ body {
   .lang-switcher.gm-open {
     display: flex;
     top: 24px;
-    right: 76px; /* зліва від бургера */
+    right: 72px; /* зліва від бургера (20px right + 44px width + 8px gap) */
     width: 44px; height: 44px;
     border-radius: 8px;
     opacity: 1;
@@ -1035,6 +1035,7 @@ body.gm-menu-open { overflow: hidden; }
   .gm-panel { width: 100vw; border-left: none; }
   .gm-nav-label { font-size: clamp(24px, 7vw, 34px); }
   .gm-burger { top: 18px; right: 18px; }
+  .lang-switcher.gm-open { top: 18px; right: calc(18px + 44px + 8px); }
   .gm-logo-letters { font-size: clamp(44px, 12vw, 64px); }
 }
 </style>
