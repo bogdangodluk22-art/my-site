@@ -1736,6 +1736,7 @@ body.gm-menu-open { overflow: hidden; }
   }
   .s02b-cell { border-radius: 0; width: 100%; }
 
+
   /* ══ 1. ФАКТИ — самий верх (order 0) ══ */
   .s02b-tr {
     order: 0;
@@ -1745,137 +1746,137 @@ body.gm-menu-open { overflow: hidden; }
     display: block;
   }
 
-  /* Лейбл секції — темний на світлому */
+  /* Лейбл секції */
   .s02b-sec-label {
     font-size: 9px;
-    letter-spacing: 0.32em;
+    letter-spacing: 0.28em;
     margin-bottom: 0;
-    padding: 36px 28px 0;
+    padding: 24px 20px 0;
     background: transparent;
-    color: rgba(10,10,15,0.35);
+    color: rgba(10,10,15,0.32);
   }
-  .s02b-sec-label::before { background: rgba(10,10,15,0.25); }
+  .s02b-sec-label::before { background: rgba(10,10,15,0.2); }
 
-  /* ══ МОБІЛЬНІ ФАКТИ — Apple "24 Std." стиль ══ */
-  /* Весь контейнер — світлий, без gap */
+  /* Контейнер фактів */
   .s02b-facts {
     display: flex;
     flex-direction: column;
     gap: 0;
     background: #F2F0EB;
-    padding: 0 0 8px;
+    padding: 0;
   }
 
-  /* Рядки — просто flex-контейнери */
   .s02b-facts-row-1,
   .s02b-facts-row-2,
   .s02b-facts-row-3 {
     display: block;
     background: transparent;
     margin: 0;
-    gap: 0;
   }
 
-  /* Кожен елемент — окремий блок з повітрям */
+  /* Кожен елемент — компактний, з роздільником */
   .s02b-facts > div,
   .s02b-facts-row-1 > div,
   .s02b-facts-row-2 > div,
   .s02b-facts-row-3 > div {
     background: transparent;
-    padding: 32px 28px 28px;
+    padding: 20px 20px 18px;
     position: relative;
-    overflow: hidden;
-    border-bottom: 1px solid rgba(10,10,15,0.1);
+    border-bottom: 1px solid rgba(10,10,15,0.09);
   }
 
-  /* Тонка лінія зверху першого елемента */
-  .s02b-card-role {
-    border-top: 1px solid rgba(10,10,15,0.1);
-  }
+  .s02b-card-role { border-top: 1px solid rgba(10,10,15,0.09); }
 
-  /* Ключ — мікро-лейбл, темний приглушений */
+  /* Мікро-лейбл */
   .s02b-fact-key {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8px;
-    letter-spacing: 0.32em;
-    color: rgba(10,10,15,0.38);
+    font-size: 7.5px;
+    letter-spacing: 0.28em;
+    color: rgba(10,10,15,0.32);
     text-transform: uppercase;
     display: block;
-    margin-bottom: 16px;
+    margin-bottom: 6px;
   }
 
-  /* Значення — ВЕЛИЧЕЗНЕ число/слово, темний текст */
+  /* Базовий val — перевизначається нижче */
   .s02b-fact-val {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(52px, 14vw, 72px);
-    font-weight: 400;
-    color: #0A0A0F;
-    line-height: 0.9;
-    letter-spacing: 0.01em;
     display: block;
+    line-height: 1;
   }
 
-  /* Підпис під великим значенням */
+  /* Підпис під значенням */
   .s02b-fact-sub {
     display: block;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    color: rgba(10,10,15,0.4);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    color: rgba(10,10,15,0.32);
     text-transform: uppercase;
-    margin-top: 12px;
+    margin-top: 6px;
   }
 
-  /* Роль — менший, Outfit, з акцентом */
-  .s02b-card-role .s02b-fact-val {
-    font-family: 'Outfit', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-    color: #0A0A0F;
-    line-height: 1.4;
-    letter-spacing: 0;
+  /* ── ПІДХІД — перший, найбільший ── */
+  .s02b-card-approach {
+    padding: 24px 20px 20px;
   }
-  .s02b-card-role .s02b-fact-val em {
-    font-style: normal;
-    color: #C9A84C;
-  }
-
-  /* Підхід — великий Bebas, акцент золотом */
   .s02b-card-approach .s02b-fact-val {
-    font-size: clamp(44px, 11vw, 60px);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(56px, 15vw, 76px);
+    font-weight: 800;
     color: #0A0A0F;
-    line-height: 0.92;
+    line-height: 0.88;
+    letter-spacing: -0.01em;
   }
   .s02b-card-approach .s02b-fact-val em {
     font-style: normal;
     color: #C9A84C;
   }
 
-  /* Стек — компактний моно-список */
-  .s02b-card-stack .s02b-fact-val {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    font-weight: 400;
-    color: rgba(10,10,15,0.55);
-    line-height: 2;
-    letter-spacing: 0.05em;
-  }
-
-  /* Бренд — середній Bebas */
-  .s02b-card-brand .s02b-fact-val {
-    font-size: clamp(36px, 9vw, 48px);
-    color: #0A0A0F;
-  }
-
-  /* Продукт — Outfit, читаємий */
-  .s02b-card-product .s02b-fact-val {
+  /* ── РОЛЬ — Outfit читаємий ── */
+  .s02b-card-role .s02b-fact-val {
     font-family: 'Outfit', sans-serif;
     font-size: 16px;
-    font-weight: 500;
-    color: rgba(10,10,15,0.7);
-    line-height: 1.5;
-    letter-spacing: 0;
+    font-weight: 600;
+    color: #0A0A0F;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
   }
+  .s02b-card-role .s02b-fact-val em {
+    font-style: normal;
+    color: #C9A84C;
+  }
+
+  /* ── "4" — велике число як Apple "24 Std." ── */
+  .s02b-card-product .s02b-fact-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(100px, 26vw, 140px);
+    font-weight: 800;
+    color: #0A0A0F;
+    line-height: 0.82;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── СТЕК — моно, приглушений ── */
+  .s02b-card-stack .s02b-fact-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    font-weight: 400;
+    color: rgba(10,10,15,0.45);
+    line-height: 1.9;
+    letter-spacing: 0.03em;
+  }
+
+  /* ── BWA — велике Barlow ── */
+  .s02b-card-brand .s02b-fact-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(64px, 17vw, 90px);
+    font-weight: 800;
+    color: #0A0A0F;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+  }
+
+
 
   /* ══ 2. ФОТО-БЛОК — по середині (order 1) ══ */
   .s02b-photo-wrap {
